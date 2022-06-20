@@ -60,11 +60,11 @@ public class SignupActivity extends AppCompatActivity {
         user.setPassword(password);
         user.signUpInBackground();
 
-        goMainActivity();
+        goInitialSetup();
     }
 
-    private void goMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
+    private void goInitialSetup() {
+        Intent i = new Intent(this, InitialComfortActvitiy.class);
         startActivity(i);
         finish();
     }
