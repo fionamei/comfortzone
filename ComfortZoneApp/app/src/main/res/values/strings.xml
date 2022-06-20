@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ComfortZone</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
 </resources>
