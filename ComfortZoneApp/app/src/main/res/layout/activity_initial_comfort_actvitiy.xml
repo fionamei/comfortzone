@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:gravity="center"
+        android:layout_marginTop="16dp"
         android:text="A '0' represents the point where you are crazy cold! Similarly, a '10' represents a crazy hot degree. And '5' is your estimated perfect temperature!"
         android:textSize="20sp" />
 
@@ -43,7 +44,7 @@
         android:layout_marginHorizontal="16dp"
         android:ems="10"
         android:hint="Enter a degree"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:textSize="20sp" />
 
     <TextView
@@ -61,8 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:ems="10"
+        android:inputType="number"
         android:hint="Enter a degree"
-        android:inputType="textPersonName"
         android:textSize="20sp" />
 
     <TextView
@@ -81,7 +82,16 @@
         android:layout_marginHorizontal="16dp"
         android:ems="10"
         android:hint="Enter a degree"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btnConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Confirm"
+        app:cornerRadius="50dp" />
 
 </LinearLayout>

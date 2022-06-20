@@ -12,6 +12,8 @@ public class LevelsTracker extends ParseObject {
     public static final String KEY_FIVE = "five";
     public static final String KEY_TEN = "ten";
 
+    public LevelsTracker() {};
+
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
     }
