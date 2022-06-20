@@ -1,5 +1,3 @@
-[[Fiona Mei] Original App Design Project - README Template
-===
 # ComfortZone
 
 ## Table of Contents
