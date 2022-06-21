@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_home"
+        android:id="@+id/action_flight"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_home_24"
-        android:title="Home"
+        android:icon="@drawable/ic_baseline_flight_24"
+        android:title="Flight"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_input"

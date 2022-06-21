@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
                 switch (item.getItemId()) {
-                    case R.id.action_home:
+                    case R.id.action_flight:
 //                        fragment = new FeedFragment();
                         break;
                     case R.id.action_input:
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         // setting default selection
-        bottomNavigationView.setSelectedItemId(R.id.action_home);
+        bottomNavigationView.setSelectedItemId(R.id.action_profile);
     }
 
     @Override
