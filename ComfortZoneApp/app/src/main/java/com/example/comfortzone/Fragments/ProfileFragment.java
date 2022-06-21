@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.comfortzone.R;
 
@@ -16,7 +17,7 @@ import org.w3c.dom.Text;
 
 public class ProfileFragment extends Fragment {
 
-    private Text tvTempRange;
+    private TextView tvTempRange;
 
     public ProfileFragment() {
         // Required empty public constructor

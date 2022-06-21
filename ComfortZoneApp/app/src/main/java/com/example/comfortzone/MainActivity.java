@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.comfortzone.Fragments.FlightFragment;
+import com.example.comfortzone.Fragments.InputFragment;
+import com.example.comfortzone.Fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import android.view.Menu;
@@ -42,17 +45,17 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.action_flight:
-//                        fragment = new FeedFragment();
+                        fragment = new FlightFragment();
                         break;
                     case R.id.action_input:
-//                        fragment = new ComposeFragment();
+                        fragment = new InputFragment();
                         break;
                     case R.id.action_profile:
                     default:
-//                        fragment = new ProfileFragment();
+                        fragment = new ProfileFragment();
                         break;
                 }
-//                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
             }
         });
