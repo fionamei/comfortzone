@@ -2,6 +2,10 @@ plugins {
     id 'com.android.application'
 }
 
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
     compileSdk 32
 
@@ -13,6 +17,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "PARSE_CLIENT_KEY", apikeyProperties["PARSE_CLIENT_KEY"])
+        buildConfigField("String", "APPLICATION_ID", apikeyProperties["APPLICATION_ID"])
+
     }
 
     buildTypes {
@@ -37,4 +45,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.github.parse-community.Parse-SDK-Android:parse:1.25.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1' // for logging API calls to LogCat
+
+    implementation 'com.google.android.material:material:1.6.1'
 }

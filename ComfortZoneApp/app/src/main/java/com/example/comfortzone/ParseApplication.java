@@ -2,7 +2,9 @@ package com.example.comfortzone;
 
 import android.app.Application;
 
+import com.example.comfortzone.models.LevelsTracker;
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -23,11 +25,13 @@ public class ParseApplication extends Application {
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         builder.networkInterceptors().add(httpLoggingInterceptor);
 
+        ParseObject.registerSubclass(LevelsTracker.class);
+
         // set applicationId, and server server based on the values in the back4app settings.
         // any network interceptors must be added with the Configuration Builder given this syntax
         Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId("uXSeSYUOnmcouoDk4lBKFSEvkRnheJ8kc4SKq7SV")
-                .clientKey("G8oeBxYeS6vORhvEA5WyN0M6jQc5u7ER2CBmGKGY")
+                .applicationId(BuildConfig.APPLICATION_ID)
+                .clientKey(BuildConfig.PARSE_CLIENT_KEY)
                 .server("https://parseapi.back4app.com")
                 .build()
         );
