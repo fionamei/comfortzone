@@ -102,6 +102,8 @@ public class InitialComfortActvitiy extends AppCompatActivity {
                         public void done(ParseException e) {
                             if (e != null) {
                                 Log.e(TAG, "error saving tracker to user" + e);
+                            } else {
+                                goMainActivity();
                             }
                         }
                     });
