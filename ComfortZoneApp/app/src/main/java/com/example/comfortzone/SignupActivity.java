@@ -9,7 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -58,9 +60,13 @@ public class SignupActivity extends AppCompatActivity {
         ParseUser user = new ParseUser();
         user.setUsername(username);
         user.setPassword(password);
-        user.signUpInBackground();
+        user.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(ParseException e) {
+                goInitialSetup();
+            }
+        });
 
-        goInitialSetup();
     }
 
     private void goInitialSetup() {

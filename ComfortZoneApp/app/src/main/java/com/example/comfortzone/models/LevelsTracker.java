@@ -8,9 +8,8 @@ import com.parse.ParseUser;
 public class LevelsTracker extends ParseObject {
 
     public static final String KEY_USER = "user";
-    public static final String KEY_ZERO = "zero";
-    public static final String KEY_FIVE = "five";
-    public static final String KEY_TEN = "ten";
+    public static final String KEY_LEVEL = "level";
+    public static final String KEY_COUNT = "count";
 
     public LevelsTracker() {};
 
@@ -22,26 +21,24 @@ public class LevelsTracker extends ParseObject {
         put(KEY_USER, user);
     }
 
-    public int getZero() {
-        return getInt(KEY_ZERO);
+    public int getLevel() {
+        return getInt(KEY_LEVEL);
     }
 
-    public void setZero(int level) {
-        put(KEY_ZERO, level);
+    public void setLevel(int level) {
+        put(KEY_LEVEL, level);
     }
 
-    public int getFive() {
-        return getInt(KEY_FIVE);
+    public int getCount() {
+        return getInt(KEY_COUNT);
     }
 
-    public void setFive(int level) {
-        put(KEY_FIVE, level);
-    }
-    public int getTen() {
-        return getInt(KEY_TEN);
+    public void increaseCount() {
+        put(KEY_COUNT, getCount() + 1);
     }
 
-    public void setTen(int level) {
-        put(KEY_TEN, level);
+    public void addEntry(int level, ComfortLevelEntry entry) {
+        increaseCount();
+
     }
 }
