@@ -82,7 +82,7 @@ Users will input how cold/warm the weather is at that time, and will be able to 
 ![](https://i.imgur.com/DSi6fXX.jpg)
 ![](https://i.imgur.com/V8TqXbB.jpg)
 
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+<!-- <img src="YOUR_WIREFRAME_IMAGE_URL" width=600> -->
 
 ### [BONUS] Digital Wireframes & Mockups
 
