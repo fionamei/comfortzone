@@ -70,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void goInitialSetup() {
-        Intent i = new Intent(this, InitialComfortActvitiy.class);
+        Intent i = new Intent(this, InitialComfortActivity.class);
         startActivity(i);
         finish();
     }

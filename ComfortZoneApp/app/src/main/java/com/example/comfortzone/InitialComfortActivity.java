@@ -3,7 +3,6 @@ package com.example.comfortzone;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.EditText;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseInstallation;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.example.comfortzone.models.LevelsTracker;
@@ -21,13 +19,11 @@ import com.parse.SaveCallback;
 import com.parse.boltsinternal.Continuation;
 import com.parse.boltsinternal.Task;
 
-import org.json.JSONArray;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class InitialComfortActvitiy extends AppCompatActivity {
+public class InitialComfortActivity extends AppCompatActivity {
 
     public static final String TAG = "InitialComfortActivity";
     private EditText etZero;
@@ -35,18 +31,15 @@ public class InitialComfortActvitiy extends AppCompatActivity {
     private EditText etTen;
     private Button btnConfirm;
     private ParseUser user;
-    private AsyncProcessesCallback callback;
     ComfortLevelEntry entryZero;
     ComfortLevelEntry entryFive;
     ComfortLevelEntry entryTen;
-    AtomicInteger comfortCounter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial_comfort_actvitiy);
 
-        comfortCounter = new AtomicInteger(0);
         user = ParseUser.getCurrentUser();
 
         initViews();
@@ -91,9 +84,6 @@ public class InitialComfortActvitiy extends AppCompatActivity {
                             return task.getError();
                         } else {
                             createLevels();
-//                            addEntry(entryZero);
-//                            addEntry(entryFive);
-//                            addEntry(entryTen);
                             return null;
                         }
                     }
