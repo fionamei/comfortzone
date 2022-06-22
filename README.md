@@ -90,14 +90,26 @@ Users will input how cold/warm the weather is at that time, and will be able to 
 
 ## Schema 
 ### Models
-Temp tracker data
+
+ComfortLevelEntry
+| Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the user (default field) |
+   | user | pointer | points to the user that created this|
+   | temp        | int | temperature at input time |
+   | comfortLevel   | int   | comfort level at that time |
+   | createdAt     | DateTime | date when post is created (default field) |
+   | updatedAt     | DateTime | date when post is last updated (default field) |
+
+LevelsTracker
 
 | Property      | Type     | Description |
    | ------------- | -------- | ------------|
    | objectId      | String   | unique id for the user (default field) |
-   | isFahrenheit | boolean | tells you if its in fahrenheit or not|
-   | temperatureData        | int | temperature at input time |
-   | comfortLevel   | int   | comfort level at that time |
+   | user | pointer | points to the user that created this |
+   | level        | int | the comfort level (from 0 to 10) |
+   | entriesList | Array | array of ComfortLevelEntry for the corresponding level + user |
+   | count   | int   | number of entries |
    | createdAt     | DateTime | date when post is created (default field) |
    | updatedAt     | DateTime | date when post is last updated (default field) |
    
@@ -106,12 +118,12 @@ Temp tracker data
    | Property      | Type     | Description |
    | ------------- | -------- | ------------|
    | objectId      | String   | unique id for the user (default field) |
-   | perfectComfort        | int | perfect comfort level |
+   | levelTrackers        | Array | LevelsTracker Array of comfort levels 0-10 (should be 11 items in list) |
    | name   | String   | name of user |
    | createdAt     | DateTime | date when post is created (default field) |
    | updatedAt     | DateTime | date when post is last updated (default field) |
    | lastUpdated | DateTime | if the update was made today, dont need to update again | 
-   | tempData | pointer | points to the temp tracker data chart | 
+   | isFahrenheit | boolean | if it should be fahrenheit or not | 
    
    
 ### Networking
