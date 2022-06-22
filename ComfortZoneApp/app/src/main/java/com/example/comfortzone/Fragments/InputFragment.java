@@ -9,10 +9,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.comfortzone.R;
 
 public class InputFragment extends Fragment {
+
+    private TextView tvDate;
+    private TextView tvFeelsLike;
 
     public InputFragment() {
         // Required empty public constructor

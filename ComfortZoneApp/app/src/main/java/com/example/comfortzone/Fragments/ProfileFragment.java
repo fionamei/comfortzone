@@ -13,8 +13,6 @@ import android.widget.TextView;
 
 import com.example.comfortzone.R;
 
-import org.w3c.dom.Text;
-
 public class ProfileFragment extends Fragment {
 
     private TextView tvTempRange;
@@ -36,6 +34,6 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tvTempRange = view.findViewById(R.id.tvTempRange);
+        tvTempRange = view.findViewById(R.id.tvFeelsLike);
     }
 }
