@@ -18,9 +18,12 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.example.comfortzone.models.LevelsTracker;
 import com.parse.SaveCallback;
+import com.parse.boltsinternal.Continuation;
+import com.parse.boltsinternal.Task;
 
 import org.json.JSONArray;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -71,25 +74,32 @@ public class InitialComfortActvitiy extends AppCompatActivity {
     }
 
     private void save(int tempzero, int tempfive, int tempten) {
-        settingUp(tempzero, tempfive, tempten, new AsyncProcessesCallback() {
-            @Override
-            public void onAsyncSuccess() {
-                addEntry(entryZero);
-                addEntry(entryFive);
-                addEntry(entryTen);
-            }
-        });
 
+        entryZero = new ComfortLevelEntry(user, tempzero, 0);
+        entryFive = new ComfortLevelEntry(user, tempfive, 5);
+        entryTen = new ComfortLevelEntry(user, tempten, 10);
 
+        Task.whenAll(Arrays.asList(entryZero.saveInBackground(),
+                entryFive.saveInBackground(), entryTen.saveInBackground())).onSuccess(
+                new Continuation<Void, Object>() {
+
+                    @Override
+                    public Object then(Task<Void> task) throws Exception {
+
+                        if (task.getError() != null) {
+                            Log.e(TAG, "error saving entries in background");
+                            return task.getError();
+                        } else {
+                            createLevels();
+//                            addEntry(entryZero);
+//                            addEntry(entryFive);
+//                            addEntry(entryTen);
+                            return null;
+                        }
+                    }
+                });
 
     }
-
-    private void settingUp(int tempzero, int tempfive, int tempten, AsyncProcessesCallback callback) {
-        createLevels(); // creates the empty 0-10 comfort level scale
-        setInitialEntries(tempzero, tempfive, tempten);
-
-    }
-
 
     public void createLevels() {
         int totalLevels = 11;
@@ -108,6 +118,15 @@ public class InitialComfortActvitiy extends AppCompatActivity {
                 if (e != null) {
                     Log.e(TAG, "error creating levels" + e);
                 } else {
+
+                    if (level == 0) {
+                        addEntry(entryZero);
+                    } else if (level == 5) {
+                        addEntry(entryFive);
+                    } else if (level == 10) {
+                        addEntry(entryTen);
+                    }
+
                     user.add("levelTrackers", tracker);
                     user.saveInBackground(new SaveCallback() {
                         @Override
@@ -122,27 +141,6 @@ public class InitialComfortActvitiy extends AppCompatActivity {
         });
     }
 
-    private void setInitialEntries(int tempzero, int tempfive, int tempten) {
-        entryZero = new ComfortLevelEntry(user, tempzero, 0);
-        entryFive = new ComfortLevelEntry(user, tempfive, 5);
-        entryTen = new ComfortLevelEntry(user, tempten, 10);
-
-        saveComfortLevel(entryZero);
-        saveComfortLevel(entryFive);
-        saveComfortLevel(entryTen);
-    }
-
-    public void saveComfortLevel(ComfortLevelEntry entry) {
-        entry.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e!= null) {
-                    Log.e(TAG, "error while saving" + e);
-                }
-            }
-        });
-    }
-
     public void addEntry(ComfortLevelEntry entry) {
         ParseQuery<LevelsTracker> query = ParseQuery.getQuery("LevelsTracker");
         query.whereEqualTo("user", user);
@@ -151,10 +149,18 @@ public class InitialComfortActvitiy extends AppCompatActivity {
             @Override
             public void done(List<LevelsTracker> objects, ParseException e) {
                 if (e != null || objects.isEmpty()) {
-                    Log.e(TAG, "error adding entries to tracker" + e);
+                    Log.e(TAG, "error adding entries to tracker " + objects.toString() + " ParseException is " + e);
                 } else {
                     LevelsTracker tracker = objects.get(0);
                     tracker.add(LevelsTracker.KEY_ENTRIESLIST, entry);
+                    tracker.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e != null) {
+                                Log.e(TAG, "error adding entry to tracker");
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -165,6 +171,5 @@ public class InitialComfortActvitiy extends AppCompatActivity {
         startActivity(i);
         finish();
     }
-
 
 }
