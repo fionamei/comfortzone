@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--    margin      -->
     <dimen name="generalMargin">16dp</dimen>
+    <dimen name="titleMargin">40dp</dimen>
+    <dimen name="miniMargin">8dp</dimen>
+    <dimen name="fahrenheitMargin">10dp</dimen>
+
+
+    <!--    radius      -->
+    <dimen name="inputCornerRadius">50dp</dimen>
+    <dimen name="cardRadius">30dp</dimen>
+
+    <!--    text size   -->
+    <dimen name="generalTextSize">20sp</dimen>
+    <dimen name="tempTextSize">50sp</dimen>
+    <dimen name="miniTextSize">15sp</dimen>
+    <dimen name="titleTextSize">35sp</dimen>
+
+    <!--    height      -->
+    <dimen name="weatherCardHeight">250dp</dimen>
+    <dimen name="profilePerfTempHeight">150dp</dimen>
 
 </resources>

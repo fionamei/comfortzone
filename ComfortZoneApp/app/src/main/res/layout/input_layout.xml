@@ -11,7 +11,7 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="@dimen/miniMargin"
         android:adjustViewBounds="true"
         app:srcCompat="@drawable/clouds_background" />
 
@@ -20,12 +20,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/generalMargin"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/miniMargin"
         app:boxBackgroundColor="@color/grey"
-        app:boxCornerRadiusBottomEnd="50dp"
-        app:boxCornerRadiusBottomStart="50dp"
-        app:boxCornerRadiusTopEnd="50dp"
-        app:boxCornerRadiusTopStart="50dp">
+        app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
+        app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
+        app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
+        app:boxCornerRadiusTopStart="@dimen/inputCornerRadius">
 
         <EditText
             android:id="@+id/etUsername"
@@ -43,12 +43,12 @@
         style="@style/Til"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/miniMargin"
         app:boxBackgroundColor="@color/grey"
-        app:boxCornerRadiusBottomEnd="50dp"
-        app:boxCornerRadiusBottomStart="50dp"
-        app:boxCornerRadiusTopEnd="50dp"
-        app:boxCornerRadiusTopStart="50dp">
+        app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
+        app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
+        app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
+        app:boxCornerRadiusTopStart="@dimen/inputCornerRadius">
 
         <EditText
             android:id="@+id/etPassword"

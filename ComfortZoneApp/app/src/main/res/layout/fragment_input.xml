@@ -10,19 +10,18 @@
     tools:context=".Fragments.InputFragment">
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="@dimen/titleMargin"
         android:layout_marginBottom="@dimen/generalMargin"
         android:text="@string/today_s_temperature"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="@dimen/generalTextSize" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        app:cardCornerRadius="30dp">
+        android:layout_height="@dimen/weatherCardHeight"
+        app:cardCornerRadius="@dimen/cardRadius">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -37,9 +36,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="@dimen/generalMargin"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="@dimen/generalTextSize"
                 tools:text="Tuesday, Jun 21" />
 
             <LinearLayout
@@ -47,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvTime"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/generalMargin"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -62,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/generalTextSize"
                     tools:text="Menlo Park, CA" />
 
             </LinearLayout>
@@ -73,19 +72,17 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/llLocation"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="@dimen/generalMargin"
                 android:textColor="@color/black"
-                android:textSize="50sp"
+                android:textSize="@dimen/tempTextSize"
                 android:textStyle="bold"
                 tools:text="75" />
 
             <ImageView
-                android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="0dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_cloud_bottom" />
 
@@ -95,23 +92,21 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvDate"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/miniMargin"
                 android:textColor="@color/black"
+                android:textSize="@dimen/miniTextSize"
                 tools:text="5:34 PM" />
 
             <TextView
-                android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/tvFeelsLike"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="0dp"
+                android:layout_marginStart="@dimen/fahrenheitMargin"
                 android:layout_toEndOf="@+id/tvFeelsLike"
                 android:text="@string/fahrenheit"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="@dimen/generalTextSize"
                 android:textStyle="bold" />
-
 
         </RelativeLayout>
 

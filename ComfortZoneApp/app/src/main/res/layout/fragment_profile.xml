@@ -11,10 +11,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="@dimen/titleMargin"
         android:text="@string/hello"
         android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textSize="@dimen/titleTextSize"
         android:textStyle="bold" />
 
     <TextView
@@ -23,16 +23,16 @@
         android:layout_marginVertical="@dimen/generalMargin"
         android:text="@string/your_perfect_temperature_is"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="@dimen/generalTextSize" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:cardCornerRadius="30dp">
+        android:layout_height="@dimen/profilePerfTempHeight"
+        app:cardCornerRadius="@dimen/cardRadius">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="fill_parent"
             android:background="@color/light_blue">
 
 
@@ -40,22 +40,30 @@
                 android:id="@+id/tvFeelsLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="84dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="84dp"
+                android:layout_marginTop="@dimen/generalMargin"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
                 android:textColor="@color/black"
-                android:textSize="50sp"
-                tools:text="82 - 85 °F" />
+                android:textSize="@dimen/tempTextSize"
+                tools:text="82 - 85" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tvFeelsLike"
+                android:layout_marginStart="@dimen/fahrenheitMargin"
+                android:layout_toEndOf="@+id/tvFeelsLike"
+                android:text="@string/fahrenheit"
+                android:textColor="@color/black"
+                android:textSize="@dimen/generalTextSize"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="0dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_cloud_bottom" />
         </RelativeLayout>
