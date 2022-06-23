@@ -57,20 +57,20 @@ public class InitialComfortActivity extends AppCompatActivity {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int tempzero = Integer.parseInt(etZero.getText().toString());
-                int tempfive = Integer.parseInt(etFive.getText().toString());
-                int tempten = Integer.parseInt(etTen.getText().toString());
-                save(tempzero, tempfive, tempten);
+                int tempZero = Integer.parseInt(etZero.getText().toString());
+                int tempFive = Integer.parseInt(etFive.getText().toString());
+                int tempTen = Integer.parseInt(etTen.getText().toString());
+                save(tempZero, tempFive, tempTen);
                 goMainActivity();
             }
         });
     }
 
-    private void save(int tempzero, int tempfive, int tempten) {
+    private void save(int tempZero, int tempFive, int tempTen) {
 
-        entryZero = new ComfortLevelEntry(user, tempzero, 0);
-        entryFive = new ComfortLevelEntry(user, tempfive, 5);
-        entryTen = new ComfortLevelEntry(user, tempten, 10);
+        entryZero = new ComfortLevelEntry(user, tempZero, 0);
+        entryFive = new ComfortLevelEntry(user, tempFive, 5);
+        entryTen = new ComfortLevelEntry(user, tempTen, 10);
 
         Task.whenAll(Arrays.asList(entryZero.saveInBackground(),
                 entryFive.saveInBackground(), entryTen.saveInBackground())).onSuccess(
