@@ -3,4 +3,6 @@
     <string name="username">username</string>
     <string name="password">password</string>
     <string name="create_account">Create account</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
