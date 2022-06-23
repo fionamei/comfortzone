@@ -26,14 +26,18 @@ import java.util.List;
 public class InitialComfortActivity extends AppCompatActivity {
 
     public static final String TAG = "InitialComfortActivity";
+    public static final int COLD_COMFORT_LEVEL = 0;
+    public static final int PERFECT_COMFORT_LEVEL = 5;
+    public static final int HOT_COMFORT_LEVEL = 10;
+
     private EditText etZero;
     private EditText etFive;
     private EditText etTen;
     private Button btnConfirm;
     private ParseUser user;
-    ComfortLevelEntry entryZero;
-    ComfortLevelEntry entryFive;
-    ComfortLevelEntry entryTen;
+    private ComfortLevelEntry entryZero;
+    private ComfortLevelEntry entryFive;
+    private ComfortLevelEntry entryTen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,20 +61,20 @@ public class InitialComfortActivity extends AppCompatActivity {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int tempzero = Integer.parseInt(etZero.getText().toString());
-                int tempfive = Integer.parseInt(etFive.getText().toString());
-                int tempten = Integer.parseInt(etTen.getText().toString());
-                save(tempzero, tempfive, tempten);
+                int tempZero = Integer.parseInt(etZero.getText().toString());
+                int tempFive = Integer.parseInt(etFive.getText().toString());
+                int tempTen = Integer.parseInt(etTen.getText().toString());
+                save(tempZero, tempFive, tempTen);
                 goMainActivity();
             }
         });
     }
 
-    private void save(int tempzero, int tempfive, int tempten) {
+    private void save(int tempZero, int tempFive, int tempTen) {
 
-        entryZero = new ComfortLevelEntry(user, tempzero, 0);
-        entryFive = new ComfortLevelEntry(user, tempfive, 5);
-        entryTen = new ComfortLevelEntry(user, tempten, 10);
+        entryZero = new ComfortLevelEntry(user, tempZero, COLD_COMFORT_LEVEL);
+        entryFive = new ComfortLevelEntry(user, tempFive, PERFECT_COMFORT_LEVEL);
+        entryTen = new ComfortLevelEntry(user, tempTen, HOT_COMFORT_LEVEL);
 
         Task.whenAll(Arrays.asList(entryZero.saveInBackground(),
                 entryFive.saveInBackground(), entryTen.saveInBackground())).onSuccess(
@@ -109,11 +113,11 @@ public class InitialComfortActivity extends AppCompatActivity {
                     Log.e(TAG, "error creating levels" + e);
                 } else {
 
-                    if (level == 0) {
+                    if (level == COLD_COMFORT_LEVEL) {
                         addEntry(entryZero);
-                    } else if (level == 5) {
+                    } else if (level == PERFECT_COMFORT_LEVEL) {
                         addEntry(entryFive);
-                    } else if (level == 10) {
+                    } else if (level == HOT_COMFORT_LEVEL) {
                         addEntry(entryTen);
                     }
 

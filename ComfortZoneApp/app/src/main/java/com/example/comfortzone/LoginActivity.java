@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     private void initViews() {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
-        btnSignin = findViewById(R.id.btnSignup);
+        btnSignin = findViewById(R.id.btnSignin);
         tvSignup = findViewById(R.id.tvSignup);
     }
 
