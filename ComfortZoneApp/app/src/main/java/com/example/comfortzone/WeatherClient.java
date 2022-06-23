@@ -1,6 +1,16 @@
 package com.example.comfortzone;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class WeatherClient extends OkHttpClient {
 
@@ -19,5 +29,29 @@ public class WeatherClient extends OkHttpClient {
         String url = urlBuilder.build().toString();
 
         return url;
+    }
+
+    public String getWeatherData(String lat, String lon) {
+        String url = getWeatherURL(lat, lon);
+        final String[] data = new String[1];
+        final Request request = new Request.Builder()
+                .url(url)
+                .build();
+        newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.e(TAG, "failed making api request " + e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                try {
+                    data[0] = response.body().string();
+                } catch (IOException e) {
+                    Log.e(TAG, "could not get body" + e);
+                }
+            }
+        });
+        return data[0];
     }
 }
