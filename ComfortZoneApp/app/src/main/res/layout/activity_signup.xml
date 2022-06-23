@@ -17,7 +17,7 @@
         android:id="@+id/btnSignup"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="@dimen/generalMargin"
         android:text="@string/create_account"
         app:cornerRadius="50dp" />
 

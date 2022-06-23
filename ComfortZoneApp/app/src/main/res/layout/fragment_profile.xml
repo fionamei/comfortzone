@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="@dimen/generalMargin"
     tools:context=".Fragments.ProfileFragment">
 
     <TextView
@@ -20,8 +20,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginVertical="@dimen/generalMargin"
         android:text="@string/your_perfect_temperature_is"
         android:textColor="@color/black"
         android:textSize="20sp" />

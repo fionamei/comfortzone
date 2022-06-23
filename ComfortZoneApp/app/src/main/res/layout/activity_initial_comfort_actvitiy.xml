@@ -12,7 +12,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="@dimen/generalMargin"
         android:layout_marginTop="40dp"
         android:textStyle="bold"
         android:text="@string/welcome"
@@ -23,9 +23,8 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_margin="@dimen/generalMargin"
         android:textColor="@color/black"
-        android:layout_marginVertical="16dp"
         android:text="@string/introduction"
         android:textSize="20sp" />
 
@@ -34,7 +33,7 @@
         style="@style/Til"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="@dimen/generalMargin"
         android:layout_marginBottom="8dp"
         app:boxBackgroundColor="@color/grey"
         app:boxCornerRadiusBottomEnd="50dp"
@@ -59,7 +58,7 @@
         style="@style/Til"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="@dimen/generalMargin"
         android:layout_marginBottom="8dp"
         app:boxBackgroundColor="@color/grey"
         app:boxCornerRadiusBottomEnd="50dp"
@@ -81,7 +80,7 @@
         style="@style/Til"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="@dimen/generalMargin"
         android:layout_marginBottom="8dp"
         app:boxBackgroundColor="@color/grey"
         app:boxCornerRadiusBottomEnd="50dp"
@@ -106,9 +105,9 @@
         android:id="@+id/btnConfirm"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="@dimen/generalMargin"
         android:layout_marginTop="24dp"
-        android:text="Confirm"
+        android:text="@string/confirm"
         app:cornerRadius="50dp" />
 
 </LinearLayout>
