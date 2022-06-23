@@ -26,6 +26,7 @@ import java.util.List;
 public class InitialComfortActivity extends AppCompatActivity {
 
     public static final String TAG = "InitialComfortActivity";
+    public static final int totalLevels = 11;
     private EditText etZero;
     private EditText etFive;
     private EditText etTen;
@@ -92,7 +93,6 @@ public class InitialComfortActivity extends AppCompatActivity {
     }
 
     public void createLevels() {
-        int totalLevels = 11;
         for (int i = 0; i < totalLevels; i ++) {
             createLevel(i);
         }

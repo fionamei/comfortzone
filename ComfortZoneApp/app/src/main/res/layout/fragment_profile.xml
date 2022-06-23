@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="HELLO!"
+        android:text="@string/hello"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -22,9 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Your perfect temperature is: "
+        android:text="@string/your_perfect_temperature_is"
         android:textColor="@color/black"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

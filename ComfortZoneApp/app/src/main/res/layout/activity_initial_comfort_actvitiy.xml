@@ -15,7 +15,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="40dp"
         android:textStyle="bold"
-        android:text="Welcome!"
+        android:text="@string/welcome"
         android:textColor="@color/black"
         android:textSize="35sp" />
 
@@ -26,7 +26,7 @@
         android:layout_marginHorizontal="16dp"
         android:textColor="@color/black"
         android:layout_marginVertical="16dp"
-        android:text="ComfortZone will track your comfort zones for different temperature levels! A '0' represents the point where you are crazy cold! Similarly, a '10' represents a crazy hot degree. And '5' is your estimated perfect temperature!"
+        android:text="@string/introduction"
         android:textSize="20sp" />
 
 
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="What is your 0?"
+            android:hint="@string/what_is_your_0"
             android:inputType="number"
             android:textSize="20sp" />
 
@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:ems="10"
             android:inputType="number"
-            android:hint="What is your 5?"
+            android:hint="@string/what_is_your_5"
             android:textSize="20sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -94,7 +94,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="What is your 10?"
+            android:hint="@string/what_is_your_10"
             android:inputType="number"
             android:textSize="20sp" />
 
