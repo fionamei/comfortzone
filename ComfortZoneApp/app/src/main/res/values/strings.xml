@@ -18,4 +18,7 @@
     <string name="confirm">Confirm</string>
     <string name="today_s_temperature">Today\'s temperature:</string>
     <string name="fahrenheit">°F</string>
+    <string name="flight">Flight</string>
+    <string name="input">Input</string>
+    <string name="profile">Profile</string>
 </resources>

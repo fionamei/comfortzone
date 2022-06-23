@@ -10,9 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.comfortzone.models.ComfortLevelEntry;
-import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.example.comfortzone.models.LevelsTracker;
 import com.parse.SaveCallback;
@@ -21,7 +19,6 @@ import com.parse.boltsinternal.Task;
 
 
 import java.util.Arrays;
-import java.util.List;
 
 public class InitialComfortActivity extends AppCompatActivity {
 
@@ -62,7 +59,7 @@ public class InitialComfortActivity extends AppCompatActivity {
                 int tempFive = Integer.parseInt(etFive.getText().toString());
                 int tempTen = Integer.parseInt(etTen.getText().toString());
                 save(tempZero, tempFive, tempTen);
-                goMainActivity();
+                goHostActivity();
             }
         });
     }
@@ -131,8 +128,8 @@ public class InitialComfortActivity extends AppCompatActivity {
         });
     }
 
-    private void goMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
+    private void goHostActivity() {
+        Intent i = new Intent(this, HostActivity.class);
         startActivity(i);
         finish();
     }

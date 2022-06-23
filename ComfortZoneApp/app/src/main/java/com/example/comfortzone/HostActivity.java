@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.parse.ParseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class HostActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    void onLogoutButton() {
+    private void onLogoutButton() {
         ParseUser.logOutInBackground();
         ParseUser currentUser = ParseUser.getCurrentUser();
         Toast.makeText(this, "Logged out!", Toast.LENGTH_SHORT).show();
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    void goLoginActivity() {
+    private void goLoginActivity() {
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         finish();
