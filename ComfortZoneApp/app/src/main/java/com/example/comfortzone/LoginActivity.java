@@ -33,6 +33,9 @@ public class LoginActivity extends AppCompatActivity {
             goMainActivity();
         }
 
+
+        getSupportActionBar().hide();
+
         initViews();
         setupListeners();
 
