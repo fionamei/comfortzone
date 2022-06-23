@@ -110,11 +110,11 @@ public class InitialComfortActivity extends AppCompatActivity {
                 } else {
 
                     if (level == 0) {
-                        addEntry(entryZero);
+                        tracker.addEntry(entryZero);
                     } else if (level == 5) {
-                        addEntry(entryFive);
+                        tracker.addEntry(entryFive);
                     } else if (level == 10) {
-                        addEntry(entryTen);
+                        tracker.addEntry(entryTen);
                     }
 
                     user.add("levelTrackers", tracker);
@@ -123,31 +123,6 @@ public class InitialComfortActivity extends AppCompatActivity {
                         public void done(ParseException e) {
                             if (e != null) {
                                 Log.e(TAG, "error saving tracker to user" + e);
-                            }
-                        }
-                    });
-                }
-            }
-        });
-    }
-
-    public void addEntry(ComfortLevelEntry entry) {
-        ParseQuery<LevelsTracker> query = ParseQuery.getQuery("LevelsTracker");
-        query.whereEqualTo("user", user);
-        query.whereEqualTo("level", entry.getComfortLevel());
-        query.findInBackground(new FindCallback<LevelsTracker>() {
-            @Override
-            public void done(List<LevelsTracker> objects, ParseException e) {
-                if (e != null || objects.isEmpty()) {
-                    Log.e(TAG, "error adding entries to tracker " + objects.toString() + " ParseException is " + e);
-                } else {
-                    LevelsTracker tracker = objects.get(0);
-                    tracker.add(LevelsTracker.KEY_ENTRIESLIST, entry);
-                    tracker.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e != null) {
-                                Log.e(TAG, "error adding entry to tracker");
                             }
                         }
                     });
