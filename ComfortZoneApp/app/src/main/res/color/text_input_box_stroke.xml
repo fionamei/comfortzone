@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!--    TODO play with these around -->
-    <item android:color="#D4D4D6" android:state_focused="true"/>
+    <item android:color="@color/mainButtonBlue" android:state_focused="true"/>
     <item android:color="#fcc" android:state_hovered="true"/>
-    <item android:color="#D4D4D6"/>
+    <item android:color="@color/mainButtonBlue"/>
 </selector>

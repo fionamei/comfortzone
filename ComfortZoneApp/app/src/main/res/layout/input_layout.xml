@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/generalMargin"
         android:layout_marginBottom="@dimen/miniMargin"
-        app:boxBackgroundColor="@color/grey"
         app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
         app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
         app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
@@ -43,8 +42,8 @@
         style="@style/Til"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/generalMargin"
         android:layout_marginBottom="@dimen/miniMargin"
-        app:boxBackgroundColor="@color/grey"
         app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
         app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
         app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
@@ -54,11 +53,10 @@
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/generalMargin"
             android:layout_weight="1"
             android:ems="10"
             android:hint="@string/password"
-            android:inputType="textPassword"
+            android:textColorHint="@color/black"
             tools:ignore="KeyboardInaccessibleWidget" />
 
     </com.google.android.material.textfield.TextInputLayout>
