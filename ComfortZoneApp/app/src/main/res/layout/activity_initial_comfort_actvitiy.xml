@@ -9,23 +9,24 @@
     tools:context=".InitialComfortActivity">
 
     <TextView
+        android:id="@+id/tvWelcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/generalMargin"
         android:layout_marginTop="@dimen/titleMargin"
-        android:textStyle="bold"
         android:text="@string/welcome"
         android:textColor="@color/black"
-        android:textSize="@dimen/titleTextSize" />
+        android:textSize="@dimen/titleTextSize"
+        android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/tvIntro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/generalMargin"
-        android:textColor="@color/black"
         android:text="@string/introduction"
+        android:textColor="@color/black"
         android:textSize="@dimen/generalTextSize" />
-
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Til"
@@ -33,7 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/generalMargin"
         android:layout_marginBottom="@dimen/miniMargin"
-        app:boxBackgroundColor="@color/grey"
         app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
         app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
         app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
@@ -50,15 +50,12 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
-
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Til"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/generalMargin"
         android:layout_marginBottom="@dimen/miniMargin"
-        app:boxBackgroundColor="@color/grey"
         app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
         app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
         app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
@@ -80,7 +77,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/generalMargin"
         android:layout_marginBottom="@dimen/miniMargin"
-        app:boxBackgroundColor="@color/grey"
         app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
         app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
         app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
@@ -96,8 +92,6 @@
             android:textSize="@dimen/generalTextSize" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
-
 
     <Button
         android:id="@+id/btnConfirm"

@@ -34,6 +34,6 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tvTempRange = view.findViewById(R.id.tvFeelsLike);
+        tvTempRange = view.findViewById(R.id.tvPerfectTemp);
     }
 }

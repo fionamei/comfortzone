@@ -9,6 +9,7 @@
     tools:context=".Fragments.ProfileFragment">
 
     <TextView
+        android:id="@+id/tvIntro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/titleMargin"
@@ -18,6 +19,7 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/tvPerfTempText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/generalMargin"
@@ -35,9 +37,8 @@
             android:layout_height="fill_parent"
             android:background="@color/fillColorBlue">
 
-
             <TextView
-                android:id="@+id/tvFeelsLike"
+                android:id="@+id/tvPerfectTemp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -49,26 +50,27 @@
                 tools:text="82 - 85" />
 
             <TextView
+                android:id="@+id/tvFahrenheit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tvFeelsLike"
+                android:layout_alignTop="@+id/tvPerfectTemp"
                 android:layout_marginStart="@dimen/fahrenheitMargin"
-                android:layout_toEndOf="@+id/tvFeelsLike"
+                android:layout_toEndOf="@+id/tvPerfectTemp"
                 android:text="@string/fahrenheit"
                 android:textColor="@color/black"
                 android:textSize="@dimen/generalTextSize"
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/ivBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_cloud_bottom" />
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
-
 
 </LinearLayout>
