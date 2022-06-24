@@ -1,5 +1,7 @@
 package com.example.comfortzone;
 
+import static com.example.comfortzone.Utils.LocationUtil.getLastLocation;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,23 +14,29 @@ import android.view.MenuItem;
 import com.example.comfortzone.Fragments.FlightFragment;
 import com.example.comfortzone.Fragments.InputFragment;
 import com.example.comfortzone.Fragments.ProfileFragment;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
-
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
-    final FragmentManager fragmentManager = getSupportFragmentManager();
+    private final FragmentManager fragmentManager = getSupportFragmentManager();
+    private FusedLocationProviderClient fusedLocationClient;
+
+    public static final String TAG = "Main Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        getLastLocation(this, this, fusedLocationClient);
 
         initViews();
         listenerSetup();
