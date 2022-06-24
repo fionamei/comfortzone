@@ -42,15 +42,18 @@ public class LocationUtil {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
                         Location location = task.getResult();
-                        long locationTime = location.getTime();
-                        long currentTime = System.currentTimeMillis();
-                        long diff = currentTime - locationTime;
-
-                        if (location == null || diff > ONE_HOUR_MILLI) {
+                        if (location == null) {
                             requestNewLocationData(context, fusedLocationClient);
                         } else {
-                            lat = String.valueOf(location.getLatitude());
-                            lon = String.valueOf(location.getLongitude());
+                            long locationTime = location.getTime();
+                            long currentTime = System.currentTimeMillis();
+                            long diff = currentTime - locationTime;
+                            if (diff > ONE_HOUR_MILLI) {
+                                requestNewLocationData(context, fusedLocationClient);
+                            } else {
+                                lat = String.valueOf(location.getLatitude());
+                                lon = String.valueOf(location.getLongitude());
+                            }
                         }
                     }
                 });
