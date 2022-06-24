@@ -23,6 +23,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import java.util.concurrent.TimeUnit;
 
 public class LocationUtil {
 
@@ -30,6 +31,7 @@ public class LocationUtil {
     public static final int PERMISSION_ID = 44;
     public static String lat;
     public static String lon;
+    public static long ONE_HOUR_MILLI = TimeUnit.HOURS.toMillis(1L);
 
 
     @SuppressLint("MissingPermission")
@@ -40,7 +42,11 @@ public class LocationUtil {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
                         Location location = task.getResult();
-                        if (location == null) {
+                        long locationTime = location.getTime();
+                        long currentTime = System.currentTimeMillis();
+                        long diff = currentTime - locationTime;
+
+                        if (location == null || diff > ONE_HOUR_MILLI) {
                             requestNewLocationData(context, fusedLocationClient);
                         } else {
                             lat = String.valueOf(location.getLatitude());
