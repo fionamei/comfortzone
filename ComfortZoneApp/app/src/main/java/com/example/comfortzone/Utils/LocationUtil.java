@@ -23,6 +23,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class LocationUtil {
@@ -35,21 +36,21 @@ public class LocationUtil {
 
 
     @SuppressLint("MissingPermission")
-    public static void getLastLocation(Activity activity, Context context, FusedLocationProviderClient fusedLocationClient) {
-        if (checkPermissions(context)) {
-            if (isLocationEnabled(context)) {
+    public static void getLastLocation(Activity activity, FusedLocationProviderClient fusedLocationClient) {
+        if (checkPermissions(activity)) {
+            if (isLocationEnabled(activity)) {
                 fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
                         Location location = task.getResult();
                         if (location == null) {
-                            requestNewLocationData(context, fusedLocationClient);
+                            requestNewLocationData(activity, fusedLocationClient);
                         } else {
                             long locationTime = location.getTime();
                             long currentTime = System.currentTimeMillis();
                             long diff = currentTime - locationTime;
                             if (diff > ONE_HOUR_MILLI) {
-                                requestNewLocationData(context, fusedLocationClient);
+                                requestNewLocationData(activity, fusedLocationClient);
                             } else {
                                 lat = String.valueOf(location.getLatitude());
                                 lon = String.valueOf(location.getLongitude());
@@ -58,9 +59,9 @@ public class LocationUtil {
                     }
                 });
             } else {
-                Toast.makeText(context, "please turn on your location", Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, "please turn on your location", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                context.startActivity(intent);
+                activity.startActivity(intent);
             }
         } else {
             requestPermissions(activity);
