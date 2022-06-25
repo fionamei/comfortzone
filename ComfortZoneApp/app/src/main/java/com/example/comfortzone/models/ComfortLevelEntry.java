@@ -15,12 +15,12 @@ public class ComfortLevelEntry extends ParseObject {
     public ComfortLevelEntry() {};
 
     public ComfortLevelEntry(ParseUser user, int temp, int comfort) {
-        setUSer(user);
+        setUser(user);
         setTemp(temp);
         setComfortLevel(comfort);
     }
 
-    public void setUSer(ParseUser user) {
+    public void setUser(ParseUser user) {
         put(KEY_USER, user);
     }
 

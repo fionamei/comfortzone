@@ -9,71 +9,65 @@
     tools:context=".InitialComfortActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvWelcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="40dp"
-        android:textStyle="bold"
-        android:text="Welcome!"
+        android:layout_marginHorizontal="@dimen/generalMargin"
+        android:layout_marginTop="@dimen/titleMargin"
+        android:text="@string/welcome"
         android:textColor="@color/black"
-        android:textSize="35sp" />
+        android:textSize="@dimen/titleTextSize"
+        android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tvIntro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
+        android:layout_margin="@dimen/generalMargin"
+        android:text="@string/introduction"
         android:textColor="@color/black"
-        android:layout_marginVertical="16dp"
-        android:text="ComfortZone will track your comfort zones for different temperature levels! A '0' represents the point where you are crazy cold! Similarly, a '10' represents a crazy hot degree. And '5' is your estimated perfect temperature!"
-        android:textSize="20sp" />
-
+        android:textSize="@dimen/generalTextSize" />
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Til"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="8dp"
-        app:boxBackgroundColor="@color/grey"
-        app:boxCornerRadiusBottomEnd="50dp"
-        app:boxCornerRadiusBottomStart="50dp"
-        app:boxCornerRadiusTopEnd="50dp"
-        app:boxCornerRadiusTopStart="50dp">
+        android:layout_marginHorizontal="@dimen/generalMargin"
+        android:layout_marginBottom="@dimen/miniMargin"
+        app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
+        app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
+        app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
+        app:boxCornerRadiusTopStart="@dimen/inputCornerRadius">
 
         <EditText
             android:id="@+id/etZero"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="What is your 0?"
+            android:hint="@string/what_is_your_0"
             android:inputType="number"
-            android:textSize="20sp" />
+            android:textSize="@dimen/generalTextSize" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
-
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Til"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="8dp"
-        app:boxBackgroundColor="@color/grey"
-        app:boxCornerRadiusBottomEnd="50dp"
-        app:boxCornerRadiusBottomStart="50dp"
-        app:boxCornerRadiusTopEnd="50dp"
-        app:boxCornerRadiusTopStart="50dp">
+        android:layout_marginHorizontal="@dimen/generalMargin"
+        android:layout_marginBottom="@dimen/miniMargin"
+        app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
+        app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
+        app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
+        app:boxCornerRadiusTopStart="@dimen/inputCornerRadius">
 
         <EditText
             android:id="@+id/etFive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:ems="10"
             android:inputType="number"
-            android:hint="What is your 5?"
-            android:textSize="20sp" />
+            android:hint="@string/what_is_your_5"
+            android:textSize="@dimen/generalTextSize" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,34 +75,31 @@
         style="@style/Til"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="8dp"
-        app:boxBackgroundColor="@color/grey"
-        app:boxCornerRadiusBottomEnd="50dp"
-        app:boxCornerRadiusBottomStart="50dp"
-        app:boxCornerRadiusTopEnd="50dp"
-        app:boxCornerRadiusTopStart="50dp">
+        android:layout_marginHorizontal="@dimen/generalMargin"
+        android:layout_marginBottom="@dimen/miniMargin"
+        app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
+        app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
+        app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
+        app:boxCornerRadiusTopStart="@dimen/inputCornerRadius">
 
         <EditText
             android:id="@+id/etTen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="What is your 10?"
+            android:hint="@string/what_is_your_10"
             android:inputType="number"
-            android:textSize="20sp" />
+            android:textSize="@dimen/generalTextSize" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
-
 
     <Button
         android:id="@+id/btnConfirm"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="24dp"
-        android:text="Confirm"
-        app:cornerRadius="50dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/generalMargin"
+        android:layout_marginTop="@dimen/generalMargin"
+        android:text="@string/confirm"
+        app:cornerRadius="@dimen/inputCornerRadius" />
 
 </LinearLayout>
