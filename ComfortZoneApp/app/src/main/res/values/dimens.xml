@@ -22,4 +22,7 @@
     <dimen name="weatherCardHeight">280dp</dimen>
     <dimen name="profilePerfTempHeight">150dp</dimen>
 
+    <!--    stroke      -->
+    <dimen name="buttonStroke">1dp</dimen>
+
 </resources>

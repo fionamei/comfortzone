@@ -114,4 +114,50 @@
 
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/generalMargin"
+        android:text="@string/how_comfortable_do_you_feel"
+        android:textColor="@color/black"
+        android:textSize="@dimen/generalTextSize"
+        android:gravity="center"
+        android:textStyle="italic" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/miniTextSize"
+        android:text="@string/levels"
+        android:layout_marginHorizontal="@dimen/generalMargin"
+        android:gravity="center"
+        />
+
+    <com.google.android.material.slider.Slider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:valueFrom="0.0"
+        android:valueTo="10.0"
+        android:stepSize="1.0"
+        android:layout_margin="@dimen/generalMargin"
+        app:trackColor="@color/fillColorBlue"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        android:textColor="@color/mainButtonBlue"
+        android:textSize="@dimen/miniTextSize"
+        app:backgroundTint="@android:color/transparent"
+        app:cornerRadius="@dimen/inputCornerRadius"
+        app:rippleColor="@color/fillColorBlue"
+        app:strokeColor="@color/mainButtonBlue"
+        app:strokeWidth="@dimen/buttonStroke"
+        android:layout_gravity="end"
+        android:layout_marginRight="@dimen/generalMargin"
+        />
+
 </LinearLayout>
