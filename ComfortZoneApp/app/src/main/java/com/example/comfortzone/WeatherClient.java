@@ -18,7 +18,10 @@ public class WeatherClient extends OkHttpClient {
     public static final String API_BASE_URL = String.format("https://api.openweathermap.org/data/2.5/weather?appid=%s", API_KEY);
     public static final String KEY_LAT = "lat";
     public static final String KEY_LON = "lon";
+    public static final String KEY_UNIT = "units";
     public static final String TAG = "WeatherClient";
+    public static final String FAHRENHEIT = "imperial";
+    public static final String CELSIUS = "metric";
 
 
     private String getWeatherURL(String lat, String lon) {
@@ -26,6 +29,7 @@ public class WeatherClient extends OkHttpClient {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(API_BASE_URL).newBuilder();
         urlBuilder.addQueryParameter(KEY_LAT, lat);
         urlBuilder.addQueryParameter(KEY_LON, lon);
+        urlBuilder.addQueryParameter(KEY_UNIT, FAHRENHEIT);
 
         return urlBuilder.build().toString();
     }
