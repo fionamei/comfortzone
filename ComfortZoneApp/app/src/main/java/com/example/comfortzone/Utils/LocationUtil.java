@@ -32,27 +32,28 @@ public class LocationUtil {
     public static String lat;
     public static String lon;
     public static long ONE_HOUR_MILLI = TimeUnit.HOURS.toMillis(1L);
-
+    private static FusedLocationProviderClient fusedLocationClient;
 
     @SuppressLint("MissingPermission")
     public static void getLastLocation(Activity activity) {
-        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
         if (isLocationEnabled(activity)) {
             fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
                 public void onComplete(@NonNull Task<Location> task) {
                     Location location = task.getResult();
                     if (location == null) {
-                        requestNewLocationData(activity, fusedLocationClient);
+                        requestNewLocationData(activity);
                     } else {
                         long locationTime = location.getTime();
                         long currentTime = System.currentTimeMillis();
                         long diff = currentTime - locationTime;
                         if (diff > ONE_HOUR_MILLI) {
-                            requestNewLocationData(activity, fusedLocationClient);
+                            requestNewLocationData(activity);
                         } else {
                             lat = String.valueOf(location.getLatitude());
                             lon = String.valueOf(location.getLongitude());
+                            Log.i(TAG, "lon and lat is " + lat + lon);
                         }
                     }
                 }
@@ -70,23 +71,19 @@ public class LocationUtil {
     }
 
     @SuppressLint("MissingPermission")
-    private static void requestNewLocationData(Context context, FusedLocationProviderClient fusedLocationClient) {
-        LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER);
-        locationRequest.setInterval(5);
-        locationRequest.setFastestInterval(0);
-        locationRequest.setNumUpdates(1);
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+    private static void requestNewLocationData(Context context) {
+        fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_LOW_POWER, null)
+                .addOnCompleteListener(new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        Location location = task.getResult();
+                        if (location == null) {
+                            Toast.makeText(context, "unable to get location, please try again later", Toast.LENGTH_LONG).show();
+                        } else {
+                            lat = String.valueOf(location.getLatitude());
+                            lon = String.valueOf(location.getLongitude());
+                        }
+                    }
+                });
     }
-
-    private static LocationCallback locationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            Location location = locationResult.getLastLocation();
-            lat = String.valueOf(location.getLatitude());
-            lon = String.valueOf(location.getLongitude());
-        }
-    };
-
 }

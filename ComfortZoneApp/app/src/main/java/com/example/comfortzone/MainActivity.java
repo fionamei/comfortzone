@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             case PERMISSION_ID: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    LocationUtil.getLastLocation(this);
                     Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Permission denied. You cannot use the app.", Toast.LENGTH_SHORT).show();
