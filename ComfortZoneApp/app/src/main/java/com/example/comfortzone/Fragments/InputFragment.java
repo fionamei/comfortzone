@@ -59,6 +59,8 @@ public class InputFragment extends Fragment {
     private void populateViews() {
         tvCity.setText(weatherData.getCity());
         tvCurrentTemp.setText(String.valueOf(weatherData.getTempData().getTemp()));
+        tvDate.setText(weatherData.getDate());
+        tvTime.setText(weatherData.getTime());
     }
 
     private void getWeatherClass() {
@@ -70,6 +72,8 @@ public class InputFragment extends Fragment {
                     public void weatherData(String data) {
                         Gson gson = new GsonBuilder().create();
                         weatherData = gson.fromJson(data, WeatherData.class);
+                        weatherData.setDate();
+                        weatherData.setTime();
                         getActivity().runOnUiThread(new Runnable() {
 
                             @Override
