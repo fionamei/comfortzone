@@ -35,7 +35,7 @@ public class WeatherData {
     }
 
     public void setDate() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT);
+        DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
         LocalDateTime now = LocalDateTime.now();
         String date = now.format(dtf);
         this.date = date;
