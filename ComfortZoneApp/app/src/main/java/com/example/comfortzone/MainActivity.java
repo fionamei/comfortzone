@@ -1,9 +1,12 @@
 package com.example.comfortzone;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -32,10 +35,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LocationUtil.getLastLocation(this);
+        maybeRequestPermissions();
 
         initViews();
         listenerSetup();
+    }
+
+    private void maybeRequestPermissions() {
+        if (hasPermissions()) {
+            return;
+        }
+        requestPermissions();
+    }
+
+    private boolean hasPermissions() {
+        return ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_ID);
     }
 
     private void initViews() {
@@ -103,11 +123,11 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSION_ID: {
                 if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    LocationUtil.getLastLocation(this);
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Permission denied. You cannot use the app.", Toast.LENGTH_SHORT).show();
+                    requestPermissions();
                 }
                 return;
             }

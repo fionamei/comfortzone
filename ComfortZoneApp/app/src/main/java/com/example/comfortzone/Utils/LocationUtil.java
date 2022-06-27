@@ -29,7 +29,6 @@ import java.util.concurrent.TimeUnit;
 public class LocationUtil {
 
     public static final String TAG = "locationutil";
-    public static final int PERMISSION_ID = 44;
     public static String lat;
     public static String lon;
     public static long ONE_HOUR_MILLI = TimeUnit.HOURS.toMillis(1L);
@@ -38,45 +37,31 @@ public class LocationUtil {
     @SuppressLint("MissingPermission")
     public static void getLastLocation(Activity activity) {
         FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
-        if (checkPermissions(activity)) {
-            if (isLocationEnabled(activity)) {
-                fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Location> task) {
-                        Location location = task.getResult();
-                        if (location == null) {
+        if (isLocationEnabled(activity)) {
+            fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    Location location = task.getResult();
+                    if (location == null) {
+                        requestNewLocationData(activity, fusedLocationClient);
+                    } else {
+                        long locationTime = location.getTime();
+                        long currentTime = System.currentTimeMillis();
+                        long diff = currentTime - locationTime;
+                        if (diff > ONE_HOUR_MILLI) {
                             requestNewLocationData(activity, fusedLocationClient);
                         } else {
-                            long locationTime = location.getTime();
-                            long currentTime = System.currentTimeMillis();
-                            long diff = currentTime - locationTime;
-                            if (diff > ONE_HOUR_MILLI) {
-                                requestNewLocationData(activity, fusedLocationClient);
-                            } else {
-                                lat = String.valueOf(location.getLatitude());
-                                lon = String.valueOf(location.getLongitude());
-                            }
+                            lat = String.valueOf(location.getLatitude());
+                            lon = String.valueOf(location.getLongitude());
                         }
                     }
-                });
-            } else {
-                Toast.makeText(activity, "please turn on your location", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                activity.startActivity(intent);
-            }
+                }
+            });
         } else {
-            requestPermissions(activity);
+            Toast.makeText(activity, "please turn on your location", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            activity.startActivity(intent);
         }
-    }
-
-    private static boolean checkPermissions(Context context) {
-        return ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private static void requestPermissions(Activity activity) {
-        ActivityCompat.requestPermissions(activity, new String[]{
-                Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_ID);
     }
 
     private static boolean isLocationEnabled(Context context) {
