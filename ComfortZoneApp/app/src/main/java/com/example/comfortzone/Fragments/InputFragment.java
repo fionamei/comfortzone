@@ -6,9 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.comfortzone.GetLocationCallback;
@@ -17,6 +19,7 @@ import com.example.comfortzone.Utils.LocationUtil;
 import com.example.comfortzone.WeatherClient;
 import com.example.comfortzone.getWeatherCallback;
 import com.example.comfortzone.models.WeatherData;
+import com.google.android.material.slider.Slider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -28,6 +31,11 @@ public class InputFragment extends Fragment {
     private TextView tvCurrentTemp;
     private WeatherClient client;
     private WeatherData weatherData;
+    private Button btnSubmit;
+    private Slider slComfortLevel;
+
+    public static final String TAG = "InputFragment";
+    public static final int DEFAULT_VALUE = 5;
 
     public InputFragment() {
         // Required empty public constructor
@@ -46,7 +54,7 @@ public class InputFragment extends Fragment {
         client = new WeatherClient();
         initViews(view);
         getWeatherClass();
-
+        listenerSetup();
     }
 
     private void initViews(View view) {
@@ -54,6 +62,8 @@ public class InputFragment extends Fragment {
         tvCity = view.findViewById(R.id.tvCity);
         tvTime = view.findViewById(R.id.tvTime);
         tvCurrentTemp = view.findViewById(R.id.tvCurrentTemp);
+        btnSubmit = view.findViewById(R.id.btnSubmit);
+        slComfortLevel = view.findViewById(R.id.slComfortLevel);
     }
 
     private void populateViews() {
@@ -83,6 +93,16 @@ public class InputFragment extends Fragment {
                         });
                     }
                 });
+            }
+        });
+    }
+
+    private void listenerSetup() {
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int comfortLevel = (int) slComfortLevel.getValue();
+                slComfortLevel.setValue(DEFAULT_VALUE);
             }
         });
     }
