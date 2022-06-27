@@ -4,25 +4,27 @@ import com.google.gson.annotations.SerializedName;
 
 public class WeatherData {
 
-
     @SerializedName("name")
     private String city;
-    @SerializedName("feels_like")
-    private int temp;
+
+    @SerializedName("main")
+    private TempData tempData;
 
     public String getCity() {
         return city;
     }
-
-    public void setCity(String city) {
-        this.city = city;
+    
+    public Object getTempData() {
+        return new TempData();
     }
 
-    public int getTemp() {
-        return temp;
-    }
+    private class TempData {
+        @SerializedName("feels_like")
+        private double temp;
 
-    public void setTemp(int temp) {
-        this.temp = temp;
+        public double getTemp() {
+            return temp;
+        }
+
     }
 }
