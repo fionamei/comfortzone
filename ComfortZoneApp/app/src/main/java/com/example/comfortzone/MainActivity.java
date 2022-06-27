@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.view.MenuItem;
 import com.example.comfortzone.Fragments.FlightFragment;
 import com.example.comfortzone.Fragments.InputFragment;
 import com.example.comfortzone.Fragments.ProfileFragment;
-import com.example.comfortzone.Utils.LocationUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import android.view.Menu;
@@ -83,13 +81,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        // setting default selection
         bottomNavigationView.setSelectedItemId(R.id.action_profile);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //inflate the menu
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -104,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
     void onLogoutButton() {
         ParseUser.logOutInBackground();
-        ParseUser currentUser = ParseUser.getCurrentUser();
         Toast.makeText(this, "Logged out!", Toast.LENGTH_SHORT).show();
         goLoginActivity();
 
@@ -124,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
             case PERMISSION_ID: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    LocationUtil.getLastLocation(this);
                     Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Permission denied. You cannot use the app.", Toast.LENGTH_SHORT).show();

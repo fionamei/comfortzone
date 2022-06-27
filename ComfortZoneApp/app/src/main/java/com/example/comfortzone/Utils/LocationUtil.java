@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
+import com.example.comfortzone.GetLocationCallback;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -29,32 +30,23 @@ import java.util.concurrent.TimeUnit;
 public class LocationUtil {
 
     public static final String TAG = "locationutil";
-    public static String lat;
-    public static String lon;
     public static long ONE_HOUR_MILLI = TimeUnit.HOURS.toMillis(1L);
     private static FusedLocationProviderClient fusedLocationClient;
 
     @SuppressLint("MissingPermission")
-    public static void getLastLocation(Activity activity) {
+    public static void getLastLocation(Activity activity, GetLocationCallback locationCallback) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
         if (isLocationEnabled(activity)) {
             fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
                 public void onComplete(@NonNull Task<Location> task) {
                     Location location = task.getResult();
-                    if (location == null) {
-                        requestNewLocationData(activity);
+                    if (location == null || System.currentTimeMillis() - location.getTime() > ONE_HOUR_MILLI) {
+                        requestNewLocationData(activity, locationCallback);
                     } else {
-                        long locationTime = location.getTime();
-                        long currentTime = System.currentTimeMillis();
-                        long diff = currentTime - locationTime;
-                        if (diff > ONE_HOUR_MILLI) {
-                            requestNewLocationData(activity);
-                        } else {
-                            lat = String.valueOf(location.getLatitude());
-                            lon = String.valueOf(location.getLongitude());
-                            Log.i(TAG, "lon and lat is " + lat + lon);
-                        }
+                        String lat = String.valueOf(location.getLatitude());
+                        String lon = String.valueOf(location.getLongitude());
+                        locationCallback.location(lat, lon);
                     }
                 }
             });
@@ -71,7 +63,7 @@ public class LocationUtil {
     }
 
     @SuppressLint("MissingPermission")
-    private static void requestNewLocationData(Context context) {
+    private static void requestNewLocationData(Context context, GetLocationCallback locationCallback) {
         fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_LOW_POWER, null)
                 .addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
@@ -80,8 +72,9 @@ public class LocationUtil {
                         if (location == null) {
                             Toast.makeText(context, "unable to get location, please try again later", Toast.LENGTH_LONG).show();
                         } else {
-                            lat = String.valueOf(location.getLatitude());
-                            lon = String.valueOf(location.getLongitude());
+                            String lat = String.valueOf(location.getLatitude());
+                            String lon = String.valueOf(location.getLongitude());
+                            locationCallback.location(lat, lon);
                         }
                     }
                 });
