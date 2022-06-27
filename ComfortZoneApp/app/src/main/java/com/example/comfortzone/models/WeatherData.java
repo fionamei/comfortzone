@@ -13,18 +13,17 @@ public class WeatherData {
     public String getCity() {
         return city;
     }
-    
-    public Object getTempData() {
-        return new TempData();
+
+    public TempData getTempData() {
+        return tempData;
     }
 
-    private class TempData {
+    public class TempData {
         @SerializedName("feels_like")
         private double temp;
 
         public double getTemp() {
             return temp;
         }
-
     }
 }

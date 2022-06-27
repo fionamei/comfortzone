@@ -11,7 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.comfortzone.GetLocationCallback;
 import com.example.comfortzone.R;
+import com.example.comfortzone.Utils.LocationUtil;
+import com.example.comfortzone.WeatherClient;
+import com.example.comfortzone.getWeatherCallback;
+import com.example.comfortzone.models.WeatherData;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class InputFragment extends Fragment {
 
@@ -19,6 +26,8 @@ public class InputFragment extends Fragment {
     private TextView tvCity;
     private TextView tvTime;
     private TextView tvCurrentTemp;
+    private WeatherClient client;
+    private WeatherData weatherData;
 
     public InputFragment() {
         // Required empty public constructor
@@ -34,7 +43,9 @@ public class InputFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        client = new WeatherClient();
         initViews(view);
+        getWeatherClass();
 
     }
 
@@ -43,5 +54,32 @@ public class InputFragment extends Fragment {
         tvCity = view.findViewById(R.id.tvCity);
         tvTime = view.findViewById(R.id.tvTime);
         tvCurrentTemp = view.findViewById(R.id.tvCurrentTemp);
+    }
+
+    private void populateViews() {
+        tvCity.setText(weatherData.getCity());
+        tvCurrentTemp.setText(String.valueOf(weatherData.getTempData().getTemp()));
+    }
+
+    private void getWeatherClass() {
+        LocationUtil.getLastLocation(getActivity(), new GetLocationCallback() {
+            @Override
+            public void location(String lat, String lon) {
+                client.getWeatherData(lat, lon, new getWeatherCallback() {
+                    @Override
+                    public void weatherData(String data) {
+                        Gson gson = new GsonBuilder().create();
+                        weatherData = gson.fromJson(data, WeatherData.class);
+                        getActivity().runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                populateViews();
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 }
