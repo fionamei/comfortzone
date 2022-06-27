@@ -5,13 +5,12 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
-
+    
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivBeginningBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="@dimen/miniMargin"
         android:adjustViewBounds="true"
         app:srcCompat="@drawable/clouds_background" />
 
@@ -19,13 +18,12 @@
         style="@style/Til"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="8dp"
-        app:boxBackgroundColor="@color/grey"
-        app:boxCornerRadiusBottomEnd="50dp"
-        app:boxCornerRadiusBottomStart="50dp"
-        app:boxCornerRadiusTopEnd="50dp"
-        app:boxCornerRadiusTopStart="50dp">
+        android:layout_marginHorizontal="@dimen/generalMargin"
+        android:layout_marginBottom="@dimen/miniMargin"
+        app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
+        app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
+        app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
+        app:boxCornerRadiusTopStart="@dimen/inputCornerRadius">
 
         <EditText
             android:id="@+id/etUsername"
@@ -43,22 +41,21 @@
         style="@style/Til"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:boxBackgroundColor="@color/grey"
-        app:boxCornerRadiusBottomEnd="50dp"
-        app:boxCornerRadiusBottomStart="50dp"
-        app:boxCornerRadiusTopEnd="50dp"
-        app:boxCornerRadiusTopStart="50dp">
+        android:layout_marginHorizontal="@dimen/generalMargin"
+        android:layout_marginBottom="@dimen/miniMargin"
+        app:boxCornerRadiusBottomEnd="@dimen/inputCornerRadius"
+        app:boxCornerRadiusBottomStart="@dimen/inputCornerRadius"
+        app:boxCornerRadiusTopEnd="@dimen/inputCornerRadius"
+        app:boxCornerRadiusTopStart="@dimen/inputCornerRadius">
 
         <EditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
             android:layout_weight="1"
             android:ems="10"
             android:hint="@string/password"
-            android:inputType="textPassword"
+            android:textColorHint="@color/black"
             tools:ignore="KeyboardInaccessibleWidget" />
 
     </com.google.android.material.textfield.TextInputLayout>

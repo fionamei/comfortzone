@@ -6,19 +6,19 @@
         android:id="@+id/action_flight"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_flight_24"
-        android:title="Flight"
+        android:title="@string/flight"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_input"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_add_circle_24"
-        android:title="Input"
+        android:title="@string/input"
         app:showAsAction="ifRoom"
         tools:showAsAction="always" />
     <item
         android:id="@+id/action_profile"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_person_24"
-        android:title="Profile"
+        android:title="@string/profile"
         app:showAsAction="ifRoom" />
 </menu>
