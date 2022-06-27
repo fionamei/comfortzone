@@ -36,7 +36,8 @@ public class LocationUtil {
 
 
     @SuppressLint("MissingPermission")
-    public static void getLastLocation(Activity activity, FusedLocationProviderClient fusedLocationClient) {
+    public static void getLastLocation(Activity activity) {
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
         if (checkPermissions(activity)) {
             if (isLocationEnabled(activity)) {
                 fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {

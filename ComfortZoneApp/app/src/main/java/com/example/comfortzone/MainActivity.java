@@ -1,7 +1,4 @@
 package com.example.comfortzone;
-
-import static com.example.comfortzone.Utils.LocationUtil.getLastLocation;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -15,8 +12,7 @@ import android.view.MenuItem;
 import com.example.comfortzone.Fragments.FlightFragment;
 import com.example.comfortzone.Fragments.InputFragment;
 import com.example.comfortzone.Fragments.ProfileFragment;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
+import com.example.comfortzone.Utils.LocationUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import android.view.Menu;
@@ -27,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private final FragmentManager fragmentManager = getSupportFragmentManager();
-    private FusedLocationProviderClient fusedLocationClient;
 
     public static final String TAG = "Main Activity";
     public static final int PERMISSION_ID = 44;
@@ -37,8 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        getLastLocation(this, fusedLocationClient);
+        LocationUtil.getLastLocation(this);
 
         initViews();
         listenerSetup();
@@ -110,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             case PERMISSION_ID: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getLastLocation(this, fusedLocationClient);
+                    LocationUtil.getLastLocation(this);
                     Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Permission denied. You cannot use the app.", Toast.LENGTH_SHORT).show();
