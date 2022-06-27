@@ -21,19 +21,17 @@ public class WeatherClient extends OkHttpClient {
     public static final String TAG = "WeatherClient";
 
 
-    public String getWeatherURL(String lat, String lon) {
+    private String getWeatherURL(String lat, String lon) {
 
         HttpUrl.Builder urlBuilder = HttpUrl.parse(API_BASE_URL).newBuilder();
         urlBuilder.addQueryParameter(KEY_LAT, lat);
         urlBuilder.addQueryParameter(KEY_LON, lon);
-        String url = urlBuilder.build().toString();
 
-        return url;
+        return urlBuilder.build().toString();
     }
 
-    public String getWeatherData(String lat, String lon) {
+    public void getWeatherData(String lat, String lon, getWeatherCallback weatherCallback) {
         String url = getWeatherURL(lat, lon);
-        final String[] data = new String[1];
         final Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -46,12 +44,11 @@ public class WeatherClient extends OkHttpClient {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 try {
-                    data[0] = response.body().string();
+                    String data = response.body().string();
+                    weatherCallback.weatherData(data);
                 } catch (IOException e) {
                     Log.e(TAG, "could not get body" + e);
                 }
             }
-        });
-        return data[0];
-    }
+        });}
 }
