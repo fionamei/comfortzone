@@ -16,7 +16,9 @@ import com.example.comfortzone.R;
 public class InputFragment extends Fragment {
 
     private TextView tvDate;
-    private TextView tvFeelsLike;
+    private TextView tvCity;
+    private TextView tvTime;
+    private TextView tvCurrentTemp;
 
     public InputFragment() {
         // Required empty public constructor
@@ -32,6 +34,14 @@ public class InputFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initViews(view);
 
+    }
+
+    private void initViews(View view) {
+        tvDate = view.findViewById(R.id.tvDate);
+        tvCity = view.findViewById(R.id.tvCity);
+        tvTime = view.findViewById(R.id.tvTime);
+        tvCurrentTemp = view.findViewById(R.id.tvCurrentTemp);
     }
 }

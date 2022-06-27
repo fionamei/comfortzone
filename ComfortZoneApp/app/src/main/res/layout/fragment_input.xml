@@ -57,17 +57,17 @@
                     android:src="@drawable/ic_baseline_location_on_24" />
 
                 <TextView
-                    android:id="@+id/tvLocation"
+                    android:id="@+id/tvCity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="@dimen/generalTextSize"
-                    tools:text="Menlo Park, CA" />
+                    tools:text="Menlo Park" />
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tvPerfectTemp"
+                android:id="@+id/tvCurrentTemp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/llLocation"
@@ -102,9 +102,9 @@
                 android:id="@+id/tvFahrenheit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tvPerfectTemp"
+                android:layout_alignTop="@+id/tvCurrentTemp"
                 android:layout_marginStart="@dimen/fahrenheitMargin"
-                android:layout_toEndOf="@+id/tvPerfectTemp"
+                android:layout_toEndOf="@+id/tvCurrentTemp"
                 android:text="@string/fahrenheit"
                 android:textColor="@color/black"
                 android:textSize="@dimen/generalTextSize"
