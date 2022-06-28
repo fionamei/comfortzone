@@ -19,7 +19,10 @@
     <dimen name="titleTextSize">35sp</dimen>
 
     <!--    height      -->
-    <dimen name="weatherCardHeight">250dp</dimen>
+    <dimen name="weatherCardHeight">280dp</dimen>
     <dimen name="profilePerfTempHeight">150dp</dimen>
+
+    <!--    stroke      -->
+    <dimen name="buttonStroke">1dp</dimen>
 
 </resources>

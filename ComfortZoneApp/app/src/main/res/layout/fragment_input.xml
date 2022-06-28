@@ -57,17 +57,17 @@
                     android:src="@drawable/ic_baseline_location_on_24" />
 
                 <TextView
-                    android:id="@+id/tvLocation"
+                    android:id="@+id/tvCity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="@dimen/generalTextSize"
-                    tools:text="Menlo Park, CA" />
+                    tools:text="Menlo Park" />
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tvPerfectTemp"
+                android:id="@+id/tvCurrentTemp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/llLocation"
@@ -102,9 +102,9 @@
                 android:id="@+id/tvFahrenheit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tvPerfectTemp"
+                android:layout_alignTop="@+id/tvCurrentTemp"
                 android:layout_marginStart="@dimen/fahrenheitMargin"
-                android:layout_toEndOf="@+id/tvPerfectTemp"
+                android:layout_toEndOf="@+id/tvCurrentTemp"
                 android:text="@string/fahrenheit"
                 android:textColor="@color/black"
                 android:textSize="@dimen/generalTextSize"
@@ -113,5 +113,53 @@
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tvHowComfyQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/generalMargin"
+        android:gravity="center"
+        android:text="@string/how_comfortable_do_you_feel"
+        android:textColor="@color/black"
+        android:textSize="@dimen/generalTextSize"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/tvComfyDescriptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/generalMargin"
+        android:gravity="center"
+        android:text="@string/levels"
+        android:textColor="@color/black"
+        android:textSize="@dimen/miniTextSize" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/slComfortLevel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/generalMargin"
+        android:stepSize="1.0"
+        android:valueFrom="0.0"
+        android:valueTo="10.0"
+        android:value="5"
+        app:trackColor="@color/fillColorBlue" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSubmit"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/generalMargin"
+        android:text="@string/submit"
+        android:textColor="@color/mainButtonBlue"
+        android:textSize="@dimen/miniTextSize"
+        app:backgroundTint="@android:color/transparent"
+        app:cornerRadius="@dimen/inputCornerRadius"
+        app:rippleColor="@color/fillColorBlue"
+        app:strokeColor="@color/mainButtonBlue"
+        app:strokeWidth="@dimen/buttonStroke" />
 
 </LinearLayout>
