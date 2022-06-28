@@ -16,12 +16,14 @@ import android.widget.TextView;
 import com.example.comfortzone.GetLocationCallback;
 import com.example.comfortzone.R;
 import com.example.comfortzone.Utils.LocationUtil;
+import com.example.comfortzone.Utils.ParseUtil;
 import com.example.comfortzone.WeatherClient;
 import com.example.comfortzone.getWeatherCallback;
 import com.example.comfortzone.models.WeatherData;
 import com.google.android.material.slider.Slider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.parse.ParseUser;
 
 public class InputFragment extends Fragment {
 
@@ -33,6 +35,8 @@ public class InputFragment extends Fragment {
     private WeatherData weatherData;
     private Button btnSubmit;
     private Slider slComfortLevel;
+    private ParseUser currentUser;
+    private int temp;
 
     public static final String TAG = "InputFragment";
     public static final int DEFAULT_VALUE = 5;
@@ -52,6 +56,8 @@ public class InputFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         client = new WeatherClient();
+        currentUser = ParseUser.getCurrentUser();
+
         initViews(view);
         getWeatherClass();
         listenerSetup();
@@ -68,7 +74,7 @@ public class InputFragment extends Fragment {
 
     private void populateViews() {
         tvCity.setText(weatherData.getCity());
-        tvCurrentTemp.setText(String.valueOf(weatherData.getTempData().getTemp()));
+        tvCurrentTemp.setText(String.valueOf(temp));
         tvDate.setText(weatherData.getDate());
         tvTime.setText(weatherData.getTime());
     }
@@ -84,6 +90,7 @@ public class InputFragment extends Fragment {
                         weatherData = gson.fromJson(data, WeatherData.class);
                         weatherData.setDate();
                         weatherData.setTime();
+                        temp = (int) weatherData.getTempData().getTemp();
                         getActivity().runOnUiThread(new Runnable() {
 
                             @Override
@@ -103,7 +110,12 @@ public class InputFragment extends Fragment {
             public void onClick(View v) {
                 int comfortLevel = (int) slComfortLevel.getValue();
                 slComfortLevel.setValue(DEFAULT_VALUE);
+                ParseUtil.updateEntriesList(currentUser, temp, comfortLevel);
             }
         });
     }
+
+
+
+
 }
