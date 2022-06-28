@@ -1,177 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="@dimen/generalMargin"
-        tools:context=".Fragments.InputFragment">
+    <androidx.core.widget.NestedScrollView
 
-        <TextView
-            android:id="@+id/tvTempIntro"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/titleMargin"
-            android:layout_marginBottom="@dimen/generalMargin"
-            android:text="@string/today_s_temperature"
-            android:textColor="@color/black"
-            android:textSize="@dimen/generalTextSize" />
+            android:orientation="vertical"
+            android:layout_margin="@dimen/generalMargin"
+            tools:context=".Fragments.InputFragment">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/weatherCardHeight"
-            app:cardCornerRadius="@dimen/cardRadius">
+            <TextView
+                android:id="@+id/tvTempIntro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/titleMargin"
+                android:layout_marginBottom="@dimen/generalMargin"
+                android:text="@string/today_s_temperature"
+                android:textColor="@color/black"
+                android:textSize="@dimen/generalTextSize" />
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@color/fillColorBlue"
-                android:orientation="vertical">
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/weatherCardHeight"
+                app:cardCornerRadius="@dimen/cardRadius">
 
-                <TextView
-                    android:id="@+id/tvDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/generalMargin"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/generalTextSize"
-                    tools:text="Tuesday, Jun 21" />
-
-                <LinearLayout
-                    android:id="@+id/llLocation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvTime"
-                    android:layout_marginTop="@dimen/generalMargin"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/ivMapIcon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_location_on_24" />
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/fillColorBlue"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tvCity"
+                        android:id="@+id/tvDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/generalMargin"
                         android:textColor="@color/black"
                         android:textSize="@dimen/generalTextSize"
-                        tools:text="Menlo Park" />
+                        tools:text="Tuesday, Jun 21" />
 
-                </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/llLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvTime"
+                        android:layout_marginTop="@dimen/generalMargin"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tvCurrentTemp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/llLocation"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/generalMargin"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/tempTextSize"
-                    android:textStyle="bold"
-                    tools:text="75" />
+                        <ImageView
+                            android:id="@+id/ivMapIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_baseline_location_on_24" />
 
-                <ImageView
-                    android:id="@+id/ivBackground"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/ic_cloud_bottom" />
+                        <TextView
+                            android:id="@+id/tvCity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/generalTextSize"
+                            tools:text="Menlo Park" />
 
-                <TextView
-                    android:id="@+id/tvTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvDate"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/miniMargin"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/miniTextSize"
-                    tools:text="5:34 PM" />
+                    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tvFahrenheit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/tvCurrentTemp"
-                    android:layout_marginStart="@dimen/fahrenheitMargin"
-                    android:layout_toEndOf="@+id/tvCurrentTemp"
-                    android:text="@string/fahrenheit"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/generalTextSize"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tvCurrentTemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/llLocation"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/generalMargin"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/tempTextSize"
+                        android:textStyle="bold"
+                        tools:text="75" />
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/ivBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_cloud_bottom" />
 
-        </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/tvTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvDate"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/miniMargin"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/miniTextSize"
+                        tools:text="5:34 PM" />
 
-        <TextView
-            android:id="@+id/tvHowComfyQuestion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/generalMargin"
-            android:gravity="center"
-            android:text="@string/how_comfortable_do_you_feel"
-            android:textColor="@color/black"
-            android:textSize="@dimen/generalTextSize"
-            android:textStyle="italic" />
+                    <TextView
+                        android:id="@+id/tvFahrenheit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/tvCurrentTemp"
+                        android:layout_marginStart="@dimen/fahrenheitMargin"
+                        android:layout_toEndOf="@+id/tvCurrentTemp"
+                        android:text="@string/fahrenheit"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/generalTextSize"
+                        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvComfyDescriptions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/generalMargin"
-            android:gravity="center"
-            android:text="@string/levels"
-            android:textColor="@color/black"
-            android:textSize="@dimen/miniTextSize" />
+                </RelativeLayout>
 
-        <com.google.android.material.slider.Slider
-            android:id="@+id/slComfortLevel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/generalMargin"
-            android:stepSize="1.0"
-            android:valueFrom="0.0"
-            android:valueTo="10.0"
-            android:value="5"
-            app:trackColor="@color/fillColorBlue" />
+            </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSubmit"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/generalMargin"
-            android:text="@string/submit"
-            android:textColor="@color/mainButtonBlue"
-            android:textSize="@dimen/miniTextSize"
-            app:backgroundTint="@android:color/transparent"
-            app:cornerRadius="@dimen/inputCornerRadius"
-            app:rippleColor="@color/fillColorBlue"
-            app:strokeColor="@color/mainButtonBlue"
-            app:strokeWidth="@dimen/buttonStroke" />
+            <TextView
+                android:id="@+id/tvHowComfyQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/generalMargin"
+                android:gravity="center"
+                android:text="@string/how_comfortable_do_you_feel"
+                android:textColor="@color/black"
+                android:textSize="@dimen/generalTextSize"
+                android:textStyle="italic" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvInputs"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/tvComfyDescriptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/generalMargin"
+                android:gravity="center"
+                android:text="@string/levels"
+                android:textColor="@color/black"
+                android:textSize="@dimen/miniTextSize" />
 
-    </LinearLayout>
+            <com.google.android.material.slider.Slider
+                android:id="@+id/slComfortLevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/generalMargin"
+                android:stepSize="1.0"
+                android:valueFrom="0.0"
+                android:valueTo="10.0"
+                android:value="5"
+                app:trackColor="@color/fillColorBlue" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSubmit"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/generalMargin"
+                android:text="@string/submit"
+                android:textColor="@color/mainButtonBlue"
+                android:textSize="@dimen/miniTextSize"
+                app:backgroundTint="@android:color/transparent"
+                app:cornerRadius="@dimen/inputCornerRadius"
+                app:rippleColor="@color/fillColorBlue"
+                app:strokeColor="@color/mainButtonBlue"
+                app:strokeWidth="@dimen/buttonStroke" />
 
-</ScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvInputs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="false"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

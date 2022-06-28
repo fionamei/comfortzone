@@ -1,18 +1,18 @@
 package com.example.comfortzone.Fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.GetLocationCallback;
 import com.example.comfortzone.InputsAdapter;
@@ -21,16 +21,18 @@ import com.example.comfortzone.Utils.LocationUtil;
 import com.example.comfortzone.Utils.ParseUtil;
 import com.example.comfortzone.WeatherClient;
 import com.example.comfortzone.getWeatherCallback;
-import com.example.comfortzone.models.ComfortLevelEntry;
-import com.example.comfortzone.models.LevelsTracker;
+import com.example.comfortzone.models.TodayEntry;
 import com.example.comfortzone.models.WeatherData;
 import com.google.android.material.slider.Slider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 public class InputFragment extends Fragment {
 
@@ -44,9 +46,13 @@ public class InputFragment extends Fragment {
     private Slider slComfortLevel;
     private ParseUser currentUser;
     private int temp;
+    private RecyclerView rvInputs;
+    private InputsAdapter adapter;
+    private List<TodayEntry> entries;
 
     public static final String TAG = "InputFragment";
     public static final int DEFAULT_VALUE = 5;
+    public static final String KEY_TODAY_ENTRIES = "todayEntries";
 
     public InputFragment() {
         // Required empty public constructor
@@ -62,21 +68,29 @@ public class InputFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        client = new WeatherClient();
-        currentUser = ParseUser.getCurrentUser();
 
         initViews(view);
         getWeatherClass();
+        queryInputs();
         listenerSetup();
     }
 
     private void initViews(View view) {
+        client = new WeatherClient();
+        currentUser = ParseUser.getCurrentUser();
+        entries = new ArrayList<>();
+        adapter = new InputsAdapter(getContext(), entries);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+
         tvDate = view.findViewById(R.id.tvDate);
         tvCity = view.findViewById(R.id.tvCity);
         tvTime = view.findViewById(R.id.tvTime);
         tvCurrentTemp = view.findViewById(R.id.tvCurrentTemp);
         btnSubmit = view.findViewById(R.id.btnSubmit);
         slComfortLevel = view.findViewById(R.id.slComfortLevel);
+        rvInputs = view.findViewById(R.id.rvInputs);
+        rvInputs.setAdapter(adapter);
+        rvInputs.setLayoutManager(linearLayoutManager);
     }
 
     private void populateViews() {
@@ -118,6 +132,22 @@ public class InputFragment extends Fragment {
                 int comfortLevel = (int) slComfortLevel.getValue();
                 slComfortLevel.setValue(DEFAULT_VALUE);
                 ParseUtil.updateEntriesList(currentUser, temp, comfortLevel);
+            }
+        });
+    }
+
+    private void queryInputs() {
+        ParseQuery<TodayEntry> query = ParseQuery.getQuery(TodayEntry.class);
+        query.include(TodayEntry.KEY_USER);
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<TodayEntry>() {
+            @Override
+            public void done(List<TodayEntry> objects, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "error adding inputs" + e);
+                }
+                entries.addAll(objects);
+                adapter.notifyDataSetChanged();
             }
         });
     }

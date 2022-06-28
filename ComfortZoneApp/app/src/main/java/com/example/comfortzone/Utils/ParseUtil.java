@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
+import com.example.comfortzone.models.TodayEntry;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -20,7 +21,7 @@ public class ParseUtil {
     public static final String KEY_TODAY_ENTRIES = "todayEntries";
 
     public static void updateEntriesList(ParseUser currentUser, int temp, int comfortLevel) {
-
+        createTodayEntry(currentUser, temp, comfortLevel);
         ParseQuery<LevelsTracker> query = ParseQuery.getQuery("LevelsTracker");
         query.whereEqualTo("user", currentUser);
         query.whereEqualTo("level", comfortLevel);
@@ -35,14 +36,13 @@ public class ParseUtil {
                     tracker.addEntry(newEntry);
                     tracker.increaseCount();
                     tracker.saveInBackground();
-                    updateTodayEntries(currentUser, newEntry);
                 }
             }
         });
     }
 
-    public static void updateTodayEntries (ParseUser currentUser, ComfortLevelEntry newEntry) {
-        currentUser.add(KEY_TODAY_ENTRIES, newEntry);
-        currentUser.saveInBackground();
+    public static void createTodayEntry (ParseUser currentUser, int temp, int comfortLevel) {
+        TodayEntry newEntry = new TodayEntry(currentUser, temp, comfortLevel);
+        newEntry.saveInBackground();
     }
 }

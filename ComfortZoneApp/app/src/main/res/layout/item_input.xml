@@ -10,11 +10,11 @@
         android:id="@+id/tvComfortLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="@dimen/miniMargin"
         android:textColor="@color/black"
         android:textSize="@dimen/titleTextSize"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvDescriptionComfy"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="3" />
 
@@ -22,10 +22,10 @@
         android:id="@+id/tvTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="240dp"
+        android:layout_marginStart="@dimen/miniMargin"
         android:textColor="@color/black"
         android:textSize="@dimen/titleTextSize"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvDescriptionTemp"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="40" />
 
@@ -33,13 +33,14 @@
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="312dp"
         android:layout_weight="1"
         android:textSize="@dimen/miniTextSize"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTemp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.407"
         tools:text="5:50 PM" />
 
     <TextView
@@ -56,10 +57,10 @@
         android:id="@+id/tvDescriptionTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
+        android:layout_marginStart="@dimen/generalMargin"
         android:text="Temperature:"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvComfortLevel"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

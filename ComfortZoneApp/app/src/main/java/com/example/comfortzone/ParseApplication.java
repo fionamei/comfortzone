@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
+import com.example.comfortzone.models.TodayEntry;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -28,6 +29,7 @@ public class ParseApplication extends Application {
 
         ParseObject.registerSubclass(LevelsTracker.class);
         ParseObject.registerSubclass(ComfortLevelEntry.class);
+        ParseObject.registerSubclass(TodayEntry.class);
 
         // set applicationId, and server server based on the values in the back4app settings.
         // any network interceptors must be added with the Configuration Builder given this syntax

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.models.ComfortLevelEntry;
+import com.example.comfortzone.models.TodayEntry;
 
 import java.text.DateFormat;
 import java.util.List;
@@ -17,9 +18,9 @@ import java.util.List;
 public class InputsAdapter extends RecyclerView.Adapter<InputsAdapter.ViewHolder> {
 
     private Context context;
-    private List<ComfortLevelEntry> entries;
+    private List<TodayEntry> entries;
 
-    public InputsAdapter(Context context, List<ComfortLevelEntry> entries) {
+    public InputsAdapter(Context context, List<TodayEntry> entries) {
         this.context = context;
         this.entries = entries;
     }
@@ -33,13 +34,18 @@ public class InputsAdapter extends RecyclerView.Adapter<InputsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull InputsAdapter.ViewHolder holder, int position) {
-        ComfortLevelEntry entry = entries.get(position);
+        TodayEntry entry = entries.get(position);
         holder.bind(entry);
     }
 
     @Override
     public int getItemCount() {
         return entries.size();
+    }
+
+    public void addAll(List<TodayEntry> inputList) {
+        entries.addAll(inputList);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -59,9 +65,9 @@ public class InputsAdapter extends RecyclerView.Adapter<InputsAdapter.ViewHolder
             tvTime = itemView.findViewById(R.id.tvTime);
         }
 
-        public void bind(ComfortLevelEntry entry) {
-            tvTemp.setText(entry.getTemp());
-            tvComfortLevel.setText(entry.getComfortLevel());
+        public void bind(TodayEntry entry) {
+            tvTemp.setText(String.valueOf(entry.getTemp()));
+            tvComfortLevel.setText(String.valueOf(entry.getComfortLevel()));
             String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(entry.getCreatedAt());
             tvTime.setText(time);
         }
