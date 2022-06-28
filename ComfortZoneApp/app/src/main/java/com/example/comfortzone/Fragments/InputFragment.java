@@ -189,10 +189,10 @@ public class InputFragment extends Fragment {
                 LevelsTracker tracker = null;
                 try {
                     tracker = comfortEntry.getLevelTracker();
+                    tracker.removeEntry(comfortEntry);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                tracker.removeEntry(comfortEntry);
                 comfortEntry.deleteEntry();
                 todayEntry.deleteEntry();
             }

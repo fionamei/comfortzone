@@ -33,7 +33,11 @@ public static void updateEntriesList(ParseUser currentUser, int temp, int comfor
                 } else {
                     LevelsTracker tracker = objects.get(0);
                     tracker.addEntry(newEntry);
-                    tracker.increaseCount();
+                    try {
+                        tracker.increaseCount();
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
                     tracker.saveInBackground();
                     newEntry.setLevelTracker(tracker);
                     newEntry.saveInBackground();

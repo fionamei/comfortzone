@@ -96,13 +96,13 @@ public class InitialComfortActivity extends AppCompatActivity {
 
     }
 
-    public void createLevels() {
+    public void createLevels() throws ParseException {
         for (int i = 0; i < TOTAL_LEVELS; i ++) {
             createLevel(i);
         }
     }
 
-    public void createLevel(int level) {
+    public void createLevel(int level) throws ParseException {
         LevelsTracker tracker = new LevelsTracker();
         tracker.setLevel(level);
         tracker.setUser(user);
