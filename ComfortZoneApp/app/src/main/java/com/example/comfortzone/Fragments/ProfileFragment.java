@@ -12,10 +12,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.Utils.ComfortCalcUtil;
+import com.parse.ParseUser;
 
 public class ProfileFragment extends Fragment {
 
-    private TextView tvTempRange;
+    private TextView tvPerfectTemp;
+    private ParseUser currentUser;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -34,6 +37,16 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tvTempRange = view.findViewById(R.id.tvPerfectTemp);
+        initViews(view);
+        populateViews();
+    }
+
+    private void initViews(@NonNull View view) {
+        currentUser = ParseUser.getCurrentUser();
+        tvPerfectTemp = view.findViewById(R.id.tvPerfectTemp);
+    }
+
+    private void populateViews() {
+        tvPerfectTemp.setText(String.valueOf(currentUser.get(ComfortCalcUtil.KEY_PERFECT_COMFORT)));
     }
 }
