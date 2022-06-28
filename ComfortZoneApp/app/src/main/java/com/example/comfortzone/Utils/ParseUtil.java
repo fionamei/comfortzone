@@ -8,12 +8,16 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import org.json.JSONArray;
 
 import java.util.List;
 
 public class ParseUtil {
 
     public static final String TAG = "ParseUtil";
+    public static final String KEY_TODAY_ENTRIES = "todayEntries";
 
     public static void updateEntriesList(ParseUser currentUser, int temp, int comfortLevel) {
 
@@ -31,8 +35,14 @@ public class ParseUtil {
                     tracker.addEntry(newEntry);
                     tracker.increaseCount();
                     tracker.saveInBackground();
+                    updateTodayEntries(currentUser, newEntry);
                 }
             }
         });
+    }
+
+    public static void updateTodayEntries (ParseUser currentUser, ComfortLevelEntry newEntry) {
+        currentUser.add(KEY_TODAY_ENTRIES, newEntry);
+        currentUser.saveInBackground();
     }
 }
