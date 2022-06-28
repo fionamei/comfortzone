@@ -41,7 +41,7 @@ public class ParseUtil {
         });
     }
 
-    public static void updateTodayEntries (ParseUser currentUser, ComfortLevelEntry newEntry) {
+    private static void updateTodayEntries (ParseUser currentUser, ComfortLevelEntry newEntry) {
         currentUser.add(KEY_TODAY_ENTRIES, newEntry);
         currentUser.saveInBackground();
     }
