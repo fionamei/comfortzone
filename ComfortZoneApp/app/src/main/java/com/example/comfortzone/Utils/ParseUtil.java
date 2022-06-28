@@ -2,6 +2,7 @@ package com.example.comfortzone.Utils;
 
 import android.util.Log;
 
+import com.example.comfortzone.TodayEntryCallback;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.TodayEntry;
@@ -18,13 +19,12 @@ import java.util.List;
 public class ParseUtil {
 
     public static final String TAG = "ParseUtil";
-    public static final String KEY_TODAY_ENTRIES = "todayEntries";
 
     public static void updateEntriesList(ParseUser currentUser, int temp, int comfortLevel) {
-        createTodayEntry(currentUser, temp, comfortLevel);
+
         ParseQuery<LevelsTracker> query = ParseQuery.getQuery("LevelsTracker");
-        query.whereEqualTo("user", currentUser);
-        query.whereEqualTo("level", comfortLevel);
+        query.whereEqualTo(LevelsTracker.KEY_USER, currentUser);
+        query.whereEqualTo(LevelsTracker.KEY_LEVEL, comfortLevel);
         query.findInBackground(new FindCallback<LevelsTracker>() {
             @Override
             public void done(List<LevelsTracker> objects, ParseException e) {
@@ -41,8 +41,13 @@ public class ParseUtil {
         });
     }
 
-    public static void createTodayEntry (ParseUser currentUser, int temp, int comfortLevel) {
+    public static void createTodayEntry (ParseUser currentUser, int temp, int comfortLevel, TodayEntryCallback callback) {
         TodayEntry newEntry = new TodayEntry(currentUser, temp, comfortLevel);
-        newEntry.saveInBackground();
+        newEntry.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                callback.todayEntry(newEntry);
+            }
+        });
     }
 }

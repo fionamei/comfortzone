@@ -17,10 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.comfortzone.GetLocationCallback;
 import com.example.comfortzone.InputsAdapter;
 import com.example.comfortzone.R;
+import com.example.comfortzone.TodayEntryCallback;
 import com.example.comfortzone.Utils.LocationUtil;
 import com.example.comfortzone.Utils.ParseUtil;
 import com.example.comfortzone.WeatherClient;
 import com.example.comfortzone.getWeatherCallback;
+import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.TodayEntry;
 import com.example.comfortzone.models.WeatherData;
 import com.google.android.material.slider.Slider;
@@ -30,6 +32,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +56,7 @@ public class InputFragment extends Fragment {
 
     public static final String TAG = "InputFragment";
     public static final int DEFAULT_VALUE = 5;
-    public static final String KEY_TODAY_ENTRIES = "todayEntries";
+    public static final int INSERT_INDEX = 0;
 
     public InputFragment() {
         // Required empty public constructor
@@ -132,6 +136,13 @@ public class InputFragment extends Fragment {
                 int comfortLevel = (int) slComfortLevel.getValue();
                 slComfortLevel.setValue(DEFAULT_VALUE);
                 ParseUtil.updateEntriesList(currentUser, temp, comfortLevel);
+                ParseUtil.createTodayEntry(currentUser, temp, comfortLevel, new TodayEntryCallback() {
+                    @Override
+                    public void todayEntry(TodayEntry entry) {
+                        entries.add(INSERT_INDEX, entry);
+                        adapter.notifyItemInserted(INSERT_INDEX);
+                    }
+                });
             }
         });
     }
@@ -146,7 +157,7 @@ public class InputFragment extends Fragment {
                 if (e != null) {
                     Log.e(TAG, "error adding inputs" + e);
                 }
-                entries.addAll(objects);
+                adapter.addAll(objects);
                 adapter.notifyDataSetChanged();
             }
         });

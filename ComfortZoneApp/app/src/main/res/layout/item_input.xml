@@ -13,10 +13,9 @@
         android:layout_marginStart="@dimen/miniMargin"
         android:textColor="@color/black"
         android:textSize="@dimen/titleTextSize"
-        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/tvDescriptionComfy"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="3" />
+        tools:text="10" />
 
     <TextView
         android:id="@+id/tvTemp"
@@ -27,18 +26,19 @@
         android:textSize="@dimen/titleTextSize"
         app:layout_constraintStart_toEndOf="@+id/tvDescriptionTemp"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="40" />
+        tools:text="180" />
 
     <TextView
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/titleMargin"
         android:layout_weight="1"
         android:textSize="@dimen/miniTextSize"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvTemp"
+        app:layout_constraintStart_toEndOf="@+id/tvDescriptionTemp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.407"
         tools:text="5:50 PM" />
@@ -47,7 +47,8 @@
         android:id="@+id/tvDescriptionComfy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Comfort level:"
+        android:layout_marginStart="@dimen/miniMargin"
+        android:text="Comfort:"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,10 +58,10 @@
         android:id="@+id/tvDescriptionTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/generalMargin"
+        android:layout_marginStart="@dimen/largeMargin"
         android:text="Temperature:"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvComfortLevel"
+        app:layout_constraintStart_toEndOf="@+id/tvDescriptionComfy"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
