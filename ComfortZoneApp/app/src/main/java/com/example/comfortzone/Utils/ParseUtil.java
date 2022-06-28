@@ -20,7 +20,7 @@ public class ParseUtil {
 
     public static final String TAG = "ParseUtil";
 
-    public static void updateEntriesList(ParseUser currentUser, int temp, int comfortLevel) {
+public static void updateEntriesList(ParseUser currentUser, int temp, int comfortLevel, ComfortLevelEntry newEntry) {
 
         ParseQuery<LevelsTracker> query = ParseQuery.getQuery("LevelsTracker");
         query.whereEqualTo(LevelsTracker.KEY_USER, currentUser);
@@ -32,7 +32,6 @@ public class ParseUtil {
                     Log.e(TAG, "error finding tracker " + e);
                 } else {
                     LevelsTracker tracker = objects.get(0);
-                    ComfortLevelEntry newEntry = new ComfortLevelEntry(currentUser, temp, comfortLevel);
                     tracker.addEntry(newEntry);
                     tracker.increaseCount();
                     tracker.saveInBackground();
@@ -41,8 +40,8 @@ public class ParseUtil {
         });
     }
 
-    public static void createTodayEntry (ParseUser currentUser, int temp, int comfortLevel, TodayEntryCallback callback) {
-        TodayEntry newEntry = new TodayEntry(currentUser, temp, comfortLevel);
+    public static void createTodayEntry (ParseUser currentUser, int temp, int comfortLevel, ComfortLevelEntry entry, TodayEntryCallback callback) {
+        TodayEntry newEntry = new TodayEntry(currentUser, temp, comfortLevel, entry);
         newEntry.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -50,4 +49,5 @@ public class ParseUtil {
             }
         });
     }
+
 }

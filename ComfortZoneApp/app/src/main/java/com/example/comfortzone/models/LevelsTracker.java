@@ -9,6 +9,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @ParseClassName("LevelsTracker")
@@ -48,5 +50,11 @@ public class LevelsTracker extends ParseObject {
 
     public void addEntry(ComfortLevelEntry entry) {
         add(KEY_ENTRIESLIST, entry);
+    }
+
+    public void removeEntry(ComfortLevelEntry entry) {
+        ArrayList<ComfortLevelEntry> toRemove = new ArrayList<>();
+        toRemove.add(entry);
+        removeAll(KEY_ENTRIESLIST, toRemove);
     }
 }

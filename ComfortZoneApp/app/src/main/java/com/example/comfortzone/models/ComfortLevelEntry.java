@@ -1,7 +1,11 @@
 package com.example.comfortzone.models;
 
+import android.util.Log;
+
+import com.parse.DeleteCallback;
 import com.parse.Parse;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -38,6 +42,10 @@ public class ComfortLevelEntry extends ParseObject {
 
     public int getComfortLevel() {
         return getInt(KEY_COMFORTLEVEL);
+    }
+
+    public void deleteEntry() {
+        deleteInBackground();
     }
 
 }

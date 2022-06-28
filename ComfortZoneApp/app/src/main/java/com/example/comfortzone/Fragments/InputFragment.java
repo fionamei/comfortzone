@@ -33,6 +33,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.tsuryo.swipeablerv.SwipeLeftRightCallback;
 import com.tsuryo.swipeablerv.SwipeableRecyclerView;
 
@@ -159,12 +160,18 @@ public class InputFragment extends Fragment {
             public void onClick(View v) {
                 int comfortLevel = (int) slComfortLevel.getValue();
                 slComfortLevel.setValue(DEFAULT_VALUE);
-                ParseUtil.updateEntriesList(currentUser, temp, comfortLevel);
-                ParseUtil.createTodayEntry(currentUser, temp, comfortLevel, new TodayEntryCallback() {
+                ComfortLevelEntry newEntry = new ComfortLevelEntry(currentUser, temp, comfortLevel);
+                newEntry.saveInBackground(new SaveCallback() {
                     @Override
-                    public void todayEntry(TodayEntry entry) {
-                        entries.add(INSERT_INDEX, entry);
-                        adapter.notifyItemInserted(INSERT_INDEX);
+                    public void done(ParseException e) {
+                        ParseUtil.updateEntriesList(currentUser, temp, comfortLevel, newEntry);
+                        ParseUtil.createTodayEntry(currentUser, temp, comfortLevel, newEntry, new TodayEntryCallback() {
+                            @Override
+                            public void todayEntry(TodayEntry entry) {
+                                entries.add(INSERT_INDEX, entry);
+                                adapter.notifyItemInserted(INSERT_INDEX);
+                            }
+                        });
                     }
                 });
             }
@@ -175,7 +182,11 @@ public class InputFragment extends Fragment {
         rvInputs.setListener(new SwipeLeftRightCallback.Listener() {
             @Override
             public void onSwipedLeft(int position) {
+                TodayEntry todayEntry = entries.get(position);
                 adapter.remove(position);
+                ComfortLevelEntry comfortEntry = todayEntry.getComfortLevelEntry();
+                comfortEntry.deleteEntry();
+                todayEntry.deleteEntry();
             }
 
             @Override
