@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +33,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.tsuryo.swipeablerv.SwipeLeftRightCallback;
+import com.tsuryo.swipeablerv.SwipeableRecyclerView;
 
 import org.json.JSONArray;
 
@@ -50,7 +53,7 @@ public class InputFragment extends Fragment {
     private Slider slComfortLevel;
     private ParseUser currentUser;
     private int temp;
-    private RecyclerView rvInputs;
+    private SwipeableRecyclerView rvInputs;
     private InputsAdapter adapter;
     private List<TodayEntry> entries;
 
@@ -129,7 +132,28 @@ public class InputFragment extends Fragment {
         });
     }
 
+    private void queryInputs() {
+        ParseQuery<TodayEntry> query = ParseQuery.getQuery(TodayEntry.class);
+        query.include(TodayEntry.KEY_USER);
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(new FindCallback<TodayEntry>() {
+            @Override
+            public void done(List<TodayEntry> objects, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "error adding inputs" + e);
+                }
+                adapter.addAll(objects);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
     private void listenerSetup() {
+        submitListener();
+        swipeListener();
+    }
+
+    private void submitListener() {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,21 +171,23 @@ public class InputFragment extends Fragment {
         });
     }
 
-    private void queryInputs() {
-        ParseQuery<TodayEntry> query = ParseQuery.getQuery(TodayEntry.class);
-        query.include(TodayEntry.KEY_USER);
-        query.addDescendingOrder("createdAt");
-        query.findInBackground(new FindCallback<TodayEntry>() {
+    private void swipeListener() {
+        rvInputs.setListener(new SwipeLeftRightCallback.Listener() {
             @Override
-            public void done(List<TodayEntry> objects, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "error adding inputs" + e);
-                }
-                adapter.addAll(objects);
-                adapter.notifyDataSetChanged();
+            public void onSwipedLeft(int position) {
+                adapter.remove(position);
             }
+
+            @Override
+            public void onSwipedRight(int position) {
+            }
+
         });
+
+
     }
+
+
 
 
 

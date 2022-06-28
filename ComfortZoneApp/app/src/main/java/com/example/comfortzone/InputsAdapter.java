@@ -49,6 +49,11 @@ public class InputsAdapter extends RecyclerView.Adapter<InputsAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    public void remove(int position) {
+        entries.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvTemp;

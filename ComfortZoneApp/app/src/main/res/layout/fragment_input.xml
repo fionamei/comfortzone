@@ -172,10 +172,13 @@
                 app:strokeColor="@color/mainButtonBlue"
                 app:strokeWidth="@dimen/buttonStroke" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.tsuryo.swipeablerv.SwipeableRecyclerView
                 android:id="@+id/rvInputs"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                app:rightBgColor="@color/fillColorBlue"
+                app:rightText="@string/delete"
+                app:textColor="@color/mainButtonBlue"
                 android:nestedScrollingEnabled="false"/>
 
         </LinearLayout>
