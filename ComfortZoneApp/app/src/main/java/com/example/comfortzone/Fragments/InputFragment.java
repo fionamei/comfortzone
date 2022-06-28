@@ -24,6 +24,7 @@ import com.example.comfortzone.Utils.ParseUtil;
 import com.example.comfortzone.WeatherClient;
 import com.example.comfortzone.getWeatherCallback;
 import com.example.comfortzone.models.ComfortLevelEntry;
+import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.TodayEntry;
 import com.example.comfortzone.models.WeatherData;
 import com.google.android.material.slider.Slider;
@@ -185,6 +186,13 @@ public class InputFragment extends Fragment {
                 TodayEntry todayEntry = entries.get(position);
                 adapter.remove(position);
                 ComfortLevelEntry comfortEntry = todayEntry.getComfortLevelEntry();
+                LevelsTracker tracker = null;
+                try {
+                    tracker = comfortEntry.getLevelTracker();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                tracker.removeEntry(comfortEntry);
                 comfortEntry.deleteEntry();
                 todayEntry.deleteEntry();
             }

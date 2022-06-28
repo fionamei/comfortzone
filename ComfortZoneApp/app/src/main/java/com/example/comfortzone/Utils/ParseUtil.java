@@ -35,6 +35,8 @@ public static void updateEntriesList(ParseUser currentUser, int temp, int comfor
                     tracker.addEntry(newEntry);
                     tracker.increaseCount();
                     tracker.saveInBackground();
+                    newEntry.setLevelTracker(tracker);
+                    newEntry.saveInBackground();
                 }
             }
         });
