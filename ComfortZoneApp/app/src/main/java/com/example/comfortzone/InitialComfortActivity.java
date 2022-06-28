@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.comfortzone.Utils.ComfortCalcUtil;
+import com.example.comfortzone.Utils.ParseUtil;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -63,16 +65,25 @@ public class InitialComfortActivity extends AppCompatActivity {
                 int tempFive = Integer.parseInt(etFive.getText().toString());
                 int tempTen = Integer.parseInt(etTen.getText().toString());
                 save(tempZero, tempFive, tempTen);
-
-                goHostActivity();
+                initialComfort(user, tempZero, tempFive, tempTen);
 
             }
         });
     }
 
+    private void initialComfort(ParseUser user, int tempZero, int tempFive, int tempTen) {
+        int comfort = ComfortCalcUtil.initialComfortCalculator(tempZero, tempFive, tempTen);
+        user.put(ComfortCalcUtil.KEY_PERFECT_COMFORT, comfort);
+        Log.i(TAG, "comfort level is" + comfort);
+        user.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                goHostActivity();
+            }
+        });
+    }
+
     private void save(int tempZero, int tempFive, int tempTen) {
-
-
         entryZero = new ComfortLevelEntry(user, tempZero, COLD_COMFORT_LEVEL);
         entryFive = new ComfortLevelEntry(user, tempFive, PERFECT_COMFORT_LEVEL);
         entryTen = new ComfortLevelEntry(user, tempTen, HOT_COMFORT_LEVEL);
@@ -93,7 +104,6 @@ public class InitialComfortActivity extends AppCompatActivity {
                         }
                     }
                 });
-
     }
 
     public void createLevels() {
