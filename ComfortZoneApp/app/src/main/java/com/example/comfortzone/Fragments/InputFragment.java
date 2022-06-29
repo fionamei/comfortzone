@@ -46,7 +46,6 @@ public class InputFragment extends Fragment {
     private Button btnSubmit;
     private Slider slComfortLevel;
     private ParseUser currentUser;
-    private int temp;
     private SwipeableRecyclerView rvInputs;
     private InputsAdapter adapter;
     private List<ComfortLevelEntry> entries;
@@ -95,7 +94,7 @@ public class InputFragment extends Fragment {
 
     private void populateViews() {
         tvCity.setText(weatherData.getCity());
-        tvCurrentTemp.setText(String.valueOf(temp));
+        tvCurrentTemp.setText(String.valueOf((int) weatherData.getTempData().getTemp()));
         tvDate.setText(weatherData.getDate());
         tvTime.setText(weatherData.getTime());
     }
@@ -111,7 +110,6 @@ public class InputFragment extends Fragment {
                         weatherData = gson.fromJson(data, WeatherData.class);
                         weatherData.setDate();
                         weatherData.setTime();
-                        temp = (int) weatherData.getTempData().getTemp();
                         getActivity().runOnUiThread(new Runnable() {
 
                             @Override
@@ -141,6 +139,7 @@ public class InputFragment extends Fragment {
             public void onClick(View v) {
                 int comfortLevel = (int) slComfortLevel.getValue();
                 slComfortLevel.setValue(DEFAULT_VALUE);
+                int temp = (int) weatherData.getTempData().getTemp();
                 ComfortLevelEntry newEntry = new ComfortLevelEntry(currentUser, temp, comfortLevel);
                 newEntry.saveInBackground(new SaveCallback() {
                     @Override
