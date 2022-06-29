@@ -69,6 +69,10 @@ public class InputFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        client = new WeatherClient();
+        currentUser = ParseUser.getCurrentUser();
+        entries = new ArrayList<>();
+        adapter = new InputsAdapter(getContext(), entries);
 
         initViews(view);
         getWeatherClass();
@@ -77,11 +81,6 @@ public class InputFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        client = new WeatherClient();
-        currentUser = ParseUser.getCurrentUser();
-        entries = new ArrayList<>();
-        adapter = new InputsAdapter(getContext(), entries);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
         tvDate = view.findViewById(R.id.tvDate);
         tvCity = view.findViewById(R.id.tvCity);
@@ -91,7 +90,7 @@ public class InputFragment extends Fragment {
         slComfortLevel = view.findViewById(R.id.slComfortLevel);
         rvInputs = view.findViewById(R.id.rvInputs);
         rvInputs.setAdapter(adapter);
-        rvInputs.setLayoutManager(linearLayoutManager);
+        rvInputs.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void populateViews() {
@@ -129,7 +128,6 @@ public class InputFragment extends Fragment {
     private void queryInputs() {
         ArrayList<ComfortLevelEntry> comfortLevelEntryArrayList = (ArrayList<ComfortLevelEntry>) currentUser.get(ParseUtil.KEY_TODAY_ENTRIES);
         adapter.addAll(comfortLevelEntryArrayList);
-        adapter.notifyDataSetChanged();
     }
 
     private void listenerSetup() {

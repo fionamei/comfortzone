@@ -1,17 +1,11 @@
 package com.example.comfortzone.models;
 
-import android.util.Log;
-
-import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 @ParseClassName("LevelsTracker")
 public class LevelsTracker extends ParseObject {
