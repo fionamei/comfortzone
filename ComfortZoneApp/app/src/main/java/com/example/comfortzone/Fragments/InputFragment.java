@@ -1,44 +1,35 @@
 package com.example.comfortzone.Fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.GetLocationCallback;
 import com.example.comfortzone.InputsAdapter;
 import com.example.comfortzone.R;
-import com.example.comfortzone.TodayEntryCallback;
 import com.example.comfortzone.Utils.LocationUtil;
 import com.example.comfortzone.Utils.ParseUtil;
 import com.example.comfortzone.WeatherClient;
 import com.example.comfortzone.getWeatherCallback;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
-import com.example.comfortzone.models.TodayEntry;
 import com.example.comfortzone.models.WeatherData;
 import com.google.android.material.slider.Slider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.tsuryo.swipeablerv.SwipeLeftRightCallback;
 import com.tsuryo.swipeablerv.SwipeableRecyclerView;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +48,7 @@ public class InputFragment extends Fragment {
     private int temp;
     private SwipeableRecyclerView rvInputs;
     private InputsAdapter adapter;
-    private List<TodayEntry> entries;
+    private List<ComfortLevelEntry> entries;
 
     public static final String TAG = "InputFragment";
     public static final int DEFAULT_VALUE = 5;
@@ -135,19 +126,9 @@ public class InputFragment extends Fragment {
     }
 
     private void queryInputs() {
-        ParseQuery<TodayEntry> query = ParseQuery.getQuery(TodayEntry.class);
-        query.include(TodayEntry.KEY_USER);
-        query.addDescendingOrder("createdAt");
-        query.findInBackground(new FindCallback<TodayEntry>() {
-            @Override
-            public void done(List<TodayEntry> objects, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "error adding inputs" + e);
-                }
-                adapter.addAll(objects);
-                adapter.notifyDataSetChanged();
-            }
-        });
+        ArrayList<ComfortLevelEntry> comfortLevelEntryArrayList = (ArrayList<ComfortLevelEntry>) currentUser.get(ParseUtil.KEY_TODAY_ENTRIES);
+        adapter.addAll(comfortLevelEntryArrayList);
+        adapter.notifyDataSetChanged();
     }
 
     private void listenerSetup() {
@@ -165,14 +146,13 @@ public class InputFragment extends Fragment {
                 newEntry.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        ParseUtil.updateEntriesList(currentUser, temp, comfortLevel, newEntry);
-                        ParseUtil.createTodayEntry(currentUser, temp, comfortLevel, newEntry, new TodayEntryCallback() {
-                            @Override
-                            public void todayEntry(TodayEntry entry) {
-                                entries.add(INSERT_INDEX, entry);
-                                adapter.notifyItemInserted(INSERT_INDEX);
-                            }
-                        });
+                        try {
+                            ParseUtil.updateEntriesList(currentUser, newEntry);
+                            entries.add(INSERT_INDEX, newEntry);
+                            adapter.notifyItemInserted(INSERT_INDEX);
+                        } catch (ParseException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 });
             }
@@ -183,9 +163,9 @@ public class InputFragment extends Fragment {
         rvInputs.setListener(new SwipeLeftRightCallback.Listener() {
             @Override
             public void onSwipedLeft(int position) {
-                TodayEntry todayEntry = entries.get(position);
+                ComfortLevelEntry comfortEntry = entries.get(position);
                 adapter.remove(position);
-                ComfortLevelEntry comfortEntry = todayEntry.getComfortLevelEntry();
+
                 LevelsTracker tracker = null;
                 try {
                     tracker = comfortEntry.getLevelTracker();
@@ -193,8 +173,9 @@ public class InputFragment extends Fragment {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                comfortEntry.deleteEntryFromTodayList(currentUser);
                 comfortEntry.deleteEntry();
-                todayEntry.deleteEntry();
+
             }
 
             @Override

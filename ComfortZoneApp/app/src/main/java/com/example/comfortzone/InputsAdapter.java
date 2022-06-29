@@ -1,7 +1,6 @@
 package com.example.comfortzone;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.models.ComfortLevelEntry;
-import com.example.comfortzone.models.TodayEntry;
+import com.parse.ParseException;
 
 import java.text.DateFormat;
+import java.util.Collections;
 import java.util.List;
 
 public class InputsAdapter extends RecyclerView.Adapter<InputsAdapter.ViewHolder> {
 
     private Context context;
-    private List<TodayEntry> entries;
+    private List<ComfortLevelEntry> entries;
 
-    public InputsAdapter(Context context, List<TodayEntry> entries) {
+    public InputsAdapter(Context context, List<ComfortLevelEntry> entries) {
         this.context = context;
         this.entries = entries;
     }
@@ -35,8 +35,12 @@ public class InputsAdapter extends RecyclerView.Adapter<InputsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull InputsAdapter.ViewHolder holder, int position) {
-        TodayEntry entry = entries.get(position);
-        holder.bind(entry);
+        ComfortLevelEntry entry = entries.get(position);
+        try {
+            holder.bind(entry);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -44,8 +48,9 @@ public class InputsAdapter extends RecyclerView.Adapter<InputsAdapter.ViewHolder
         return entries.size();
     }
 
-    public void addAll(List<TodayEntry> inputList) {
+    public void addAll(List<ComfortLevelEntry> inputList) {
         entries.addAll(inputList);
+        Collections.reverse(entries);
         notifyDataSetChanged();
     }
 
@@ -71,7 +76,7 @@ public class InputsAdapter extends RecyclerView.Adapter<InputsAdapter.ViewHolder
             tvTime = itemView.findViewById(R.id.tvTime);
         }
 
-        public void bind(TodayEntry entry) {
+        public void bind(ComfortLevelEntry entry) throws ParseException {
             tvTemp.setText(String.valueOf(entry.getTemp()));
             tvComfortLevel.setText(String.valueOf(entry.getComfortLevel()));
             String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(entry.getCreatedAt());

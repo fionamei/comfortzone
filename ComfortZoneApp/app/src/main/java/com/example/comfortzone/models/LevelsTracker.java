@@ -32,8 +32,8 @@ public class LevelsTracker extends ParseObject {
         put(KEY_USER, user);
     }
 
-    public int getLevel() {
-        return getInt(KEY_LEVEL);
+    public int getLevel() throws ParseException {
+        return fetchIfNeeded().getInt(KEY_LEVEL);
     }
 
     public void setLevel(int level) {
