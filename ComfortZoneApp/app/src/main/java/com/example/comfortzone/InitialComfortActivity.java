@@ -74,7 +74,6 @@ public class InitialComfortActivity extends AppCompatActivity {
     private void initialComfort(ParseUser user, int tempZero, int tempFive, int tempTen) {
         int comfort = ComfortCalcUtil.initialComfortCalculator(tempZero, tempFive, tempTen);
         user.put(ComfortCalcUtil.KEY_PERFECT_COMFORT, comfort);
-        Log.i(TAG, "comfort level is" + comfort);
         user.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -91,10 +90,8 @@ public class InitialComfortActivity extends AppCompatActivity {
         Task.whenAll(Arrays.asList(entryZero.saveInBackground(),
                 entryFive.saveInBackground(), entryTen.saveInBackground())).onSuccess(
                 new Continuation<Void, Object>() {
-
                     @Override
                     public Object then(Task<Void> task) throws Exception {
-
                         if (task.getError() != null) {
                             Log.e(TAG, "error saving entries in background");
                             return task.getError();

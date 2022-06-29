@@ -9,6 +9,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParseUtil {
@@ -40,6 +41,14 @@ public class ParseUtil {
 
     private static void updateTodayEntries (ParseUser currentUser, ComfortLevelEntry newEntry) {
         currentUser.add(KEY_TODAY_ENTRIES, newEntry);
+        currentUser.saveInBackground();
+    }
+
+    public static void updateComfortLevel (ParseUser currentUser) throws ParseException {
+        int newComfortLevel = ComfortCalcUtil.generalCalc(currentUser);
+        currentUser.put(ComfortCalcUtil.KEY_PERFECT_COMFORT, newComfortLevel);
+        ArrayList<ComfortLevelEntry> entriesList = (ArrayList<ComfortLevelEntry>) currentUser.get(KEY_TODAY_ENTRIES);
+        currentUser.removeAll(KEY_TODAY_ENTRIES , entriesList);
         currentUser.saveInBackground();
     }
 }

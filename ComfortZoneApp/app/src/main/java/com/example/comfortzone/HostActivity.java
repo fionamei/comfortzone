@@ -1,24 +1,31 @@
 package com.example.comfortzone;
+
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.text.format.DateUtils;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.view.MenuItem;
-
 import com.example.comfortzone.Fragments.FlightFragment;
 import com.example.comfortzone.Fragments.InputFragment;
 import com.example.comfortzone.Fragments.ProfileFragment;
+import com.example.comfortzone.Utils.ParseUtil;
+import com.example.comfortzone.models.ComfortLevelEntry;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import android.view.Menu;
-import android.widget.Toast;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
 
 public class HostActivity extends AppCompatActivity {
 
@@ -34,7 +41,7 @@ public class HostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         maybeRequestPermissions();
-
+        maybeUpdateComfortLevel();
         initViews();
         listenerSetup();
     }
@@ -56,6 +63,18 @@ public class HostActivity extends AppCompatActivity {
                 Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_ID);
     }
 
+    private void maybeUpdateComfortLevel() {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        long updated = currentUser.getUpdatedAt().getTime();
+        ArrayList<ComfortLevelEntry> todayEntries = (ArrayList<ComfortLevelEntry>) currentUser.get(ParseUtil.KEY_TODAY_ENTRIES);
+        if (!DateUtils.isToday(updated) && !todayEntries.isEmpty()) {
+            try {
+                ParseUtil.updateComfortLevel(currentUser);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     private void initViews() {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
     }
