@@ -1,7 +1,7 @@
 package com.example.comfortzone.models;
 
-import com.parse.Parse;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -28,8 +28,8 @@ public class ComfortLevelEntry extends ParseObject {
         put(KEY_TEMP, temp);
     };
 
-    public int getTemp() {
-        return getInt(KEY_TEMP);
+    public int getTemp() throws ParseException {
+        return fetchIfNeeded().getInt(KEY_TEMP);
     };
 
     public void setComfortLevel(int comfort) {
