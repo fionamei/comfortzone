@@ -82,7 +82,7 @@ public class InputFragment extends Fragment {
     private void initViews(View view) {
 
         tvDate = view.findViewById(R.id.tvDate);
-        tvCity = view.findViewById(R.id.tvCity);
+        tvCity = view.findViewById(R.id.tvCityName);
         tvTime = view.findViewById(R.id.tvTime);
         tvCurrentTemp = view.findViewById(R.id.tvCurrentTemp);
         btnSubmit = view.findViewById(R.id.btnSubmit);
