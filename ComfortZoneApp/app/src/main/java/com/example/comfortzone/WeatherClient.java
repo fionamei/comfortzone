@@ -86,20 +86,21 @@ public class WeatherClient extends OkHttpClient {
         });
     }
 
-    public void getGroupWeatherUrl() {
+    public void getGroupWeatherUrl(GroupUrlCallback callback) {
         getCityData(new CityListCallback() {
             @Override
             public void cityList(List<City> cityList) {
-                List<List<String>> batchCityUrls = new ArrayList<>();
                 List<String> ids = cityList.stream().map(city -> String.valueOf(city.getId())).collect(Collectors.toList());
                 List<List<String>> batchesCities = Lists.partition(ids, MAX_API_CITIES);
-                for (List<String> batchCity : batchesCities) {
-                    String idString = String.join(",", batchCity);
-                    String url = String.format(API_GROUP_BASE_URL + "&id=%s", idString);
-                    batchCityUrls.add(Collections.singletonList(url));
-                }
+                List<String> batchCityUrls = batchesCities.stream().map(batch -> getBatchUrl(batch)).collect(Collectors.toList());
+                callback.weatherUrlGroupIds(batchCityUrls);
             }
         });
+    }
+
+    private String getBatchUrl(List<String> batchCity) {
+        String idString = String.join(",", batchCity);
+        return String.format(API_GROUP_BASE_URL + "&id=%s", idString);
     }
 
     private void getCityData(CityListCallback callback) {
