@@ -4,8 +4,13 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.comfortzone.models.City;
+import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +35,7 @@ public class WeatherClient extends OkHttpClient {
     public static final String FAHRENHEIT = "imperial";
     public static final String CELSIUS = "metric";
     public static final String KEY_ID = "id";
+    public static final int MAX_API_CITIES = 20;
 
 
     private String getWeatherURL(String lat, String lon) {
@@ -64,17 +70,39 @@ public class WeatherClient extends OkHttpClient {
             }
         });}
 
-    private String getGroupWeatherUrl(List<City> cityList) {
-        List<String> ids = cityList.stream().map(city -> String.valueOf(city.getId())).collect(Collectors.toList());
+    public void getGroupWeatherData(String url, getWeatherCallback callback) {
+        Request request = new Request.Builder().url(url).build();
+        newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.e(TAG, "failed making group api request " + e);
+            }
 
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(API_GROUP_BASE_URL).newBuilder();
-        String idString = String.join(",", ids);
-        urlBuilder.addQueryParameter(KEY_ID, idString);
-
-        return urlBuilder.build().toString();
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String data = response.body().string();
+                callback.weatherData(data);
+            }
+        });
     }
 
-    public void getCityData() {
+    public void getGroupWeatherUrl() {
+        getCityData(new CityListCallback() {
+            @Override
+            public void cityList(List<City> cityList) {
+                List<List<String>> batchCityUrls = new ArrayList<>();
+                List<String> ids = cityList.stream().map(city -> String.valueOf(city.getId())).collect(Collectors.toList());
+                List<List<String>> batchesCities = Lists.partition(ids, MAX_API_CITIES);
+                for (List<String> batchCity : batchesCities) {
+                    String idString = String.join(",", batchCity);
+                    String url = String.format(API_GROUP_BASE_URL + "&id=%s", idString);
+                    batchCityUrls.add(Collections.singletonList(url));
+                }
+            }
+        });
+    }
+
+    private void getCityData(CityListCallback callback) {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(CITY_URL).newBuilder();
         Request request = new Request.Builder().url(urlBuilder.build()).build();
         newCall(request).enqueue(new Callback() {
@@ -86,7 +114,10 @@ public class WeatherClient extends OkHttpClient {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 String data = response.body().string();
-                Log.i(TAG, "response data is " + data);
+                Gson gson = new Gson();
+                Type cityListType = new TypeToken<ArrayList<City>>(){}.getType();
+                List<City> cities = gson.fromJson(data, cityListType);
+                callback.cityList(cities);
             }
         });
     }

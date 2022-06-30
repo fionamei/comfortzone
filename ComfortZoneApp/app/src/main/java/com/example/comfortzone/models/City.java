@@ -8,14 +8,14 @@ public class City {
     private Coordinates coord;
 
     public class Coordinates {
-        private long lat;
-        private long lon;
+        private double lat;
+        private double lon;
 
-        public long getLat() {
+        public double getLat() {
             return this.lat;
         }
 
-        public long getLon() {
+        public double getLon() {
             return this.lon;
         }
     }
