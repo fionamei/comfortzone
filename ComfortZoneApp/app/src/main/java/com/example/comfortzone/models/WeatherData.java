@@ -26,8 +26,14 @@ public class WeatherData {
     @SerializedName("main")
     private TempData tempData;
 
+    @Ignore
     private String date;
+    @Ignore
     private String time;
+
+    @ColumnInfo(name = "timeUploaded")
+    @SerializedName("dt")
+    private long timeUploaded;
 
     public String getCity() {
         return city;
@@ -49,12 +55,22 @@ public class WeatherData {
         this.tempData = tempData;
     }
 
+    @Ignore
     public void setDate(String date) {
         this.date = date;
     }
 
+    @Ignore
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public long getTimeUploaded() {
+        return timeUploaded;
+    }
+
+    public void setTimeUploaded(long timeUploaded) {
+        this.timeUploaded = timeUploaded;
     }
 
     public static class TempData {

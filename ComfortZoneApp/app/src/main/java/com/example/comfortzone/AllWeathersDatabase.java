@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.comfortzone.models.WeatherData;
 
-@Database(entities = {WeatherData.class}, version = 1)
+@Database(entities = {WeatherData.class}, version = 2)
 public abstract class AllWeathersDatabase extends RoomDatabase {
 
     public static final String DB_NAME = "All_Weathers_Database";
@@ -20,7 +20,7 @@ public abstract class AllWeathersDatabase extends RoomDatabase {
     public static AllWeathersDatabase getDbInstance(Context context) {
         if (context == null || INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AllWeathersDatabase.class, DB_NAME)
-                    .allowMainThreadQueries().build();
+                    .allowMainThreadQueries().fallbackToDestructiveMigration().build();
         }
         return INSTANCE;
     }

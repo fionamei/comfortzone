@@ -14,10 +14,12 @@ public interface WeatherDao {
     @Query("SELECT * FROM WeatherData")
     List<WeatherData> getAll();
 
-    // WHERE `temp` BETWEEN :max AND :min
-//    @Query("SELECT * FROM WeatherData WHERE `temp` > :temp")
-//    List<WeatherDao> findByTemp(int temp);
-
     @Insert
     void insertAll(WeatherData... weatherData);
+
+    @Query("DELETE FROM WeatherData")
+    void deleteEntireTable();
+
+    @Query("SELECT * FROM WeatherData WHERE timeUploaded < :hourAgo")
+    List<WeatherData> getUploadTimes(long hourAgo);
 }

@@ -23,6 +23,7 @@ import com.example.comfortzone.models.WeatherGroupData;
 import com.google.gson.Gson;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class FlightFragment extends Fragment {
 
@@ -45,6 +46,18 @@ public class FlightFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         client = new WeatherClient();
+        maybeUpdateCitiesList();
+    }
+
+    public void maybeUpdateCitiesList() {
+        AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext().getApplicationContext());
+        Long timeNow = System.currentTimeMillis();
+        Long hourAgo = timeNow - TimeUnit.HOURS.toMillis(1L);
+        List<WeatherData> timesGreater = db.weatherDao().getUploadTimes(hourAgo);
+        if (timesGreater.isEmpty()) {
+            db.weatherDao().deleteEntireTable();
+            getCities();
+        }
     }
 
     public void getCities() {
@@ -68,7 +81,6 @@ public class FlightFragment extends Fragment {
     public void saveCities(WeatherGroupData weathers) {
         WeatherData[] weatherData = weathers.getWeathers();
         AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext().getApplicationContext());
-        Log.i(TAG, "inserting weathers" + db);
         db.weatherDao().insertAll(weatherData);
     }
 
