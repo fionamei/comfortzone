@@ -1,20 +1,25 @@
 package com.example.comfortzone.Fragments;
 
+import static com.parse.Parse.getApplicationContext;
+
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.room.Room;
+
+import com.example.comfortzone.AllWeathersDatabase;
 import com.example.comfortzone.GroupUrlCallback;
 import com.example.comfortzone.R;
 import com.example.comfortzone.WeatherClient;
 import com.example.comfortzone.getWeatherCallback;
+import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.models.WeatherGroupData;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -50,11 +55,21 @@ public class FlightFragment extends Fragment {
                     client.getGroupWeatherData(apiUrl, new getWeatherCallback() {
                         @Override
                         public void weatherData(String data) {
-                            
+                            Gson gson = new Gson();
+                            WeatherGroupData weathers = gson.fromJson(data, WeatherGroupData.class);
+                            saveCities(weathers);
                         }
                     });
                 }
             }
         });
     }
+
+    public void saveCities(WeatherGroupData weathers) {
+        WeatherData[] weatherData = weathers.getWeathers();
+        AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext().getApplicationContext());
+        Log.i(TAG, "inserting weathers" + db);
+        db.weatherDao().insertAll(weatherData);
+    }
+
 }

@@ -1,16 +1,28 @@
 package com.example.comfortzone.models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
+@Entity
 public class WeatherData {
 
+    @PrimaryKey
+    private int id;
+
+    @ColumnInfo
     @SerializedName("name")
     private String city;
 
+    @Embedded
     @SerializedName("main")
     private TempData tempData;
 
@@ -25,12 +37,40 @@ public class WeatherData {
         return tempData;
     }
 
-    public class TempData {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setTempData(TempData tempData) {
+        this.tempData = tempData;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public static class TempData {
         @SerializedName("feels_like")
         private double temp;
 
+        public TempData(double temp) {
+            setTemp(temp);
+        }
+
         public double getTemp() {
             return temp;
+        }
+
+        public void setTemp(double temp) {
+            this.temp = temp;
         }
     }
 
@@ -55,4 +95,9 @@ public class WeatherData {
     public String getTime() {
         return this.time;
     }
+
+    public int getId() {
+        return this.id;
+    }
+
 }
