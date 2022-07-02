@@ -22,6 +22,7 @@ import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.models.WeatherGroupData;
 import com.google.gson.Gson;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -53,8 +54,8 @@ public class FlightFragment extends Fragment {
         AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext().getApplicationContext());
         Long timeNow = System.currentTimeMillis();
         Long hourAgo = timeNow - TimeUnit.HOURS.toMillis(1L);
-        List<WeatherData> timesGreater = db.weatherDao().getUploadTimes(hourAgo);
-        if (timesGreater.isEmpty()) {
+        List<WeatherData> timesBeforeHour = db.weatherDao().getUploadTimes(hourAgo);
+        if (!timesBeforeHour.isEmpty()) {
             db.weatherDao().deleteEntireTable();
             getCities();
         }
