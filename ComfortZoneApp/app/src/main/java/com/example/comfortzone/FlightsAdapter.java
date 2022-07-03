@@ -9,15 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.comfortzone.models.ComfortLevelEntry;
-import com.parse.ParseException;
+import com.example.comfortzone.models.City;
+
+import java.util.List;
 
 public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHolder> {
 
     private Context context;
+    private List<City> cityList;
 
-    public FlightsAdapter(Context context) {
+    public FlightsAdapter(Context context, List<City> cityList) {
         this.context = context;
+        this.cityList = cityList;
     }
 
     @NonNull
@@ -29,13 +32,19 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        City city = cityList.get(position);
+        holder.bind(city);
     }
 
 
     @Override
     public int getItemCount() {
-        return 0;
+        return cityList.size();
+    }
+
+    public void addAll(List<City> cities) {
+        cityList.addAll(cities);
+        notifyDataSetChanged();
     }
 
 
@@ -56,8 +65,8 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
             tvCityName = itemView.findViewById(R.id.tvCityName);
         }
 
-        public void bind(ComfortLevelEntry entry) throws ParseException {
-            //populate
+        public void bind(City city) {
+            tvCityName.setText(city.getName());
         }
     }
 }

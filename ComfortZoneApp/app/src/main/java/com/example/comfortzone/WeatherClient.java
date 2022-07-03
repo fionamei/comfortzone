@@ -1,4 +1,5 @@
 package com.example.comfortzone;
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,6 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -100,10 +100,10 @@ public class WeatherClient extends OkHttpClient {
 
     private String getBatchUrl(List<String> batchCity) {
         String idString = String.join(",", batchCity);
-        return String.format(API_GROUP_BASE_URL + "&id=%s", idString);
+        return String.format(API_GROUP_BASE_URL + "&id=%s&units=%s", idString, FAHRENHEIT);
     }
 
-    private void getCityData(CityListCallback callback) {
+    public void getCityData(CityListCallback callback) {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(CITY_URL).newBuilder();
         Request request = new Request.Builder().url(urlBuilder.build()).build();
         newCall(request).enqueue(new Callback() {
