@@ -1,17 +1,17 @@
 package com.example.comfortzone;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.comfortzone.models.City;
+import com.example.comfortzone.models.WeatherData;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -86,16 +86,13 @@ public class WeatherClient extends OkHttpClient {
         });
     }
 
-    public void getGroupWeatherUrl(GroupUrlCallback callback) {
-        getCityData(new CityListCallback() {
-            @Override
-            public void cityList(List<City> cityList) {
-                List<String> ids = cityList.stream().map(city -> String.valueOf(city.getId())).collect(Collectors.toList());
-                List<List<String>> batchesCities = Lists.partition(ids, MAX_API_CITIES);
-                List<String> batchCityUrls = batchesCities.stream().map(batch -> getBatchUrl(batch)).collect(Collectors.toList());
-                callback.weatherUrlGroupIds(batchCityUrls);
-            }
-        });
+    public void getGroupWeatherUrl(Context context, GroupUrlCallback callback) {
+        AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(context.getApplicationContext());
+        List<WeatherData> cityList = db.weatherDao().getAll();
+        List<String> ids = cityList.stream().map(city -> String.valueOf(city.getId())).collect(Collectors.toList());
+        List<List<String>> batchesCities = Lists.partition(ids, MAX_API_CITIES);
+        List<String> batchCityUrls = batchesCities.stream().map(batch -> getBatchUrl(batch)).collect(Collectors.toList());
+        callback.weatherUrlGroupIds(batchCityUrls);
     }
 
     private String getBatchUrl(List<String> batchCity) {
@@ -116,9 +113,9 @@ public class WeatherClient extends OkHttpClient {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 String data = response.body().string();
                 Gson gson = new Gson();
-                Type cityListType = new TypeToken<ArrayList<City>>(){}.getType();
-                List<City> cities = gson.fromJson(data, cityListType);
-                callback.cityList(cities);
+                Type weatherListType = new TypeToken<WeatherData[]>(){}.getType();
+                WeatherData[] weatherData = gson.fromJson(data, weatherListType);
+                callback.cityList(weatherData);
             }
         });
     }

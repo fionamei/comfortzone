@@ -18,7 +18,6 @@ import com.example.comfortzone.GroupUrlCallback;
 import com.example.comfortzone.R;
 import com.example.comfortzone.WeatherClient;
 import com.example.comfortzone.getWeatherCallback;
-import com.example.comfortzone.models.City;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.models.WeatherGroupData;
 import com.google.gson.Gson;
@@ -32,8 +31,9 @@ public class FlightFragment extends Fragment {
     public static final String TAG = "FlightFragment";
     private WeatherClient client;
     private FlightsAdapter flightsAdapter;
-    private List<City> cityList;
+    private List<WeatherData> cityList;
     private RecyclerView rvCities;
+    private AllWeathersDatabase db;
 
     public FlightFragment() {
         // Required empty public constructor
@@ -53,8 +53,10 @@ public class FlightFragment extends Fragment {
         client = new WeatherClient();
         cityList = new ArrayList<>();
         flightsAdapter = new FlightsAdapter(getContext(), cityList);
+        db = AllWeathersDatabase.getDbInstance(getContext().getApplicationContext());
 
         initViews(view);
+//        db.weatherDao().deleteEntireTable();
         populateViews();
         maybeUpdateCitiesList();
     }
@@ -68,33 +70,28 @@ public class FlightFragment extends Fragment {
     private void populateViews() {
         rvCities.setAdapter(flightsAdapter);
         rvCities.setLayoutManager(new LinearLayoutManager(getContext()));
-        client.getCityData(new CityListCallback() {
-            @Override
-            public void cityList(List<City> cities) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        flightsAdapter.addAll(cities);
-                    }
-                });
-
-            }
-        });
+        flightsAdapter.addAll(db.weatherDao().getAll());
     }
 
     public void maybeUpdateCitiesList() {
-        AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext().getApplicationContext());
+        if (db.weatherDao().getAll().isEmpty()) {
+            client.getCityData(new CityListCallback() {
+                @Override
+                public void cityList(WeatherData[] weatherData) {
+                    db.weatherDao().insertAll(weatherData);
+                }
+            });
+        }
         Long timeNow = System.currentTimeMillis();
         Long hourAgo = timeNow - TimeUnit.HOURS.toMillis(1L);
         List<WeatherData> timesBeforeHour = db.weatherDao().getUploadTimes(hourAgo);
-        if (db.weatherDao().getAll().isEmpty() || !timesBeforeHour.isEmpty()) {
-            db.weatherDao().deleteEntireTable();
+        if (!timesBeforeHour.isEmpty()) {
             updateCities();
         }
     }
 
     public void updateCities() {
-        client.getGroupWeatherUrl(new GroupUrlCallback() {
+        client.getGroupWeatherUrl(getContext(), new GroupUrlCallback() {
             @Override
             public void weatherUrlGroupIds(List<String> groupUrls) {
                 for (String apiUrl : groupUrls) {
@@ -114,7 +111,13 @@ public class FlightFragment extends Fragment {
     public void saveCities(WeatherGroupData weathers) {
         WeatherData[] weatherData = weathers.getWeathers();
         AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext().getApplicationContext());
-        db.weatherDao().insertAll(weatherData);
+        for (WeatherData weather : weatherData) {
+            int id = weather.getId();
+            WeatherData weatherFromDb = db.weatherDao().getWeatherById(id);
+            weatherFromDb.setTempData(weather.getTempData());
+            weatherFromDb.setTimeUploaded(weather.getTimeUploaded());
+            db.weatherDao().updateWeatherData(weatherFromDb);
+        }
     }
 
 }

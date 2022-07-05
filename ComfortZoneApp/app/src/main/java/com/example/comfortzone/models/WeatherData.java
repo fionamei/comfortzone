@@ -19,8 +19,14 @@ public class WeatherData {
     private int id;
 
     @ColumnInfo
+    private int rank;
+
+    @ColumnInfo
     @SerializedName("name")
     private String city;
+
+    @ColumnInfo
+    private String state;
 
     @Embedded
     @SerializedName("main")
@@ -34,6 +40,77 @@ public class WeatherData {
     @ColumnInfo(name = "timeUploaded")
     @SerializedName("dt")
     private long timeUploaded;
+
+    @Embedded
+    private Coordinates coord;
+
+    @ColumnInfo
+    @SerializedName("image url")
+    private String image;
+
+    @ColumnInfo
+    private String description;
+
+    public Coordinates getCoord() {
+        return coord;
+    }
+
+    public void setCoord(Coordinates coord) {
+        this.coord = coord;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public static class Coordinates {
+        private double lat;
+        private double lon;
+
+        public double getLat() {
+            return this.lat;
+        }
+
+        public double getLon() {
+            return this.lon;
+        }
+
+        public void setLat(double lat) {
+            this.lat = lat;
+        }
+
+        public void setLon(double lon) {
+            this.lon = lon;
+        }
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public String getCity() {
         return city;

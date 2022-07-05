@@ -1,9 +1,7 @@
 package com.example.comfortzone;
 
-import com.example.comfortzone.models.City;
-
-import java.util.List;
+import com.example.comfortzone.models.WeatherData;
 
 public interface CityListCallback {
-    void cityList(List<City> cityList);
+    void cityList(WeatherData[] cityList);
 }

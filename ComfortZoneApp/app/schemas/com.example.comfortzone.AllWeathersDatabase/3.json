@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "33af5dbf0a22cd6663a983f18736b31c",
+    "version": 3,
+    "identityHash": "4f0754cf432781859cfe858c099b4408",
     "entities": [
       {
         "tableName": "WeatherData",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `city` TEXT, `state` TEXT, `timeUploaded` INTEGER NOT NULL, `temp` REAL, `lat` REAL, `lon` REAL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `city` TEXT, `state` TEXT, `timeUploaded` INTEGER NOT NULL, `image` TEXT, `description` TEXT, `temp` REAL, `lat` REAL, `lon` REAL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -31,6 +31,18 @@
             "columnName": "timeUploaded",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "tempData.temp",
@@ -64,7 +76,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '33af5dbf0a22cd6663a983f18736b31c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4f0754cf432781859cfe858c099b4408')"
     ]
   }
 }

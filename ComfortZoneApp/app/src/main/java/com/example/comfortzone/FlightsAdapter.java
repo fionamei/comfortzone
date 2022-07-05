@@ -9,16 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.comfortzone.models.City;
+import com.example.comfortzone.models.WeatherData;
 
 import java.util.List;
 
 public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHolder> {
 
     private Context context;
-    private List<City> cityList;
+    private List<WeatherData> cityList;
 
-    public FlightsAdapter(Context context, List<City> cityList) {
+    public FlightsAdapter(Context context, List<WeatherData> cityList) {
         this.context = context;
         this.cityList = cityList;
     }
@@ -32,7 +32,7 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        City city = cityList.get(position);
+        WeatherData city = cityList.get(position);
         holder.bind(city);
     }
 
@@ -42,7 +42,7 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
         return cityList.size();
     }
 
-    public void addAll(List<City> cities) {
+    public void addAll(List<WeatherData> cities) {
         cityList.addAll(cities);
         notifyDataSetChanged();
     }
@@ -65,8 +65,9 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
             tvCityName = itemView.findViewById(R.id.tvCityName);
         }
 
-        public void bind(City city) {
-            tvCityName.setText(city.getName());
+        public void bind(WeatherData city) {
+            tvTemperature.setText(String.valueOf(city.getTempData().getTemp()));
+            tvCityName.setText(city.getCity());
         }
     }
 }
