@@ -87,7 +87,7 @@ public class FlightFragment extends Fragment {
         Long timeNow = System.currentTimeMillis();
         Long hourAgo = timeNow - TimeUnit.HOURS.toMillis(1L);
         List<WeatherData> timesBeforeHour = db.weatherDao().getUploadTimes(hourAgo);
-        if (db.weatherDao().getAll().isEmpty() || timesBeforeHour.isEmpty()) {
+        if (db.weatherDao().getAll().isEmpty() || !timesBeforeHour.isEmpty()) {
             db.weatherDao().deleteEntireTable();
             updateCities();
         }
