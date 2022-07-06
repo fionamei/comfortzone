@@ -1,5 +1,5 @@
 package com.example.comfortzone;
 
-public interface getWeatherCallback {
-    void weatherData(String data);
+public interface GetWeatherCallback {
+    void onGetWeatherData(String data);
 }

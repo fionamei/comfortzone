@@ -21,8 +21,8 @@ public interface WeatherDao {
     @Query("DELETE FROM WeatherData")
     void deleteEntireTable();
 
-    @Query("SELECT * FROM WeatherData WHERE timeUploaded < :hourAgo")
-    List<WeatherData> getUploadTimes(long hourAgo);
+    @Query("SELECT EXISTS (SELECT * FROM WeatherData WHERE timeUploaded < :hourAgo)")
+    boolean isUploadedOverHrAgo(long hourAgo);
 
     @Update
     void updateWeatherData(WeatherData weatherData);

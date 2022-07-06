@@ -48,7 +48,7 @@ public class WeatherClient extends OkHttpClient {
         return urlBuilder.build().toString();
     }
 
-    public void getWeatherData(String lat, String lon, getWeatherCallback weatherCallback) {
+    public void getWeatherData(String lat, String lon, GetWeatherCallback weatherCallback) {
         String url = getWeatherURL(lat, lon);
         final Request request = new Request.Builder()
                 .url(url)
@@ -63,14 +63,14 @@ public class WeatherClient extends OkHttpClient {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 try {
                     String data = response.body().string();
-                    weatherCallback.weatherData(data);
+                    weatherCallback.onGetWeatherData(data);
                 } catch (IOException e) {
                     Log.e(TAG, "could not get body" + e);
                 }
             }
         });}
 
-    public void getGroupWeatherData(String url, getWeatherCallback callback) {
+    public void getGroupWeatherData(String url, GetWeatherCallback callback) {
         Request request = new Request.Builder().url(url).build();
         newCall(request).enqueue(new Callback() {
             @Override
@@ -81,7 +81,7 @@ public class WeatherClient extends OkHttpClient {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 String data = response.body().string();
-                callback.weatherData(data);
+                callback.onGetWeatherData(data);
             }
         });
     }
@@ -92,7 +92,7 @@ public class WeatherClient extends OkHttpClient {
         List<String> ids = cityList.stream().map(city -> String.valueOf(city.getId())).collect(Collectors.toList());
         List<List<String>> batchesCities = Lists.partition(ids, MAX_API_CITIES);
         List<String> batchCityUrls = batchesCities.stream().map(batch -> getBatchUrl(batch)).collect(Collectors.toList());
-        callback.weatherUrlGroupIds(batchCityUrls);
+        callback.onGetWeatherUrlGroupIds(batchCityUrls);
     }
 
     private String getBatchUrl(List<String> batchCity) {
@@ -115,7 +115,7 @@ public class WeatherClient extends OkHttpClient {
                 Gson gson = new Gson();
                 Type weatherListType = new TypeToken<WeatherData[]>(){}.getType();
                 WeatherData[] weatherData = gson.fromJson(data, weatherListType);
-                callback.cityList(weatherData);
+                callback.onGetCityList(weatherData);
             }
         });
     }

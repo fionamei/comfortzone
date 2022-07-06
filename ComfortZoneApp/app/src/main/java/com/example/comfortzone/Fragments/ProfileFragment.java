@@ -1,4 +1,4 @@
-package com.example.comfortzone.Fragments;
+package com.example.comfortzone.fragments;
 
 import android.os.Bundle;
 

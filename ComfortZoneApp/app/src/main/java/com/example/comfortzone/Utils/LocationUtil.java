@@ -1,4 +1,4 @@
-package com.example.comfortzone.Utils;
+package com.example.comfortzone.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class LocationUtil {
 
     public static final String TAG = "locationutil";
-    public static long ONE_HOUR_MILLI = TimeUnit.HOURS.toMillis(1L);
+    public static final long ONE_HOUR_MILLI = TimeUnit.HOURS.toMillis(1L);
     private static FusedLocationProviderClient fusedLocationClient;
 
     @SuppressLint("MissingPermission")
@@ -35,7 +35,7 @@ public class LocationUtil {
                     } else {
                         String lat = String.valueOf(location.getLatitude());
                         String lon = String.valueOf(location.getLongitude());
-                        locationCallback.location(lat, lon);
+                        locationCallback.onLocationUpdated(lat, lon);
                     }
                 }
             });
@@ -63,7 +63,7 @@ public class LocationUtil {
                         } else {
                             String lat = String.valueOf(location.getLatitude());
                             String lon = String.valueOf(location.getLongitude());
-                            locationCallback.location(lat, lon);
+                            locationCallback.onLocationUpdated(lat, lon);
                         }
                     }
                 });

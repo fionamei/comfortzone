@@ -1,6 +1,7 @@
-package com.example.comfortzone.Fragments;
+package com.example.comfortzone.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import com.example.comfortzone.FlightsAdapter;
 import com.example.comfortzone.GroupUrlCallback;
 import com.example.comfortzone.R;
 import com.example.comfortzone.WeatherClient;
-import com.example.comfortzone.getWeatherCallback;
+import com.example.comfortzone.GetWeatherCallback;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.models.WeatherGroupData;
 import com.google.gson.Gson;
@@ -56,9 +57,8 @@ public class FlightFragment extends Fragment {
         db = AllWeathersDatabase.getDbInstance(getContext().getApplicationContext());
 
         initViews(view);
-//        db.weatherDao().deleteEntireTable();
-        populateViews();
         maybeUpdateCitiesList();
+        populateViews();
     }
 
 
@@ -77,27 +77,26 @@ public class FlightFragment extends Fragment {
         if (db.weatherDao().getAll().isEmpty()) {
             client.getCityData(new CityListCallback() {
                 @Override
-                public void cityList(WeatherData[] weatherData) {
+                public void onGetCityList(WeatherData[] weatherData) {
                     db.weatherDao().insertAll(weatherData);
                 }
             });
         }
         Long timeNow = System.currentTimeMillis();
         Long hourAgo = timeNow - TimeUnit.HOURS.toMillis(1L);
-        List<WeatherData> timesBeforeHour = db.weatherDao().getUploadTimes(hourAgo);
-        if (!timesBeforeHour.isEmpty()) {
-            updateCities();
+        if (db.weatherDao().isUploadedOverHrAgo(hourAgo)) {
+            getAndStoreWeatherData();
         }
     }
 
-    public void updateCities() {
+    public void getAndStoreWeatherData() {
         client.getGroupWeatherUrl(getContext(), new GroupUrlCallback() {
             @Override
-            public void weatherUrlGroupIds(List<String> groupUrls) {
+            public void onGetWeatherUrlGroupIds(List<String> groupUrls) {
                 for (String apiUrl : groupUrls) {
-                    client.getGroupWeatherData(apiUrl, new getWeatherCallback() {
+                    client.getGroupWeatherData(apiUrl, new GetWeatherCallback() {
                         @Override
-                        public void weatherData(String data) {
+                        public void onGetWeatherData(String data) {
                             Gson gson = new Gson();
                             WeatherGroupData weathers = gson.fromJson(data, WeatherGroupData.class);
                             saveCities(weathers);
