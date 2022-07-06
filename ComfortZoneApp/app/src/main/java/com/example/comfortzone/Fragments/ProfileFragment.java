@@ -37,12 +37,16 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getDataObjects();
         initViews(view);
         populateViews();
     }
 
-    private void initViews(@NonNull View view) {
+    private void getDataObjects() {
         currentUser = ParseUser.getCurrentUser();
+    }
+
+    private void initViews(@NonNull View view) {
         tvPerfectTemp = view.findViewById(R.id.tvPerfectTemp);
     }
 

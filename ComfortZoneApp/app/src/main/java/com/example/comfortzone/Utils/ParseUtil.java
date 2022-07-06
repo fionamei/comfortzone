@@ -1,5 +1,7 @@
 package com.example.comfortzone.Utils;
 
+import static com.example.comfortzone.Utils.ComfortCalcUtil.calculateComfortTemp;
+
 import android.util.Log;
 
 import com.example.comfortzone.models.ComfortLevelEntry;
@@ -45,7 +47,7 @@ public class ParseUtil {
     }
 
     public static void updateComfortLevel (ParseUser currentUser) throws ParseException {
-        int newComfortLevel = ComfortCalcUtil.generalCalc(currentUser);
+        int newComfortLevel = calculateComfortTemp(currentUser);
         currentUser.put(ComfortCalcUtil.KEY_PERFECT_COMFORT, newComfortLevel);
         ArrayList<ComfortLevelEntry> entriesList = (ArrayList<ComfortLevelEntry>) currentUser.get(KEY_TODAY_ENTRIES);
         currentUser.removeAll(KEY_TODAY_ENTRIES , entriesList);

@@ -1,6 +1,7 @@
 package com.example.comfortzone;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static com.example.comfortzone.Utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
+import static com.example.comfortzone.Utils.ComfortCalcUtil.calculateComfortTemp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,18 +10,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.comfortzone.Utils.ComfortCalcUtil;
-import com.example.comfortzone.Utils.ParseUtil;
 import com.example.comfortzone.models.ComfortLevelEntry;
+import com.example.comfortzone.models.LevelsTracker;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.example.comfortzone.models.LevelsTracker;
 import com.parse.SaveCallback;
 import com.parse.boltsinternal.Continuation;
 import com.parse.boltsinternal.Task;
 
-
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public class InitialComfortActivity extends AppCompatActivity {
 
@@ -38,6 +42,7 @@ public class InitialComfortActivity extends AppCompatActivity {
     private ComfortLevelEntry entryZero;
     private ComfortLevelEntry entryFive;
     private ComfortLevelEntry entryTen;
+    private List<LevelsTracker> trackerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,7 @@ public class InitialComfortActivity extends AppCompatActivity {
         setContentView(R.layout.activity_initial_comfort_actvitiy);
 
         user = ParseUser.getCurrentUser();
+        trackerList = new ArrayList<>();
 
         initViews();
         confirmListener();
@@ -65,21 +71,15 @@ public class InitialComfortActivity extends AppCompatActivity {
                 int tempFive = Integer.parseInt(etFive.getText().toString());
                 int tempTen = Integer.parseInt(etTen.getText().toString());
                 save(tempZero, tempFive, tempTen);
-                initialComfort(user, tempZero, tempFive, tempTen);
-
+                goHostActivity();
             }
         });
     }
 
-    private void initialComfort(ParseUser user, int tempZero, int tempFive, int tempTen) {
-        int comfort = ComfortCalcUtil.initialComfortCalculator(tempZero, tempFive, tempTen);
+    private void calculateComfort(ParseUser user) {
+        int comfort = calculateComfortTemp(user);
         user.put(ComfortCalcUtil.KEY_PERFECT_COMFORT, comfort);
-        user.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                goHostActivity();
-            }
-        });
+        user.saveInBackground();
     }
 
     private void save(int tempZero, int tempFive, int tempTen) {
@@ -96,20 +96,39 @@ public class InitialComfortActivity extends AppCompatActivity {
                             Log.e(TAG, "error saving entries in background");
                             return task.getError();
                         } else {
-                            createLevels();
+                            Collection<Task<Void>> levels = createLevels();
+                            Task.whenAll(levels).onSuccess(new Continuation<Void, Object>() {
+                                @Override
+                                public Object then(Task<Void> task) throws Exception {
+                                    if (task.getError() != null) {
+                                        Log.e(TAG, "error saving entries in background");
+                                    } else {
+                                        user.addAll(KEY_LEVEL_TRACKERS, trackerList);
+                                        user.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                calculateComfort(user);
+                                            }
+                                        });
+                                    }
+                                    return null;
+                                }
+                            });
                             return null;
                         }
                     }
                 });
     }
 
-    public void createLevels() {
+    public List<Task<Void>> createLevels() {
+        List<Task<Void>> levels = new ArrayList<>();
         for (int i = 0; i < TOTAL_LEVELS; i ++) {
-            createLevel(i);
+            levels.add(createLevel(i));
         }
+        return levels;
     }
 
-    public void createLevel(int level) {
+    public Task<Void> createLevel(int level) {
         LevelsTracker tracker = new LevelsTracker();
         tracker.setLevel(level);
         tracker.setUser(user);
@@ -123,24 +142,8 @@ public class InitialComfortActivity extends AppCompatActivity {
             tracker.addEntry(entryTen);
             tracker.increaseCount();
         }
-        tracker.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "error creating levels" + e);
-                } else {
-                    user.add("levelTrackers", tracker);
-                    user.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e != null) {
-                                Log.e(TAG, "error saving tracker to user" + e);
-                            }
-                        }
-                    });
-                }
-            }
-        });
+        trackerList.add(tracker);
+        return tracker.saveInBackground();
     }
 
     private void goHostActivity() {

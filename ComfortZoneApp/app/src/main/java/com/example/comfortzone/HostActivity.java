@@ -65,9 +65,8 @@ public class HostActivity extends AppCompatActivity {
 
     private void maybeUpdateComfortLevel() {
         ParseUser currentUser = ParseUser.getCurrentUser();
-        long updated = currentUser.getUpdatedAt().getTime();
         ArrayList<ComfortLevelEntry> todayEntries = (ArrayList<ComfortLevelEntry>) currentUser.get(ParseUtil.KEY_TODAY_ENTRIES);
-        if (!DateUtils.isToday(updated) && !todayEntries.isEmpty()) {
+        if (!todayEntries.isEmpty() && !DateUtils.isToday(todayEntries.get(0).getUpdatedAt().getTime())) {
             try {
                 ParseUtil.updateComfortLevel(currentUser);
             } catch (ParseException e) {
