@@ -1,22 +1,24 @@
 package com.example.comfortzone;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.comfortzone.models.WeatherData;
 
 public class CityDetailFragment extends Fragment {
 
     private static final String ARG_CITY_ID = "cityId";
+    public static final int IMAGE_RADIUS = 20;
     private WeatherData cityData;
     private TextView tvCityName;
     private ImageView ivCityIcon;
@@ -67,7 +69,8 @@ public class CityDetailFragment extends Fragment {
     }
 
     private void populateViews() {
-        tvCityName.setText(cityData.getCity());
+        tvCityName.setText(String.format("%s, %s", cityData.getCity(), cityData.getState()));
         tvCityDescription.setText(cityData.getDescription());
+        Glide.with(getContext()).load(cityData.getImage()).transform(new RoundedCorners(IMAGE_RADIUS)).into(ivCityIcon);
     }
 }

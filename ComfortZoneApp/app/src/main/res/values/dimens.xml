@@ -11,6 +11,7 @@
     <!--    radius      -->
     <dimen name="inputCornerRadius">50dp</dimen>
     <dimen name="cardRadius">30dp</dimen>
+    <dimen name="cityIconRadius">20</dimen>
 
     <!--    text size   -->
     <dimen name="generalTextSize">20sp</dimen>
@@ -21,7 +22,9 @@
     <!--    height      -->
     <dimen name="weatherCardHeight">280dp</dimen>
     <dimen name="profilePerfTempHeight">150dp</dimen>
-    <dimen name="cityIconSize">100dp</dimen>
+    <dimen name="cityIconSize">80dp</dimen>
+    <dimen name="cityDetailImageSize">200dp</dimen>
+    <dimen name="cityDetailHeight">120dp</dimen>
 
     <!--    stroke      -->
     <dimen name="buttonStroke">1dp</dimen>

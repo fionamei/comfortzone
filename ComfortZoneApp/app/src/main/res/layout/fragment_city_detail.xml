@@ -13,6 +13,7 @@
         android:id="@+id/tvCityName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/titleMargin"
         android:gravity="center"
         android:textColor="@color/black"
         android:textSize="@dimen/titleTextSize"
@@ -21,14 +22,16 @@
 
     <ImageView
         android:id="@+id/ivCityIcon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/cityDetailImageSize"
+        android:layout_height="@dimen/cityDetailImageSize"
+        android:layout_gravity="center"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvCityDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/generalMargin"
         android:textSize="@dimen/generalTextSize"
         tools:text="new york city is so great!!!" />
 </LinearLayout>
