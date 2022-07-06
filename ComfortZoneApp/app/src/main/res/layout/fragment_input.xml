@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_margin="@dimen/generalMargin"
-            tools:context=".Fragments.InputFragment">
+            tools:context=".fragments.InputFragment">
 
             <TextView
                 android:id="@+id/tvTempIntro"
@@ -67,7 +67,7 @@
                             android:src="@drawable/ic_baseline_location_on_24" />
 
                         <TextView
-                            android:id="@+id/tvCity"
+                            android:id="@+id/tvCityName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
