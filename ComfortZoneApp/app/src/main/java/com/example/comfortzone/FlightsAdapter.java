@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.models.WeatherData;
@@ -34,6 +37,7 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         WeatherData city = cityList.get(position);
         holder.bind(city);
+        holder.cvCityRoot.setId(city.getId());
     }
 
 
@@ -53,21 +57,37 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
         private TextView tvComfortLevel;
         private TextView tvTemperature;
         private TextView tvCityName;
+        private CardView cvCityRoot;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             initViews(itemView);
+            listenerSetup();
         }
 
         private void initViews(View itemView) {
             tvComfortLevel = itemView.findViewById(R.id.tvComfortLevel);
             tvTemperature = itemView.findViewById(R.id.tvTemperature);
             tvCityName = itemView.findViewById(R.id.tvCityName);
+            cvCityRoot = itemView.findViewById(R.id.cvCityRoot);
         }
 
         public void bind(WeatherData city) {
             tvTemperature.setText(String.valueOf(city.getTempData().getTemp()));
             tvCityName.setText(city.getCity());
+        }
+
+        private void listenerSetup() {
+            cvCityRoot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                    Fragment cityDetailFragment = CityDetailFragment.newInstance(v.getId());
+                    activity.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.flContainer, cityDetailFragment)
+                            .addToBackStack(null).commit();
+                }
+            });
         }
     }
 }
