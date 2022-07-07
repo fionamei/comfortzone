@@ -1,7 +1,7 @@
 package com.example.comfortzone;
 
-import static com.example.comfortzone.Utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
-import static com.example.comfortzone.Utils.ComfortCalcUtil.calculateComfortTemp;
+import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
+import static com.example.comfortzone.utils.ComfortCalcUtil.calculateComfortTemp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.comfortzone.Utils.ComfortCalcUtil;
+import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
 import com.parse.ParseException;

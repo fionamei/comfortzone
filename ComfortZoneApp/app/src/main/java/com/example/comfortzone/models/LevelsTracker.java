@@ -33,11 +33,16 @@ public class LevelsTracker extends ParseObject {
         put(KEY_LEVEL, level);
     }
 
-    public int getCount() throws ParseException {
-        return fetchIfNeeded().getInt(KEY_COUNT);
+    public int getCount()  {
+        try {
+            return fetchIfNeeded().getInt(KEY_COUNT);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+       return 0;
     }
 
-    public void increaseCount() throws ParseException {
+    public void increaseCount() {
         put(KEY_COUNT, getCount() + 1);
     }
 

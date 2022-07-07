@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.comfortzone.R;
-import com.example.comfortzone.Utils.ComfortCalcUtil;
+import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.parse.ParseUser;
 
 public class ProfileFragment extends Fragment {

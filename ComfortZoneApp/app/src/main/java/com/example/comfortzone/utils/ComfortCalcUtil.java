@@ -1,4 +1,4 @@
-package com.example.comfortzone.Utils;
+package com.example.comfortzone.utils;
 
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;

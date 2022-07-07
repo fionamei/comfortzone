@@ -48,7 +48,7 @@ public class WeatherClient extends OkHttpClient {
         return urlBuilder.build().toString();
     }
 
-    public void getWeatherData(String lat, String lon, GetWeatherCallback weatherCallback) {
+    public void getWeatherData(String lat, String lon, WeatherCallback weatherCallback) {
         String url = getWeatherURL(lat, lon);
         final Request request = new Request.Builder()
                 .url(url)
@@ -70,7 +70,7 @@ public class WeatherClient extends OkHttpClient {
             }
         });}
 
-    public void getGroupWeatherData(String url, GetWeatherCallback callback) {
+    public void getGroupWeatherData(String url, WeatherCallback callback) {
         Request request = new Request.Builder().url(url).build();
         newCall(request).enqueue(new Callback() {
             @Override

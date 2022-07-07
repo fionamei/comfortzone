@@ -8,7 +8,7 @@ import android.location.LocationManager;
 import android.provider.Settings;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
-import com.example.comfortzone.GetLocationCallback;
+import com.example.comfortzone.LocationCallback;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -23,7 +23,7 @@ public class LocationUtil {
     private static FusedLocationProviderClient fusedLocationClient;
 
     @SuppressLint("MissingPermission")
-    public static void getLastLocation(Activity activity, GetLocationCallback locationCallback) {
+    public static void getLastLocation(Activity activity, LocationCallback locationCallback) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
         if (isLocationEnabled(activity)) {
             fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
@@ -52,7 +52,7 @@ public class LocationUtil {
     }
 
     @SuppressLint("MissingPermission")
-    private static void requestNewLocationData(Context context, GetLocationCallback locationCallback) {
+    private static void requestNewLocationData(Context context, LocationCallback locationCallback) {
         fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_LOW_POWER, null)
                 .addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override

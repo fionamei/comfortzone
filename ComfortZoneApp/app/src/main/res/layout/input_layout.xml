@@ -33,6 +33,7 @@
             android:ems="10"
             android:hint="@string/username"
             android:textColorHint="@color/black"
+            android:inputType="textPassword"
             tools:ignore="KeyboardInaccessibleWidget" />
 
     </com.google.android.material.textfield.TextInputLayout>
