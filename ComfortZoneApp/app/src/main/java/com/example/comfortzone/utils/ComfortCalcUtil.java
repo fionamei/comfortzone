@@ -7,9 +7,12 @@ import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.boltsinternal.Continuation;
+import com.parse.boltsinternal.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ComfortCalcUtil {
     public static final String KEY_PERFECT_COMFORT = "perfectComfort";
@@ -59,18 +62,26 @@ public class ComfortCalcUtil {
 
     public static void calculateAverages(ParseUser currentUser) {
         ArrayList<LevelsTracker> trackerArrayList = (ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS);
-        trackerArrayList.forEach(tracker -> calculateSingularAverage(tracker));
+        List<Task<Void>> savingAverages = trackerArrayList.stream().filter(tracker -> tracker.getCount() > 0).map(tracker -> calculateSingularAverage(tracker)).collect(Collectors.toList());
+        Task.whenAll(savingAverages).onSuccess(new Continuation<Void, Object>() {
+            @Override
+            public Object then(Task<Void> task) throws Exception {
+                return null;
+            }
+        });
     }
 
-    private static void calculateSingularAverage(LevelsTracker tracker) {
-        if (tracker.getCount() > 0) {
-            ArrayList<ComfortLevelEntry> entryArrayList = (ArrayList<ComfortLevelEntry>) tracker.get(KEY_ENTRIESLIST);
-            int sum = entryArrayList.stream().mapToInt(entry -> entry.getTemp()).sum();
-            int count = tracker.getCount();
-            tracker.put(KEY_AVERAGE, sum / count);
-            tracker.saveInBackground();
-        }
+    private static Task<Void> calculateSingularAverage(LevelsTracker tracker) {
+        ArrayList<ComfortLevelEntry> entryArrayList = (ArrayList<ComfortLevelEntry>) tracker.get(KEY_ENTRIESLIST);
+        int sum = entryArrayList.stream().mapToInt(entry -> entry.getTemp()).sum();
+        int count = tracker.getCount();
+        tracker.put(KEY_AVERAGE, sum / count);
+        return tracker.saveInBackground();
     }
+
+//    private static void
+
+
 
 
 
