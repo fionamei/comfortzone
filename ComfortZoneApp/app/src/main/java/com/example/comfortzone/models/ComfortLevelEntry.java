@@ -1,6 +1,7 @@
 package com.example.comfortzone.models;
 
 import com.example.comfortzone.utils.ParseUtil;
+
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;

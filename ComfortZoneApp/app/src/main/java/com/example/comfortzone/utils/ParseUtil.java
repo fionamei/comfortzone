@@ -1,4 +1,8 @@
+
 package com.example.comfortzone.utils;
+
+
+import static com.example.comfortzone.utils.ComfortCalcUtil.calculateComfortTemp;
 
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
@@ -6,6 +10,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+
 
 public class ParseUtil {
 
@@ -29,5 +34,12 @@ public class ParseUtil {
         currentUser.saveInBackground();
     }
 
+    public static void updateComfortLevel (ParseUser currentUser) {
+        int newComfortLevel = calculateComfortTemp(currentUser);
+        currentUser.put(ComfortCalcUtil.KEY_PERFECT_COMFORT, newComfortLevel);
+        ArrayList<ComfortLevelEntry> entriesList = (ArrayList<ComfortLevelEntry>) currentUser.get(KEY_TODAY_ENTRIES);
+        currentUser.removeAll(KEY_TODAY_ENTRIES , entriesList);
+        currentUser.saveInBackground();
+    }
 
 }
