@@ -24,6 +24,7 @@
             android:layout_marginTop="@dimen/generalMargin"
             android:layout_marginEnd="@dimen/generalMargin"
             android:layout_marginBottom="@dimen/generalMargin"
+            android:transitionName="@string/cityIcon"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView

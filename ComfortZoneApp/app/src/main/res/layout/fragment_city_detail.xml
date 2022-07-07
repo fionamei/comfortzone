@@ -25,6 +25,7 @@
         android:layout_width="@dimen/cityDetailImageSize"
         android:layout_height="@dimen/cityDetailImageSize"
         android:layout_gravity="center"
+        android:transitionName="@string/cityIcon"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView

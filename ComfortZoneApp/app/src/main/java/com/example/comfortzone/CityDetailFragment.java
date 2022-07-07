@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.comfortzone.models.WeatherData;
 
 public class CityDetailFragment extends Fragment {
@@ -71,6 +72,7 @@ public class CityDetailFragment extends Fragment {
     private void populateViews() {
         tvCityName.setText(String.format("%s, %s", cityData.getCity(), cityData.getState()));
         tvCityDescription.setText(cityData.getDescription());
-        Glide.with(getContext()).load(cityData.getImage()).transform(new RoundedCorners(IMAGE_RADIUS)).into(ivCityIcon);
+        Glide.with(getContext()).load(cityData.getImage()).apply(new RequestOptions().dontTransform()).into(ivCityIcon);
+        ivCityIcon.setTransitionName(getContext().getResources().getString(R.string.cityIcon));
     }
 }
