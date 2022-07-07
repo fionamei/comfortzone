@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.example.comfortzone.AllWeathersDatabase;
 import com.example.comfortzone.CityListCallback;
-import com.example.comfortzone.GetWeatherCallback;
+import com.example.comfortzone.WeatherCallback;
 import com.example.comfortzone.GroupUrlCallback;
 import com.example.comfortzone.WeatherClient;
 import com.example.comfortzone.models.WeatherData;
@@ -44,7 +44,7 @@ public class WeatherDbUtil {
             @Override
             public void onGetWeatherUrlGroupIds(List<String> groupUrls) {
                 for (String apiUrl : groupUrls) {
-                    client.getGroupWeatherData(apiUrl, new GetWeatherCallback() {
+                    client.getGroupWeatherData(apiUrl, new WeatherCallback() {
                         @Override
                         public void onGetWeatherData(String data) {
                             Gson gson = new Gson();

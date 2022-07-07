@@ -12,13 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.comfortzone.GetLocationCallback;
+import com.example.comfortzone.LocationCallback;
 import com.example.comfortzone.InputsAdapter;
 import com.example.comfortzone.R;
 import com.example.comfortzone.utils.LocationUtil;
 import com.example.comfortzone.utils.ParseUtil;
 import com.example.comfortzone.WeatherClient;
-import com.example.comfortzone.GetWeatherCallback;
+import com.example.comfortzone.WeatherCallback;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
@@ -98,10 +98,10 @@ public class InputFragment extends Fragment {
     }
 
     private void getWeatherClass() {
-        LocationUtil.getLastLocation(getActivity(), new GetLocationCallback() {
+        LocationUtil.getLastLocation(getActivity(), new LocationCallback() {
             @Override
             public void onLocationUpdated(String lat, String lon) {
-                client.getWeatherData(lat, lon, new GetWeatherCallback() {
+                client.getWeatherData(lat, lon, new WeatherCallback() {
                     @Override
                     public void onGetWeatherData(String data) {
                         Gson gson = new GsonBuilder().create();
