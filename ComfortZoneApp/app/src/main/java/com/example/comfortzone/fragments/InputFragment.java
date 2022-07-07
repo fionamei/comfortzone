@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.comfortzone.LocationCallback;
 import com.example.comfortzone.InputsAdapter;
 import com.example.comfortzone.R;
+import com.example.comfortzone.utils.ComfortLevelUtil;
 import com.example.comfortzone.utils.LocationUtil;
-import com.example.comfortzone.utils.ParseUtil;
 import com.example.comfortzone.WeatherClient;
 import com.example.comfortzone.WeatherCallback;
 import com.example.comfortzone.models.ComfortLevelEntry;
@@ -123,7 +123,7 @@ public class InputFragment extends Fragment {
     }
 
     private void queryInputs() {
-        ArrayList<ComfortLevelEntry> comfortLevelEntryArrayList = (ArrayList<ComfortLevelEntry>) currentUser.get(ParseUtil.KEY_TODAY_ENTRIES);
+        ArrayList<ComfortLevelEntry> comfortLevelEntryArrayList = (ArrayList<ComfortLevelEntry>) currentUser.get(ComfortLevelUtil.KEY_TODAY_ENTRIES);
         adapter.addAll(comfortLevelEntryArrayList);
     }
 
@@ -144,7 +144,7 @@ public class InputFragment extends Fragment {
                     @Override
                     public void done(ParseException e) {
                         try {
-                            ParseUtil.updateEntriesList(currentUser, newEntry);
+                            ComfortLevelUtil.updateEntriesList(currentUser, newEntry);
                             entries.add(INSERT_INDEX, newEntry);
                             adapter.notifyItemInserted(INSERT_INDEX);
                         } catch (ParseException ex) {

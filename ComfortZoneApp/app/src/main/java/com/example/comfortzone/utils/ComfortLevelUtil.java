@@ -12,9 +12,9 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 
 
-public class ParseUtil {
+public class ComfortLevelUtil {
 
-    public static final String TAG = "ParseUtil";
+    public static final String TAG = "ComfortLevelUtil";
     public static final String KEY_TODAY_ENTRIES = "todayEntries";
 
     public static void updateEntriesList(ParseUser currentUser, ComfortLevelEntry newEntry) throws ParseException {

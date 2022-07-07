@@ -1,6 +1,6 @@
 package com.example.comfortzone.models;
 
-import com.example.comfortzone.utils.ParseUtil;
+import com.example.comfortzone.utils.ComfortLevelUtil;
 
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -61,7 +61,7 @@ public class ComfortLevelEntry extends ParseObject {
     public void deleteEntryFromTodayList(ParseUser currentUser) {
         List<ComfortLevelEntry> toRemove = new ArrayList<>();
         toRemove.add(this);
-        currentUser.removeAll(ParseUtil.KEY_TODAY_ENTRIES, toRemove);
+        currentUser.removeAll(ComfortLevelUtil.KEY_TODAY_ENTRIES, toRemove);
         currentUser.saveInBackground();
     }
 

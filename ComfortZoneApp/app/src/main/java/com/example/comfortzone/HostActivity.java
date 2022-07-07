@@ -15,13 +15,12 @@ import com.example.comfortzone.fragments.FlightFragment;
 import com.example.comfortzone.fragments.InputFragment;
 import com.example.comfortzone.fragments.ProfileFragment;
 import com.example.comfortzone.models.ComfortLevelEntry;
-import com.example.comfortzone.utils.ParseUtil;
+import com.example.comfortzone.utils.ComfortLevelUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import android.view.Menu;
 import android.widget.Toast;
 
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -65,9 +64,9 @@ public class HostActivity extends AppCompatActivity {
 
     private void maybeUpdateComfortLevel() {
         ParseUser currentUser = ParseUser.getCurrentUser();
-        ArrayList<ComfortLevelEntry> todayEntries = (ArrayList<ComfortLevelEntry>) currentUser.get(ParseUtil.KEY_TODAY_ENTRIES);
+        ArrayList<ComfortLevelEntry> todayEntries = (ArrayList<ComfortLevelEntry>) currentUser.get(ComfortLevelUtil.KEY_TODAY_ENTRIES);
         if (!todayEntries.isEmpty() && todayEntries.get(0).getUpdatedAt() != null && !DateUtils.isToday(todayEntries.get(0).getUpdatedAt().getTime())) {
-            ParseUtil.updateComfortLevel(currentUser);
+            ComfortLevelUtil.updateComfortLevel(currentUser);
         }
     }
 
