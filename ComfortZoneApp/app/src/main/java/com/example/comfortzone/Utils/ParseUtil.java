@@ -1,56 +1,46 @@
-package com.example.comfortzone.Utils;
 
-import static com.example.comfortzone.Utils.ComfortCalcUtil.calculateComfortTemp;
+package com.example.comfortzone.utils;
 
-import android.util.Log;
 
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
-import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ParseUtil {
 
     public static final String TAG = "ParseUtil";
     public static final String KEY_TODAY_ENTRIES = "todayEntries";
 
-    public static void updateEntriesList(ParseUser currentUser, int temp, int comfortLevel) {
+    public static void updateEntriesList(ParseUser currentUser, ComfortLevelEntry newEntry) throws ParseException {
 
-        ParseQuery<LevelsTracker> query = ParseQuery.getQuery("LevelsTracker");
-        query.whereEqualTo("user", currentUser);
-        query.whereEqualTo("level", comfortLevel);
-        query.findInBackground(new FindCallback<LevelsTracker>() {
-            @Override
-            public void done(List<LevelsTracker> objects, ParseException e) {
-                if (e != null || objects.isEmpty()) {
-                    Log.e(TAG, "error finding tracker " + e);
-                } else {
-                    LevelsTracker tracker = objects.get(0);
-                    ComfortLevelEntry newEntry = new ComfortLevelEntry(currentUser, temp, comfortLevel);
-                    tracker.addEntry(newEntry);
-                    tracker.increaseCount();
-                    tracker.saveInBackground();
-                    updateTodayEntries(currentUser, newEntry);
-                }
+        ArrayList<LevelsTracker> levelTrackersArray = (ArrayList<LevelsTracker>) currentUser.get("levelTrackers");
+        for (LevelsTracker tracker : levelTrackersArray) {
+            if (tracker.getLevel() == newEntry.getComfortLevel()) {
+                tracker.addEntry(newEntry);
+                tracker.increaseCount();
+                tracker.saveInBackground();
+
+                newEntry.setLevelTracker(tracker);
+                newEntry.saveInBackground();
             }
-        });
-    }
-
-    private static void updateTodayEntries (ParseUser currentUser, ComfortLevelEntry newEntry) {
+        }
         currentUser.add(KEY_TODAY_ENTRIES, newEntry);
         currentUser.saveInBackground();
     }
 
     public static void updateComfortLevel (ParseUser currentUser) throws ParseException {
-        int newComfortLevel = calculateComfortTemp(currentUser);
+        int newComfortLevel = 
+        
+        comComfortTemp(currentUser);
         currentUser.put(ComfortCalcUtil.KEY_PERFECT_COMFORT, newComfortLevel);
         ArrayList<ComfortLevelEntry> entriesList = (ArrayList<ComfortLevelEntry>) currentUser.get(KEY_TODAY_ENTRIES);
         currentUser.removeAll(KEY_TODAY_ENTRIES , entriesList);
         currentUser.saveInBackground();
     }
+
 }

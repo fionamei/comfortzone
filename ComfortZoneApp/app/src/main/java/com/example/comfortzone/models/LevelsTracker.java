@@ -4,6 +4,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import java.util.ArrayList;
 
 @ParseClassName("LevelsTracker")
 public class LevelsTracker extends ParseObject {
@@ -32,15 +33,27 @@ public class LevelsTracker extends ParseObject {
         put(KEY_LEVEL, level);
     }
 
-    public int getCount() {
-        return getInt(KEY_COUNT);
+    public int getCount() throws ParseException {
+        return fetchIfNeeded().getInt(KEY_COUNT);
     }
 
-    public void increaseCount() {
+    public void increaseCount() throws ParseException {
         put(KEY_COUNT, getCount() + 1);
+    }
+
+    public void decreaseCount() throws ParseException {
+        put(KEY_COUNT, getCount() - 1);
     }
 
     public void addEntry(ComfortLevelEntry entry) {
         add(KEY_ENTRIESLIST, entry);
+    }
+
+    public void removeEntry(ComfortLevelEntry entry) throws ParseException {
+        ArrayList<ComfortLevelEntry> toRemove = new ArrayList<>();
+        toRemove.add(entry);
+        removeAll(KEY_ENTRIESLIST, toRemove);
+        decreaseCount();
+        saveInBackground();
     }
 }

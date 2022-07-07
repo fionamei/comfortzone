@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivCityIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvCityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/ivCityIcon"
+        android:textColor="@color/black"
+        android:textSize="@dimen/titleTextSize"
+        tools:text="New York City" />
+
+    <TextView
+        android:id="@+id/tvDescriptionComfy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCityName"
+        android:layout_marginStart="@dimen/generalMargin"
+        android:layout_marginTop="@dimen/generalMargin"
+        android:layout_toEndOf="@+id/ivCityIcon"
+        android:text="@string/comfort"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvComfortLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvDescriptionComfy"
+        android:layout_marginStart="@dimen/miniMargin"
+        android:layout_toEndOf="@+id/tvDescriptionComfy"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        tools:text="5" />
+
+    <TextView
+        android:id="@+id/tvTempDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvDescriptionComfy"
+        android:layout_marginStart="@dimen/generalMargin"
+        android:layout_marginTop="@dimen/miniMargin"
+        android:layout_toEndOf="@+id/ivCityIcon"
+        android:text="@string/temperature"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/tvTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvTempDescription"
+        android:layout_marginStart="@dimen/miniMargin"
+        android:layout_toEndOf="@+id/tvTempDescription"
+        android:textColor="@color/black"
+        tools:text="78" />
+</RelativeLayout>

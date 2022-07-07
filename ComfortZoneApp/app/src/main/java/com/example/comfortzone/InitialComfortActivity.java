@@ -120,6 +120,7 @@ public class InitialComfortActivity extends AppCompatActivity {
                 });
     }
 
+
     public List<Task<Void>> createLevels() {
         List<Task<Void>> levels = new ArrayList<>();
         for (int i = 0; i < TOTAL_LEVELS; i ++) {

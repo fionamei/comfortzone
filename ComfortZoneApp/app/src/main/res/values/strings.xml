@@ -24,4 +24,7 @@
     <string name="how_comfortable_do_you_feel">How comfortable do you feel?</string>
     <string name="levels">0 for very very cold! \n5 for your perfect temperature! \n10 for very very hot!</string>
     <string name="submit">submit</string>
+    <string name="delete">delete</string>
+    <string name="comfort">Comfort:</string>
+    <string name="temperature">Temperature:</string>
 </resources>

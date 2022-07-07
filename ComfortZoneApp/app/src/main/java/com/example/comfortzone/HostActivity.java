@@ -10,11 +10,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
-
-
-import com.example.comfortzone.Fragments.FlightFragment;
-import com.example.comfortzone.Fragments.InputFragment;
-import com.example.comfortzone.Fragments.ProfileFragment;
+import com.example.comfortzone.fragments.FlightFragment;
+import com.example.comfortzone.fragments.InputFragment;
+import com.example.comfortzone.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import android.view.Menu;
