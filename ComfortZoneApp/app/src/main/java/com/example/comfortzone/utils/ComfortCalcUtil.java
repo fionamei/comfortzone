@@ -1,11 +1,15 @@
 package com.example.comfortzone.utils;
 
+import static com.example.comfortzone.models.LevelsTracker.KEY_AVERAGE;
+import static com.example.comfortzone.models.LevelsTracker.KEY_ENTRIESLIST;
+
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ComfortCalcUtil {
     public static final String KEY_PERFECT_COMFORT = "perfectComfort";
@@ -49,17 +53,25 @@ public class ComfortCalcUtil {
     }
 
     private static int getSum(LevelsTracker tracker) {
-        ArrayList<ComfortLevelEntry> entryArrayList = (ArrayList<ComfortLevelEntry>) tracker.get(LevelsTracker.KEY_ENTRIESLIST);
-        return entryArrayList.stream().mapToInt(entry -> getTemp(entry)).sum();
+        ArrayList<ComfortLevelEntry> entryArrayList = (ArrayList<ComfortLevelEntry>) tracker.get(KEY_ENTRIESLIST);
+        return entryArrayList.stream().mapToInt(entry -> entry.getTemp()).sum();
     }
 
-    private static int getTemp(ComfortLevelEntry entry) {
-        try {
-            return entry.getTemp();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return 0;
+    public static void calculateAverages(ParseUser currentUser) {
+        ArrayList<LevelsTracker> trackerArrayList = (ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS);
+        trackerArrayList.forEach(tracker -> calculateSingularAverage(tracker));
     }
+
+    private static void calculateSingularAverage(LevelsTracker tracker) {
+        if (tracker.getCount() > 0) {
+            ArrayList<ComfortLevelEntry> entryArrayList = (ArrayList<ComfortLevelEntry>) tracker.get(KEY_ENTRIESLIST);
+            int sum = entryArrayList.stream().mapToInt(entry -> entry.getTemp()).sum();
+            int count = tracker.getCount();
+            tracker.put(KEY_AVERAGE, sum / count);
+            tracker.saveInBackground();
+        }
+    }
+
+
 
 }

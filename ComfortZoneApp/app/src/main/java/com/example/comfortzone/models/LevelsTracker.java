@@ -14,6 +14,7 @@ public class LevelsTracker extends ParseObject {
     public static final String KEY_COUNT = "count";
     public static final String KEY_ENTRIESLIST = "entriesList";
     public static final String TAG = "LevelsTracker";
+    public static final String KEY_AVERAGE = "average";
 
     public LevelsTracker() {};
 
