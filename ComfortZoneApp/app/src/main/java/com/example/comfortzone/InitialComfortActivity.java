@@ -3,12 +3,14 @@ package com.example.comfortzone;
 import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
 import static com.example.comfortzone.utils.ComfortCalcUtil.calculateComfortTemp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -45,6 +47,7 @@ public class InitialComfortActivity extends AppCompatActivity {
     private ComfortLevelEntry entryFive;
     private ComfortLevelEntry entryTen;
     private List<LevelsTracker> trackerList;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class InitialComfortActivity extends AppCompatActivity {
 
         user = ParseUser.getCurrentUser();
         trackerList = new ArrayList<>();
+        context = this;
 
         initViews();
         confirmListener();
@@ -72,8 +76,13 @@ public class InitialComfortActivity extends AppCompatActivity {
                 int tempZero = Integer.parseInt(etZero.getText().toString());
                 int tempFive = Integer.parseInt(etFive.getText().toString());
                 int tempTen = Integer.parseInt(etTen.getText().toString());
-                save(tempZero, tempFive, tempTen);
-                goHostActivity();
+                if (tempZero < tempFive && tempFive < tempTen) {
+                    save(tempZero, tempFive, tempTen);
+                    goHostActivity();
+                } else {
+                    Toast.makeText(context, "Your temperature estimates must be in ascending order", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
     }

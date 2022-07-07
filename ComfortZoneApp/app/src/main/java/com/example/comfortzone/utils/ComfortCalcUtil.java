@@ -78,8 +78,7 @@ public class ComfortCalcUtil {
         tracker.put(KEY_AVERAGE, sum / count);
         return tracker.saveInBackground();
     }
-
-//    private static void
+    
 
 
 
