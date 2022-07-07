@@ -46,7 +46,7 @@ public class LevelsTracker extends ParseObject {
         put(KEY_COUNT, getCount() + 1);
     }
 
-    public void decreaseCount() throws ParseException {
+    public void decreaseCount() {
         put(KEY_COUNT, getCount() - 1);
     }
 
@@ -54,7 +54,7 @@ public class LevelsTracker extends ParseObject {
         add(KEY_ENTRIESLIST, entry);
     }
 
-    public void removeEntry(ComfortLevelEntry entry) throws ParseException {
+    public void removeEntry(ComfortLevelEntry entry) {
         ArrayList<ComfortLevelEntry> toRemove = new ArrayList<>();
         toRemove.add(entry);
         removeAll(KEY_ENTRIESLIST, toRemove);

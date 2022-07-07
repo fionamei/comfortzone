@@ -163,7 +163,7 @@ public class InputFragment extends Fragment {
                 ComfortLevelEntry comfortEntry = entries.get(position);
                 adapter.remove(position);
 
-                LevelsTracker tracker = null;
+                LevelsTracker tracker;
                 try {
                     tracker = comfortEntry.getLevelTracker();
                     tracker.removeEntry(comfortEntry);
