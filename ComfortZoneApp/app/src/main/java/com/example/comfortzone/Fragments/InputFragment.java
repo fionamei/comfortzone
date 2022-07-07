@@ -75,7 +75,6 @@ public class InputFragment extends Fragment {
         initViews(view);
         getWeatherClass();
         queryInputs();
-        listenerSetup();
     }
 
     private void initViews(View view) {
@@ -114,6 +113,7 @@ public class InputFragment extends Fragment {
                             @Override
                             public void run() {
                                 populateViews();
+                                listenerSetup();
                             }
                         });
                     }
