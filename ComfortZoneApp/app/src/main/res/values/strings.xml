@@ -27,4 +27,5 @@
     <string name="delete">delete</string>
     <string name="comfort">Comfort:</string>
     <string name="temperature">Temperature:</string>
+    <string name="filter_by_comfort_level">Filter by Comfort Level:</string>
 </resources>
