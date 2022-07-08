@@ -29,6 +29,7 @@
     <string name="temperature">Temperature:</string>
     <string name="filter_by_comfort_level">Filter by Comfort Level:</string>
     <string name="sort_by">Sort by...</string>
+    <string name="search_for_a_city">Search for a city!</string>
     <string-array name="filter_array">
         <item>No criteria</item>
         <item>Temperature: Low to High</item>

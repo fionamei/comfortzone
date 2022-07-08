@@ -57,6 +57,17 @@
 
     </LinearLayout>
 
+    <EditText
+        android:id="@+id/etSearchCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/generalMargin"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/search_for_a_city"
+        android:textSize="@dimen/miniTextSize" />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCities"
         android:layout_width="match_parent"

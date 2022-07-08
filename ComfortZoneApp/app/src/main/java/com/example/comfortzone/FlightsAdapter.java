@@ -13,6 +13,8 @@ import com.example.comfortzone.models.WeatherData;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHolder> {
 
@@ -122,6 +124,11 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
                 return o1.getDistanceBetween() < o2.getDistanceBetween() ? -1 : 1;
             }
         });
+        notifyDataSetChanged();
+    }
+
+    public void searchCity(CharSequence name, List<WeatherData> cities) {
+        cityList = cities.stream().filter(city -> city.getCity().toLowerCase(Locale.ROOT).contains(name)).collect(Collectors.toList());
         notifyDataSetChanged();
     }
 

@@ -3,11 +3,14 @@ package com.example.comfortzone.fragments;
 import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -27,6 +30,8 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class FlightFragment extends Fragment {
 
@@ -38,6 +43,7 @@ public class FlightFragment extends Fragment {
     private RangeSlider rsComfortFilter;
     private Spinner spSort;
     private ArrayAdapter<CharSequence> spinnerAdapter;
+    private EditText etSearchCity;
 
     public FlightFragment() {
         // Required empty public constructor
@@ -65,6 +71,7 @@ public class FlightFragment extends Fragment {
         rvCities = view.findViewById(R.id.rvCities);
         rsComfortFilter = view.findViewById(R.id.rsComfortFilter);
         spSort = view.findViewById(R.id.spSort);
+        etSearchCity = view.findViewById(R.id.etSearchCity);
     }
 
     private void setObjects() {
@@ -85,6 +92,7 @@ public class FlightFragment extends Fragment {
     private void listenerSetup() {
         setFilterListener();
         setSortListener();
+        setSearchCityListener();
     }
 
     private void setFilterListener() {
@@ -139,6 +147,29 @@ public class FlightFragment extends Fragment {
             }
         });
     }
+
+    private void setSearchCityListener() {
+        etSearchCity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                flightsAdapter.searchCity(s.toString().toLowerCase(Locale.ROOT), db.weatherDao().getAll());
+
+            }
+        });
+
+    }
+
+
 
 
 }
