@@ -23,6 +23,7 @@ public class ComfortCalcUtil {
     public static final String KEY_PERFECT_COMFORT = "perfectComfort";
     public static final String TAG = "ComfortCalcUtil";
     public static final String KEY_LEVEL_TRACKERS = "levelTrackers";
+    public static final String KEY_TEMP_AVERAGE = "tempAverage";
     public static final double[] WEIGHTS = new double[]{0.1, 0.2, 0.35, 0.5, 1.0, 2.0, 1.0, 0.5, 0.35, 0.2, 0.1};
     public static final int MIN_TEMP = -999;
     public static final int INTERVAL_SCALE = 5;
@@ -77,6 +78,7 @@ public class ComfortCalcUtil {
             public Object then(Task<Void> task) throws Exception {
                 goThroughTrackerList(trackerArrayList);
                 findBlanks();
+                saveTempAverage(trackerArrayList);
                 return null;
             }
         });
@@ -213,5 +215,14 @@ public class ComfortCalcUtil {
             valueToAdd = valueToAdd + interval;
             averages[i] = valueToAdd;
         }
+    }
+
+    private static void saveTempAverage(ArrayList<LevelsTracker> trackerArrayList) {
+         for (int i = 0; i < TOTAL_LEVELS; i++) {
+             LevelsTracker tracker = trackerArrayList.get(i);
+             int average = averages[i];
+             tracker.put(KEY_TEMP_AVERAGE, average);
+             tracker.saveInBackground();
+         }
     }
 }
