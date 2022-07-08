@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.models.WeatherData;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHolder> {
@@ -50,6 +52,30 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
     public void filterClearAndAdd(List<WeatherData> cities) {
         cityList.clear();
         addAll(cities);
+    }
+
+    public void sortIncTemp() {
+        cityList.sort(new Comparator<WeatherData>() {
+            @Override
+            public int compare(WeatherData o1, WeatherData o2) {
+                if (o1 == o2)
+                    return 0;
+                return o1.getTempData().getTemp() < o2.getTempData().getTemp() ? -1 : 1;
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public void sortDecTemp() {
+        cityList.sort(new Comparator<WeatherData>() {
+            @Override
+            public int compare(WeatherData o1, WeatherData o2) {
+                if (o1 == o2)
+                    return 0;
+                return o1.getTempData().getTemp() > o2.getTempData().getTemp() ? -1 : 1;
+            }
+        });
+        notifyDataSetChanged();
     }
 
 

@@ -35,5 +35,7 @@
         <item>Decreasing Temperature</item>
         <item>Increasing Distance</item>
         <item>Decreasing Distance</item>
+        <item>Increasing Population</item>
+        <item>Decreasing Population</item>
     </string-array>
 </resources>
