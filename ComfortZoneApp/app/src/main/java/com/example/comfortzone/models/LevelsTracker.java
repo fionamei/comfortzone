@@ -1,6 +1,9 @@
 package com.example.comfortzone.models;
 
+import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_HIGH_RANGE;
+import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LOW_RANGE;
 import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_TEMP_AVERAGE;
+import static com.example.comfortzone.utils.ComfortCalcUtil.MAX_TEMP;
 import static com.example.comfortzone.utils.ComfortCalcUtil.MIN_TEMP;
 
 import com.parse.ParseClassName;
@@ -60,6 +63,22 @@ public class LevelsTracker extends ParseObject {
         } catch (ParseException e) {
             e.printStackTrace();
         } return MIN_TEMP;
+    }
+
+    public int getLowRange() {
+        try {
+            return fetchIfNeeded().getInt(KEY_LOW_RANGE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } return MIN_TEMP;
+    }
+
+    public int getHighRange() {
+        try {
+            return fetchIfNeeded().getInt(KEY_HIGH_RANGE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } return MAX_TEMP;
     }
 
     public void increaseCount() {
