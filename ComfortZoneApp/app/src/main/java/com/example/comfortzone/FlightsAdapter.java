@@ -47,6 +47,11 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
         notifyDataSetChanged();
     }
 
+    public void filterClearAndAdd(List<WeatherData> cities) {
+        cityList.clear();
+        addAll(cities);
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

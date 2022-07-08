@@ -90,6 +90,7 @@ public class FlightFragment extends Fragment {
                 int lowRange = ((ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS)).get(lowComfort).getLowRange();
                 int highRange = ((ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS)).get(highComfort).getHighRange();
                 List<WeatherData> weathers = db.weatherDao().getRange(lowRange, highRange);
+                flightsAdapter.filterClearAndAdd(weathers);
             }
         });
     }
