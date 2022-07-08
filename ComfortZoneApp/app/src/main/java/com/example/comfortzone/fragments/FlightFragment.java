@@ -119,6 +119,12 @@ public class FlightFragment extends Fragment {
                     case 2:
                         flightsAdapter.sortDecTemp();
                         break;
+                    case 3:
+                        flightsAdapter.sortDecDist();
+                        break;
+                    case 4:
+                        flightsAdapter.sortIncDist();
+                        break;
                     case 5:
                         flightsAdapter.sortDecRank();
                         break;
