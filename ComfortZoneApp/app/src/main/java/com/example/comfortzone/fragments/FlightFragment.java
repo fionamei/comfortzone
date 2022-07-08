@@ -1,6 +1,5 @@
 package com.example.comfortzone.fragments;
 
-import static com.example.comfortzone.models.ComfortLevelEntry.KEY_LEVEL_TRACKER;
 import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
 import static com.example.comfortzone.utils.WeatherDbUtil.maybeUpdateCitiesList;
 
@@ -9,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -83,6 +83,11 @@ public class FlightFragment extends Fragment {
     }
 
     private void listenerSetup() {
+        setFilterListener();
+        setSortListener();
+    }
+
+    private void setFilterListener() {
         rsComfortFilter.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull RangeSlider slider) {
@@ -103,8 +108,31 @@ public class FlightFragment extends Fragment {
         });
     }
 
+    private void setSortListener() {
+        spSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 1:
+                        flightsAdapter.sortIncTemp();
+                        break;
+                    case 2:
+                        flightsAdapter.sortDecTemp();
+                        break;
+                    case 5:
+                        flightsAdapter.sortIncRank();
+                        break;
+                    case 6:
+                        flightsAdapter.sortDecRank();
+                        break;
+                }
+            }
 
-
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
 
 
 }

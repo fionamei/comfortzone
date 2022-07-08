@@ -78,6 +78,30 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
         notifyDataSetChanged();
     }
 
+    public void sortIncRank() {
+        cityList.sort(new Comparator<WeatherData>() {
+            @Override
+            public int compare(WeatherData o1, WeatherData o2) {
+                if (o1 == o2)
+                    return 0;
+                return o1.getRank() < o2.getRank() ? -1 : 1;
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public void sortDecRank() {
+        cityList.sort(new Comparator<WeatherData>() {
+            @Override
+            public int compare(WeatherData o1, WeatherData o2) {
+                if (o1 == o2)
+                    return 0;
+                return o1.getRank() > o2.getRank() ? -1 : 1;
+            }
+        });
+        notifyDataSetChanged();
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
