@@ -98,14 +98,19 @@ public class ComfortCalcUtil {
     }
 
     private static void goThroughTrackerList(List<LevelsTracker> trackerList) {
-        if (trackerList.get(0).getAverage() < trackerList.get(1).getAverage() || trackerList.get(0).getCount() > trackerList.get(1).getCount()) {
+        int firstNonEmptyVal = 1;
+        while (trackerList.get(firstNonEmptyVal).getAverage() == MIN_TEMP) {
+            averages[firstNonEmptyVal] = MIN_TEMP;
+            firstNonEmptyVal += 1;
+        }
+        if (trackerList.get(0).getAverage() < trackerList.get(firstNonEmptyVal).getAverage() || trackerList.get(0).getCount() > trackerList.get(1).getCount()) {
             averages[0] = trackerList.get(0).getAverage();
         } else {
             averages[0] = MIN_TEMP;
         }
 
-        int earlierIndex = 0;
-        for (int i = 1; i < TOTAL_LEVELS; i++) {
+        int earlierIndex = firstNonEmptyVal - 1;
+        for (int i = firstNonEmptyVal; i < TOTAL_LEVELS; i++) {
             LevelsTracker earlierTracker = trackerList.get(earlierIndex);
             LevelsTracker laterTracker = trackerList.get(i);
             if (laterTracker.getAverage() != MIN_TEMP) {
@@ -153,7 +158,7 @@ public class ComfortCalcUtil {
             } else {
                 averages[i] = MIN_TEMP;
             }
-        }
+        } Log.i(TAG, "array " + Arrays.toString(averages));
     }
 
     private static void filterLowerTemps(ArrayList<ComfortLevelEntry> entryArrayList, int upperbound, int position) {
@@ -164,5 +169,10 @@ public class ComfortCalcUtil {
         } else {
             averages[position] = MIN_TEMP;
         }
+    }
+
+    private static void fillInTheBlanks() {
+        int countBlanks = 0;
+
     }
 }

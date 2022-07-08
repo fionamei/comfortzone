@@ -45,9 +45,7 @@ public class HostActivity extends AppCompatActivity {
 
         maybeRequestPermissions();
         maybeUpdateComfortLevel();
-
-//        calculateComfortTemp(ParseUser.getCurrentUser());
-        calculateAverages(ParseUser.getCurrentUser());
+        
         initViews();
         listenerSetup();
     }
