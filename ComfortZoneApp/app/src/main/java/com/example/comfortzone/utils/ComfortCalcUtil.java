@@ -24,8 +24,11 @@ public class ComfortCalcUtil {
     public static final String TAG = "ComfortCalcUtil";
     public static final String KEY_LEVEL_TRACKERS = "levelTrackers";
     public static final String KEY_TEMP_AVERAGE = "tempAverage";
+    public static final String KEY_LOW_RANGE = "lowRange";
+    public static final String KEY_HIGH_RANGE = "highRange";
     public static final double[] WEIGHTS = new double[]{0.1, 0.2, 0.35, 0.5, 1.0, 2.0, 1.0, 0.5, 0.35, 0.2, 0.1};
     public static final int MIN_TEMP = -999;
+    public static final int MAX_TEMP = 999;
     public static final int INTERVAL_SCALE = 5;
     private static int[] averages = new int[TOTAL_LEVELS];
 
@@ -78,7 +81,13 @@ public class ComfortCalcUtil {
             public Object then(Task<Void> task) throws Exception {
                 goThroughTrackerList(trackerArrayList);
                 findBlanks();
-                saveTempAverage(trackerArrayList);
+                Task.whenAll(saveTempAverage(trackerArrayList)).onSuccess(new Continuation<Void, Object>() {
+                    @Override
+                    public Object then(Task<Void> task) throws Exception {
+                        getAndSaveRanges(trackerArrayList);
+                        return null;
+                    }
+                });
                 return null;
             }
         });
@@ -217,12 +226,32 @@ public class ComfortCalcUtil {
         }
     }
 
-    private static void saveTempAverage(ArrayList<LevelsTracker> trackerArrayList) {
+    private static List<Task<Void>> saveTempAverage(ArrayList<LevelsTracker> trackerArrayList) {
+        List<Task<Void>> tasksList = new ArrayList<>();
          for (int i = 0; i < TOTAL_LEVELS; i++) {
              LevelsTracker tracker = trackerArrayList.get(i);
              int average = averages[i];
              tracker.put(KEY_TEMP_AVERAGE, average);
-             tracker.saveInBackground();
+             tasksList.add(tracker.saveInBackground());
          }
+         return tasksList;
+    }
+
+    private static void getAndSaveRanges(ArrayList<LevelsTracker> trackerArrayList) {
+        int minTemp = MIN_TEMP;
+        for (int i = 0; i < TOTAL_LEVELS - 1; i++) {
+            int lowRange = trackerArrayList.get(i).getTempAverage();
+            int highRange = trackerArrayList.get(i + 1).getTempAverage();
+            int highTemp = (highRange + lowRange) / 2;
+            LevelsTracker tracker = trackerArrayList.get(i);
+            tracker.put(KEY_LOW_RANGE, minTemp);
+            tracker.put(KEY_HIGH_RANGE, highTemp);
+            minTemp = highTemp;
+            tracker.saveInBackground();
+        }
+        LevelsTracker lastTracker = trackerArrayList.get(TOTAL_LEVELS - 1);
+        lastTracker.put(KEY_LOW_RANGE, minTemp);
+        lastTracker.put(KEY_HIGH_RANGE, MAX_TEMP);
+        lastTracker.saveInBackground();
     }
 }

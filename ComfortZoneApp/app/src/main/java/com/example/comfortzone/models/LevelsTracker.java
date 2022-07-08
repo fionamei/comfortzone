@@ -1,5 +1,8 @@
 package com.example.comfortzone.models;
 
+import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_TEMP_AVERAGE;
+import static com.example.comfortzone.utils.ComfortCalcUtil.MIN_TEMP;
+
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -48,7 +51,15 @@ public class LevelsTracker extends ParseObject {
             return fetchIfNeeded().getInt(KEY_AVERAGE);
         } catch (ParseException e) {
             e.printStackTrace();
-        } return 0;
+        } return MIN_TEMP;
+    }
+
+    public int getTempAverage() {
+        try {
+            return fetchIfNeeded().getInt(KEY_TEMP_AVERAGE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } return MIN_TEMP;
     }
 
     public void increaseCount() {
