@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +37,8 @@ public class FlightFragment extends Fragment {
     private RecyclerView rvCities;
     private AllWeathersDatabase db;
     private RangeSlider rsComfortFilter;
+    private Spinner spSort;
+    private ArrayAdapter<CharSequence> spinnerAdapter;
 
     public FlightFragment() {
         // Required empty public constructor
@@ -54,6 +58,8 @@ public class FlightFragment extends Fragment {
         cityList = new ArrayList<>();
         flightsAdapter = new FlightsAdapter(getContext(), cityList);
         db = AllWeathersDatabase.getDbInstance(getContext().getApplicationContext());
+        spinnerAdapter = ArrayAdapter.createFromResource(getContext(), R.array.filter_array, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         initViews(view);
         maybeUpdateCitiesList(getContext());
@@ -66,12 +72,14 @@ public class FlightFragment extends Fragment {
     private void initViews(@NonNull View view) {
         rvCities = view.findViewById(R.id.rvCities);
         rsComfortFilter = view.findViewById(R.id.rsComfortFilter);
+        spSort = view.findViewById(R.id.spSort);
     }
 
     private void populateViews() {
         rvCities.setAdapter(flightsAdapter);
         rvCities.setLayoutManager(new LinearLayoutManager(getContext()));
         flightsAdapter.addAll(db.weatherDao().getAll());
+        spSort.setAdapter(spinnerAdapter);
     }
 
     private void listenerSetup() {

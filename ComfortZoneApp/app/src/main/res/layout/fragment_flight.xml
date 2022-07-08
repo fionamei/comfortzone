@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/filter_by_comfort_level"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/miniTextSize" />
 
         <com.google.android.material.slider.RangeSlider
             android:id="@+id/rsComfortFilter"
@@ -33,6 +34,28 @@
             app:values="@array/initial_slider_values" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/generalMargin">
+
+        <TextView
+            android:id="@+id/tvSortDescription"
+            android:layout_width="@dimen/textWidth"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by"
+            android:textColor="@color/black"
+            android:textSize="@dimen/miniTextSize" />
+
+        <Spinner
+            android:id="@+id/spSort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/generalMargin"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCities"
