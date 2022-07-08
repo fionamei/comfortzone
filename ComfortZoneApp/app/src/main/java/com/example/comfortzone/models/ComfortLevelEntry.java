@@ -47,8 +47,8 @@ public class ComfortLevelEntry extends ParseObject {
         put(KEY_COMFORTLEVEL, comfort);
     }
 
-    public int getComfortLevel() {
-        return getInt(KEY_COMFORTLEVEL);
+    public int getComfortLevel() throws ParseException {
+        return fetchIfNeeded().getInt(KEY_COMFORTLEVEL);
     }
 
     public void deleteEntry() {

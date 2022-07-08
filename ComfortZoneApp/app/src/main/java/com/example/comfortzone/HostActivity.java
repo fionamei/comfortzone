@@ -1,9 +1,5 @@
 package com.example.comfortzone;
 
-import static com.example.comfortzone.utils.ComfortCalcUtil.calculateAverages;
-import static com.example.comfortzone.utils.ComfortCalcUtil.calculateComfortTemp;
-import static com.example.comfortzone.utils.ComfortLevelUtil.updateComfortLevel;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,6 +19,7 @@ import com.example.comfortzone.fragments.FlightFragment;
 import com.example.comfortzone.fragments.InputFragment;
 import com.example.comfortzone.fragments.ProfileFragment;
 import com.example.comfortzone.models.ComfortLevelEntry;
+import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.example.comfortzone.utils.ComfortLevelUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -71,8 +68,8 @@ public class HostActivity extends AppCompatActivity {
         ParseUser currentUser = ParseUser.getCurrentUser();
         ArrayList<ComfortLevelEntry> todayEntries = (ArrayList<ComfortLevelEntry>) currentUser.get(ComfortLevelUtil.KEY_TODAY_ENTRIES);
         if (!todayEntries.isEmpty() && todayEntries.get(0).getUpdatedAt() != null && !DateUtils.isToday(todayEntries.get(0).getUpdatedAt().getTime())) {
-            updateComfortLevel(currentUser);
-            calculateAverages(currentUser);
+            ComfortLevelUtil.updateComfortLevel(currentUser);
+            ComfortCalcUtil.calculateAverages(currentUser);
         }
     }
 

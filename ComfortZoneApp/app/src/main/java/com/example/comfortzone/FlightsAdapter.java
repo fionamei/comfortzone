@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.models.WeatherData;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 

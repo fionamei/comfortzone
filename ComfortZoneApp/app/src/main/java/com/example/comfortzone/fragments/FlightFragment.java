@@ -1,10 +1,8 @@
 package com.example.comfortzone.fragments;
 
 import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
-import static com.example.comfortzone.utils.WeatherDbUtil.maybeUpdateCitiesList;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +21,7 @@ import com.example.comfortzone.FlightsAdapter;
 import com.example.comfortzone.R;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.utils.WeatherDbUtil;
 import com.google.android.material.slider.RangeSlider;
 import com.parse.ParseUser;
 
@@ -62,7 +61,7 @@ public class FlightFragment extends Fragment {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         initViews(view);
-        maybeUpdateCitiesList(getContext());
+        WeatherDbUtil.maybeUpdateCitiesList(getContext());
         populateViews();
         listenerSetup();
     }

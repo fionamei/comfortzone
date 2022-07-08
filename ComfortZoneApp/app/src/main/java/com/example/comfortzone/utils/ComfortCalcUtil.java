@@ -4,18 +4,14 @@ import static com.example.comfortzone.InitialComfortActivity.TOTAL_LEVELS;
 import static com.example.comfortzone.models.LevelsTracker.KEY_AVERAGE;
 import static com.example.comfortzone.models.LevelsTracker.KEY_ENTRIESLIST;
 
-import android.util.Log;
-
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
-import com.google.common.collect.Ordering;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.boltsinternal.Continuation;
 import com.parse.boltsinternal.Task;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +36,8 @@ public class ComfortCalcUtil {
     public static int calculateComfortTemp(ParseUser currentUser) {
         ArrayList<LevelsTracker> trackerArrayList = (ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS);
         int sumWeight = trackerArrayList.stream().mapToInt(tracker -> levelWeightCalc(tracker)).sum();
-        double sumDenom = trackerArrayList.stream().filter(tracker -> tracker.getCount() > 0).mapToDouble(tracker -> getWeight(tracker)).sum();
+        double sumDenom = trackerArrayList.stream().filter(tracker -> tracker.getCount() > 0)
+                .mapToDouble(tracker -> getWeight(tracker)).sum();
         if (sumDenom == 0) {
             return 0;
         }
@@ -75,12 +72,14 @@ public class ComfortCalcUtil {
 
     public static void calculateAverages(ParseUser currentUser) {
         ArrayList<LevelsTracker> trackerArrayList = (ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS);
-        List<Task<Void>> savingAverages = trackerArrayList.stream().map(tracker -> calculateSingularAverage(tracker)).collect(Collectors.toList());
+        List<Task<Void>> savingAverages = trackerArrayList.stream()
+                .map(tracker -> calculateSingularAverage(tracker))
+                .collect(Collectors.toList());
         Task.whenAll(savingAverages).onSuccess(new Continuation<Void, Object>() {
             @Override
             public Object then(Task<Void> task) throws Exception {
                 goThroughTrackerList(trackerArrayList);
-                findBlanks();
+                findBlanksInLevelsTracker();
                 Task.whenAll(saveTempAverage(trackerArrayList)).onSuccess(new Continuation<Void, Object>() {
                     @Override
                     public Object then(Task<Void> task) throws Exception {
@@ -116,7 +115,8 @@ public class ComfortCalcUtil {
             averages[firstNonEmptyVal] = MIN_TEMP;
             firstNonEmptyVal += 1;
         }
-        if (trackerList.get(0).getAverage() < trackerList.get(firstNonEmptyVal).getAverage() || trackerList.get(0).getCount() > trackerList.get(1).getCount()) {
+        if (trackerList.get(0).getAverage() < trackerList.get(firstNonEmptyVal).getAverage()
+                || trackerList.get(0).getCount() > trackerList.get(1).getCount()) {
             averages[0] = trackerList.get(0).getAverage();
         } else {
             averages[0] = MIN_TEMP;
@@ -133,8 +133,12 @@ public class ComfortCalcUtil {
                     int countLater = laterTracker.getCount();
 
                     if (countEarlier > countLater) {
+                        // the later value needs to be changed since it has fewer data points
                         ArrayList<ComfortLevelEntry> entryArrayList = (ArrayList<ComfortLevelEntry>) laterTracker.get(KEY_ENTRIESLIST);
-                        List<Integer> newEntries = entryArrayList.stream().filter(entry -> entry.getTemp() > earlierTracker.getAverage()).map(entry -> entry.getTemp()).collect(Collectors.toList());
+                        List<Integer> newEntries = entryArrayList.stream()
+                                .filter(entry -> entry.getTemp() > earlierTracker.getAverage())
+                                .map(entry -> entry.getTemp())
+                                .collect(Collectors.toList());
                         int sum = newEntries.stream().mapToInt(Integer::intValue).sum();
                         if (newEntries.size() > 0) {
                             averages[i] = sum / newEntries.size();
@@ -143,11 +147,13 @@ public class ComfortCalcUtil {
                         }
 
                     } else {
+                        // the earlier value needs to be changed
                         averages[i] = laterTracker.getAverage();
                         ArrayList<ComfortLevelEntry> entryArrayList = (ArrayList<ComfortLevelEntry>) earlierTracker.get(KEY_ENTRIESLIST);
                         int upperbound = laterTracker.getAverage();
                         filterLowerTemps(entryArrayList, upperbound, earlierIndex);
 
+                        // after changing the earlier value, need to backtrack to see if the previus values are still valid
                         int currentPointer = i;
                         for (int backwardsPointer = earlierIndex - 1; backwardsPointer >= 0; backwardsPointer--) {
                             if (averages[backwardsPointer] > averages[currentPointer]) {
@@ -175,7 +181,10 @@ public class ComfortCalcUtil {
     }
 
     private static void filterLowerTemps(ArrayList<ComfortLevelEntry> entryArrayList, int upperbound, int position) {
-        List<Integer> newEntries = entryArrayList.stream().filter(entry -> entry.getTemp() < upperbound).map(entry -> entry.getTemp()).collect(Collectors.toList());
+        List<Integer> newEntries = entryArrayList.stream()
+                .filter(entry -> entry.getTemp() < upperbound)
+                .map(entry -> entry.getTemp())
+                .collect(Collectors.toList());
         int sum = newEntries.stream().mapToInt(Integer::intValue).sum();
         if (newEntries.size() > 0) {
             averages[position] = sum / newEntries.size();
@@ -184,7 +193,7 @@ public class ComfortCalcUtil {
         }
     }
 
-    private static void findBlanks() {
+    private static void findBlanksInLevelsTracker() {
         int countBlanks = 0;
         int lowerIndex = 0;
         int higherIndex = 0;
@@ -194,7 +203,7 @@ public class ComfortCalcUtil {
 
         if (higherIndex != lowerIndex) {
             averages[lowerIndex] = averages[higherIndex] - (INTERVAL_SCALE * (higherIndex - lowerIndex));
-            fillInTheBlanks(lowerIndex, higherIndex);
+            fillInTheBlanksForAveragesOfLevelsTracker(lowerIndex, higherIndex);
             lowerIndex = higherIndex;
         }
 
@@ -205,7 +214,7 @@ public class ComfortCalcUtil {
                 if (countBlanks > 0) {
                     higherIndex = i;
 
-                    fillInTheBlanks(lowerIndex, higherIndex);
+                    fillInTheBlanksForAveragesOfLevelsTracker(lowerIndex, higherIndex);
                     lowerIndex = higherIndex;
 
                 } else {
@@ -215,7 +224,7 @@ public class ComfortCalcUtil {
         }
     }
 
-    private static void fillInTheBlanks(int lowerIndex, int higherIndex) {
+    private static void fillInTheBlanksForAveragesOfLevelsTracker(int lowerIndex, int higherIndex) {
         int indexDiff = higherIndex - lowerIndex;
         int valueDiff = averages[higherIndex] - averages[lowerIndex];
         int interval = valueDiff / indexDiff;
