@@ -54,24 +54,25 @@ public class FlightFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        cityList = new ArrayList<>();
-        flightsAdapter = new FlightsAdapter(getContext(), cityList);
-        db = AllWeathersDatabase.getDbInstance(getContext().getApplicationContext());
-        spinnerAdapter = ArrayAdapter.createFromResource(getContext(), R.array.filter_array, android.R.layout.simple_spinner_item);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         initViews(view);
-        WeatherDbUtil.maybeUpdateCitiesList(getContext());
+        setObjects();
+        WeatherDbUtil.maybeUpdateCitiesList(getActivity());
         populateViews();
         listenerSetup();
     }
-
-
 
     private void initViews(@NonNull View view) {
         rvCities = view.findViewById(R.id.rvCities);
         rsComfortFilter = view.findViewById(R.id.rsComfortFilter);
         spSort = view.findViewById(R.id.spSort);
+    }
+
+    private void setObjects() {
+        cityList = new ArrayList<>();
+        flightsAdapter = new FlightsAdapter(getContext(), cityList);
+        db = AllWeathersDatabase.getDbInstance(getContext().getApplicationContext());
+        spinnerAdapter = ArrayAdapter.createFromResource(getContext(), R.array.filter_array, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
     private void populateViews() {
@@ -119,10 +120,10 @@ public class FlightFragment extends Fragment {
                         flightsAdapter.sortDecTemp();
                         break;
                     case 5:
-                        flightsAdapter.sortIncRank();
+                        flightsAdapter.sortDecRank();
                         break;
                     case 6:
-                        flightsAdapter.sortDecRank();
+                        flightsAdapter.sortIncRank();
                         break;
                 }
             }

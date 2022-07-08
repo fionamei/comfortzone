@@ -108,14 +108,16 @@ public class InputFragment extends Fragment {
                         weatherData = gson.fromJson(data, WeatherData.class);
                         weatherData.setDate();
                         weatherData.setTime();
-                        getActivity().runOnUiThread(new Runnable() {
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
 
-                            @Override
-                            public void run() {
-                                populateViews();
-                                listenerSetup();
-                            }
-                        });
+                                @Override
+                                public void run() {
+                                    populateViews();
+                                    listenerSetup();
+                                }
+                            });
+                        }
                     }
                 });
             }

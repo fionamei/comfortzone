@@ -31,11 +31,11 @@
     <string name="sort_by">Sort by...</string>
     <string-array name="filter_array">
         <item>No criteria</item>
-        <item>Increasing Temperature</item>
-        <item>Decreasing Temperature</item>
-        <item>Increasing Distance</item>
-        <item>Decreasing Distance</item>
-        <item>Increasing Population</item>
-        <item>Decreasing Population</item>
+        <item>Temperature: Low to High</item>
+        <item>Temperature: High to Low</item>
+        <item>Distance: Low to High</item>
+        <item>Distance: High to Low</item>
+        <item>Population: Low to High</item>
+        <item>Population: High to Low</item>
     </string-array>
 </resources>
