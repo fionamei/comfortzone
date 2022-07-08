@@ -43,6 +43,14 @@ public class LevelsTracker extends ParseObject {
        return 0;
     }
 
+    public int getAverage() {
+        try {
+            return fetchIfNeeded().getInt(KEY_AVERAGE);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } return 0;
+    }
+
     public void increaseCount() {
         put(KEY_COUNT, getCount() + 1);
     }

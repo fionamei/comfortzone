@@ -1,5 +1,9 @@
 package com.example.comfortzone;
 
+import static com.example.comfortzone.utils.ComfortCalcUtil.calculateAverages;
+import static com.example.comfortzone.utils.ComfortCalcUtil.calculateComfortTemp;
+import static com.example.comfortzone.utils.ComfortLevelUtil.updateComfortLevel;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -42,6 +46,8 @@ public class HostActivity extends AppCompatActivity {
         maybeRequestPermissions();
         maybeUpdateComfortLevel();
 
+//        calculateComfortTemp(ParseUser.getCurrentUser());
+        calculateAverages(ParseUser.getCurrentUser());
         initViews();
         listenerSetup();
     }
@@ -67,7 +73,8 @@ public class HostActivity extends AppCompatActivity {
         ParseUser currentUser = ParseUser.getCurrentUser();
         ArrayList<ComfortLevelEntry> todayEntries = (ArrayList<ComfortLevelEntry>) currentUser.get(ComfortLevelUtil.KEY_TODAY_ENTRIES);
         if (!todayEntries.isEmpty() && todayEntries.get(0).getUpdatedAt() != null && !DateUtils.isToday(todayEntries.get(0).getUpdatedAt().getTime())) {
-            ComfortLevelUtil.updateComfortLevel(currentUser);
+            updateComfortLevel(currentUser);
+            calculateAverages(currentUser);
         }
     }
 

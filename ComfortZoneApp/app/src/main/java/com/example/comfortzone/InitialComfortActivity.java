@@ -1,6 +1,7 @@
 package com.example.comfortzone;
 
 import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
+import static com.example.comfortzone.utils.ComfortCalcUtil.calculateAverages;
 import static com.example.comfortzone.utils.ComfortCalcUtil.calculateComfortTemp;
 
 import android.content.Context;
@@ -120,6 +121,7 @@ public class InitialComfortActivity extends AppCompatActivity {
                                             @Override
                                             public void done(ParseException e) {
                                                 calculateComfort(user);
+                                                calculateAverages(user);
                                             }
                                         });
                                     }
