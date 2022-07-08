@@ -25,6 +25,7 @@ public class ComfortCalcUtil {
     public static final String KEY_LEVEL_TRACKERS = "levelTrackers";
     public static final double[] WEIGHTS = new double[]{0.1, 0.2, 0.35, 0.5, 1.0, 2.0, 1.0, 0.5, 0.35, 0.2, 0.1};
     public static final int MIN_TEMP = -999;
+    public static final int INTERVAL_SCALE = 5;
     private static int[] averages = new int[TOTAL_LEVELS];
 
 
@@ -75,6 +76,7 @@ public class ComfortCalcUtil {
             @Override
             public Object then(Task<Void> task) throws Exception {
                 goThroughTrackerList(trackerArrayList);
+                findBlanks();
                 return null;
             }
         });
@@ -158,7 +160,7 @@ public class ComfortCalcUtil {
             } else {
                 averages[i] = MIN_TEMP;
             }
-        } Log.i(TAG, "array " + Arrays.toString(averages));
+        }
     }
 
     private static void filterLowerTemps(ArrayList<ComfortLevelEntry> entryArrayList, int upperbound, int position) {
@@ -171,8 +173,45 @@ public class ComfortCalcUtil {
         }
     }
 
-    private static void fillInTheBlanks() {
+    private static void findBlanks() {
         int countBlanks = 0;
+        int lowerIndex = 0;
+        int higherIndex = 0;
+        while (averages[higherIndex] == MIN_TEMP) {
+            higherIndex++;
+        }
 
+        if (higherIndex != lowerIndex) {
+            averages[lowerIndex] = averages[higherIndex] - (INTERVAL_SCALE * (higherIndex - lowerIndex));
+            fillInTheBlanks(lowerIndex, higherIndex);
+            lowerIndex = higherIndex;
+        }
+
+        for (int i = lowerIndex; i < TOTAL_LEVELS; i ++) {
+            if (averages[i] == MIN_TEMP) {
+                countBlanks++;
+            } else {
+                if (countBlanks > 0) {
+                    higherIndex = i;
+
+                    fillInTheBlanks(lowerIndex, higherIndex);
+                    lowerIndex = higherIndex;
+
+                } else {
+                    lowerIndex = i;
+                }
+            }
+        }
+    }
+
+    private static void fillInTheBlanks(int lowerIndex, int higherIndex) {
+        int indexDiff = higherIndex - lowerIndex;
+        int valueDiff = averages[higherIndex] - averages[lowerIndex];
+        int interval = valueDiff / indexDiff;
+        int valueToAdd = averages[lowerIndex];
+        for (int i = lowerIndex + 1; i < higherIndex; i++) {
+            valueToAdd = valueToAdd + interval;
+            averages[i] = valueToAdd;
+        }
     }
 }
