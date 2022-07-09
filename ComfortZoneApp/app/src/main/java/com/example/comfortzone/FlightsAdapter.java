@@ -1,6 +1,8 @@
 package com.example.comfortzone;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -84,7 +87,7 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
         public void bind(WeatherData city) {
             tvTemperature.setText(String.valueOf(city.getTempData().getTemp()));
             tvCityName.setText(city.getCity());
-            Glide.with(context).load(city.getImage()).apply(new RequestOptions().dontTransform()).into(ivCityIcon);
+            Glide.with(context).load(city.getImage()).circleCrop().into(ivCityIcon);
             ivCityIcon.setTransitionName(context.getResources().getString(R.string.cityIcon));
         }
 
@@ -92,22 +95,11 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
             cvCityRoot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                    Transition changeTransform = TransitionInflater.from(context).inflateTransition(R.transition.change_image_transform);
-                    Transition explodeTransform = TransitionInflater.from(context).inflateTransition(android.R.transition.explode);
-
-                    Fragment cityDetailFragment = CityDetailFragment.newInstance(v.getId());
-
-                    cityDetailFragment.setSharedElementEnterTransition(changeTransform);
-                    cityDetailFragment.setEnterTransition(explodeTransform);
-
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .addSharedElement(ivCityIcon, context.getResources().getString(R.string.cityIcon))
-                            .replace(R.id.flContainer, cityDetailFragment)
-                            .setReorderingAllowed(true)
-                            .addToBackStack(null)
-                            .commit();
+                    Intent intent = new Intent(context, CityDetailActivity.class);
+                    intent.putExtra(context.getResources().getString(R.string.cityId), v.getId());
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation((Activity) context, ivCityIcon, context.getResources().getString(R.string.cityIcon));
+                    context.startActivity(intent, options.toBundle());
                 }
             });
         }
