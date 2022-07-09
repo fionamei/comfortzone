@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.models.WeatherData;
 
+import java.text.Normalizer;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +21,7 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
 
     private Context context;
     private List<WeatherData> cityList;
+    private List<WeatherData> tempList;
 
     public FlightsAdapter(Context context, List<WeatherData> cityList) {
         this.context = context;
@@ -53,6 +55,18 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
     public void filterClearAndAdd(List<WeatherData> cities) {
         cityList.clear();
         addAll(cities);
+    }
+
+    public void sortAlphabetical() {
+        cityList.sort(new Comparator<WeatherData>() {
+            @Override
+            public int compare(WeatherData o1, WeatherData o2) {
+                if (o1 == o2)
+                    return 0;
+                return o1.getCity().compareTo(o2.getCity());
+            }
+        });
+        notifyDataSetChanged();
     }
 
     public void sortIncTemp() {

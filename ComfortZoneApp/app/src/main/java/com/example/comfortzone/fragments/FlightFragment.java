@@ -5,6 +5,7 @@ import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.util.StringUtil;
 
 import com.example.comfortzone.AllWeathersDatabase;
 import com.example.comfortzone.FlightsAdapter;
@@ -28,6 +30,7 @@ import com.example.comfortzone.utils.WeatherDbUtil;
 import com.google.android.material.slider.RangeSlider;
 import com.parse.ParseUser;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -112,6 +115,7 @@ public class FlightFragment extends Fragment {
                 int highRange = ((ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS)).get(highComfort).getHighRange();
                 List<WeatherData> weathers = db.weatherDao().getRange(lowRange, highRange);
                 flightsAdapter.filterClearAndAdd(weathers);
+                sortBy(spSort.getSelectedItemPosition());
             }
         });
     }
@@ -120,32 +124,39 @@ public class FlightFragment extends Fragment {
         spSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 1:
-                        flightsAdapter.sortIncTemp();
-                        break;
-                    case 2:
-                        flightsAdapter.sortDecTemp();
-                        break;
-                    case 3:
-                        flightsAdapter.sortDecDist();
-                        break;
-                    case 4:
-                        flightsAdapter.sortIncDist();
-                        break;
-                    case 5:
-                        flightsAdapter.sortDecRank();
-                        break;
-                    case 6:
-                        flightsAdapter.sortIncRank();
-                        break;
-                }
+                sortBy(position);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+
+    private void sortBy(int position) {
+        switch (position) {
+            case 0:
+                flightsAdapter.sortAlphabetical();
+                break;
+            case 1:
+                flightsAdapter.sortIncTemp();
+                break;
+            case 2:
+                flightsAdapter.sortDecTemp();
+                break;
+            case 3:
+                flightsAdapter.sortDecDist();
+                break;
+            case 4:
+                flightsAdapter.sortIncDist();
+                break;
+            case 5:
+                flightsAdapter.sortDecRank();
+                break;
+            case 6:
+                flightsAdapter.sortIncRank();
+                break;
+        }
     }
 
     private void setSearchCityListener() {
@@ -162,7 +173,9 @@ public class FlightFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                flightsAdapter.searchCity(s.toString().toLowerCase(Locale.ROOT), db.weatherDao().getAll());
+                String city = Normalizer.normalize(s, Normalizer.Form.NFD);
+                city = city.replaceAll("[^\\p{ASCII}]", "");
+                flightsAdapter.searchCity(city.toLowerCase(Locale.ROOT), cityList);
 
             }
         });

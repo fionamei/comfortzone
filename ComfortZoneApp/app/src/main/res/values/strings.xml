@@ -31,7 +31,7 @@
     <string name="sort_by">Sort by...</string>
     <string name="search_for_a_city">Search for a city!</string>
     <string-array name="filter_array">
-        <item>No criteria</item>
+        <item>Alphabet: A-Z</item>
         <item>Temperature: Low to High</item>
         <item>Temperature: High to Low</item>
         <item>Distance: Low to High</item>
