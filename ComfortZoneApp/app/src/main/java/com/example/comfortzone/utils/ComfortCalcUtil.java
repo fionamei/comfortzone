@@ -1,12 +1,9 @@
 package com.example.comfortzone.utils;
 
 import static com.example.comfortzone.InitialComfortActivity.TOTAL_LEVELS;
-import static com.example.comfortzone.models.LevelsTracker.KEY_AVERAGE;
-import static com.example.comfortzone.models.LevelsTracker.KEY_ENTRIESLIST;
 
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.boltsinternal.Continuation;
 import com.parse.boltsinternal.Task;
@@ -20,8 +17,7 @@ public class ComfortCalcUtil {
     public static final String TAG = "ComfortCalcUtil";
     public static final String KEY_LEVEL_TRACKERS = "levelTrackers";
     public static final String KEY_TEMP_AVERAGE = "tempAverage";
-    public static final String KEY_LOW_RANGE = "lowRange";
-    public static final String KEY_HIGH_RANGE = "highRange";
+
     public static final double[] WEIGHTS = new double[]{0.1, 0.2, 0.35, 0.5, 1.0, 2.0, 1.0, 0.5, 0.35, 0.2, 0.1};
     public static final int MIN_TEMP = -999;
     public static final int MAX_TEMP = 999;
@@ -45,17 +41,14 @@ public class ComfortCalcUtil {
     };
 
     private static double getWeight(LevelsTracker tracker) {
-        try {
-            int level = tracker.getLevel();
-            return WEIGHTS[level];
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return 0;
+        int level = tracker.getLevel();
+        return WEIGHTS[level];
     }
 
+    /**
+     * returns sum of entries * weight / count for one level
+     */
     private static int levelWeightCalc(LevelsTracker tracker) {
-        // returns the sum of entries * weight / count
         double weight = getWeight(tracker);
         int sum = getSum(tracker);
         int count = tracker.getCount();
@@ -66,7 +59,7 @@ public class ComfortCalcUtil {
     }
 
     private static int getSum(LevelsTracker tracker) {
-        ArrayList<ComfortLevelEntry> entryArrayList = (ArrayList<ComfortLevelEntry>) tracker.get(KEY_ENTRIESLIST);
+        ArrayList<ComfortLevelEntry> entryArrayList = tracker.getComfortEntriesList();
         return entryArrayList.stream().mapToInt(entry -> entry.getTemp()).sum();
     }
 
@@ -79,7 +72,7 @@ public class ComfortCalcUtil {
             @Override
             public Object then(Task<Void> task) throws Exception {
                 goThroughTrackerList(trackerArrayList);
-                findBlanksInLevelsTracker();
+                fillInEmptyAverages();
                 Task.whenAll(saveTempAverage(trackerArrayList)).onSuccess(new Continuation<Void, Object>() {
                     @Override
                     public Object then(Task<Void> task) throws Exception {
@@ -93,22 +86,20 @@ public class ComfortCalcUtil {
     }
 
     private static Task<Void> calculateSingularAverage(LevelsTracker tracker) {
-        ArrayList<ComfortLevelEntry> entryArrayList = null;
-        try {
-            entryArrayList = (ArrayList<ComfortLevelEntry>) tracker.fetchIfNeeded().get(KEY_ENTRIESLIST);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        List<ComfortLevelEntry> entryArrayList = tracker.getComfortEntriesList();
         int sum = entryArrayList.stream().mapToInt(entry -> entry.getTemp()).sum();
         int count = tracker.getCount();
         if (count > 0) {
-            tracker.put(KEY_AVERAGE, sum / count);
+            tracker.setAverage(sum / count);
         } else {
-            tracker.put(KEY_AVERAGE, MIN_TEMP);
+            tracker.setAverage(MIN_TEMP);
         }
         return tracker.saveInBackground();
     }
 
+    /**
+     * goThroughTrackerList: goes through list of trackers to make sure their averages are in ascending order
+     **/
     private static void goThroughTrackerList(List<LevelsTracker> trackerList) {
         int firstNonEmptyVal = 1;
         while (trackerList.get(firstNonEmptyVal).getAverage() == MIN_TEMP) {
@@ -134,7 +125,7 @@ public class ComfortCalcUtil {
 
                     if (countEarlier > countLater) {
                         // the later value needs to be changed since it has fewer data points
-                        ArrayList<ComfortLevelEntry> entryArrayList = (ArrayList<ComfortLevelEntry>) laterTracker.get(KEY_ENTRIESLIST);
+                        ArrayList<ComfortLevelEntry> entryArrayList = laterTracker.getComfortEntriesList();
                         List<Integer> newEntries = entryArrayList.stream()
                                 .filter(entry -> entry.getTemp() > earlierTracker.getAverage())
                                 .map(entry -> entry.getTemp())
@@ -149,7 +140,7 @@ public class ComfortCalcUtil {
                     } else {
                         // the earlier value needs to be changed
                         averages[i] = laterTracker.getAverage();
-                        ArrayList<ComfortLevelEntry> entryArrayList = (ArrayList<ComfortLevelEntry>) earlierTracker.get(KEY_ENTRIESLIST);
+                        ArrayList<ComfortLevelEntry> entryArrayList = earlierTracker.getComfortEntriesList();
                         int upperbound = laterTracker.getAverage();
                         filterLowerTemps(entryArrayList, upperbound, earlierIndex);
 
@@ -158,7 +149,7 @@ public class ComfortCalcUtil {
                         for (int backwardsPointer = earlierIndex - 1; backwardsPointer >= 0; backwardsPointer--) {
                             if (averages[backwardsPointer] > averages[currentPointer]) {
                                 LevelsTracker currentTracker = trackerList.get(backwardsPointer);
-                                ArrayList<ComfortLevelEntry> currentEntries = (ArrayList<ComfortLevelEntry>) currentTracker.get(KEY_ENTRIESLIST);
+                                ArrayList<ComfortLevelEntry> currentEntries = currentTracker.getComfortEntriesList();
                                 filterLowerTemps(currentEntries, trackerList.get(currentPointer).getAverage(), backwardsPointer);
 
                                 if (averages[backwardsPointer] != MIN_TEMP) {
@@ -193,7 +184,7 @@ public class ComfortCalcUtil {
         }
     }
 
-    private static void findBlanksInLevelsTracker() {
+    private static void fillInEmptyAverages() {
         int countBlanks = 0;
         int lowerIndex = 0;
         int higherIndex = 0;
@@ -203,7 +194,7 @@ public class ComfortCalcUtil {
 
         if (higherIndex != lowerIndex) {
             averages[lowerIndex] = averages[higherIndex] - (INTERVAL_SCALE * (higherIndex - lowerIndex));
-            fillInTheBlanksForAveragesOfLevelsTracker(lowerIndex, higherIndex);
+            fillInEmptyAveragesHelper(lowerIndex, higherIndex);
             lowerIndex = higherIndex;
         }
 
@@ -214,7 +205,7 @@ public class ComfortCalcUtil {
                 if (countBlanks > 0) {
                     higherIndex = i;
 
-                    fillInTheBlanksForAveragesOfLevelsTracker(lowerIndex, higherIndex);
+                    fillInEmptyAveragesHelper(lowerIndex, higherIndex);
                     lowerIndex = higherIndex;
 
                 } else {
@@ -224,7 +215,7 @@ public class ComfortCalcUtil {
         }
     }
 
-    private static void fillInTheBlanksForAveragesOfLevelsTracker(int lowerIndex, int higherIndex) {
+    private static void fillInEmptyAveragesHelper(int lowerIndex, int higherIndex) {
         int indexDiff = higherIndex - lowerIndex;
         int valueDiff = averages[higherIndex] - averages[lowerIndex];
         int interval = valueDiff / indexDiff;
@@ -253,14 +244,14 @@ public class ComfortCalcUtil {
             int highRange = trackerArrayList.get(i + 1).getTempAverage();
             int highTemp = (highRange + lowRange) / 2;
             LevelsTracker tracker = trackerArrayList.get(i);
-            tracker.put(KEY_LOW_RANGE, minTemp);
-            tracker.put(KEY_HIGH_RANGE, highTemp);
+            tracker.setLowRange(minTemp);
+            tracker.setHighRange(highTemp);
             minTemp = highTemp;
             tracker.saveInBackground();
         }
         LevelsTracker lastTracker = trackerArrayList.get(TOTAL_LEVELS - 1);
-        lastTracker.put(KEY_LOW_RANGE, minTemp);
-        lastTracker.put(KEY_HIGH_RANGE, MAX_TEMP);
+        lastTracker.setLowRange(minTemp);
+        lastTracker.setHighRange(MAX_TEMP);
         lastTracker.saveInBackground();
     }
 }

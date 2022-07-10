@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.utils.ComfortCalcUtil;
+import com.example.comfortzone.utils.ComfortLevelUtil;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -27,6 +28,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
 
 public class InitialComfortActivity extends AppCompatActivity {
 
@@ -110,7 +112,7 @@ public class InitialComfortActivity extends AppCompatActivity {
                                     if (task.getError() != null) {
                                         Log.e(TAG, "error saving entries in background");
                                     } else {
-                                        sortTrackerByLevel();
+                                        ComfortLevelUtil.sortTrackerByLevel(trackerList);
                                         user.addAll(KEY_LEVEL_TRACKERS, trackerList);
                                         user.saveInBackground(new SaveCallback() {
                                             @Override
@@ -154,24 +156,6 @@ public class InitialComfortActivity extends AppCompatActivity {
         }
         trackerList.add(tracker);
         return tracker.saveInBackground();
-    }
-
-    private void sortTrackerByLevel() {
-        Collections.sort(trackerList, new Comparator<LevelsTracker>(){
-            public int compare(LevelsTracker o1, LevelsTracker o2){
-                int trackerlevel1 = -1;
-                int trackerlevel2 = -1;
-                try {
-                    trackerlevel1 = o1.getLevel();
-                    trackerlevel2 = o1.getLevel();
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                if(trackerlevel1 == trackerlevel2)
-                    return 0;
-                return trackerlevel1 < trackerlevel2 ? -1 : 1;
-            }
-        });
     }
 
     private void goHostActivity() {

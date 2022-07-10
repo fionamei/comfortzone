@@ -10,6 +10,9 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 public class ComfortLevelUtil {
@@ -40,6 +43,17 @@ public class ComfortLevelUtil {
         ArrayList<ComfortLevelEntry> entriesList = (ArrayList<ComfortLevelEntry>) currentUser.get(KEY_TODAY_ENTRIES);
         currentUser.removeAll(KEY_TODAY_ENTRIES , entriesList);
         currentUser.saveInBackground();
+    }
+
+    public static void sortTrackerByLevel(List<LevelsTracker> trackerList) {
+        Collections.sort(trackerList, new Comparator<LevelsTracker>(){
+            public int compare(LevelsTracker o1, LevelsTracker o2){
+                int trackerlevel1 = o1.getLevel();
+                int trackerlevel2 = o1.getLevel();
+                if (trackerlevel1 == trackerlevel2) return 0;
+                return trackerlevel1 < trackerlevel2 ? -1 : 1;
+            }
+        });
     }
 
 }
