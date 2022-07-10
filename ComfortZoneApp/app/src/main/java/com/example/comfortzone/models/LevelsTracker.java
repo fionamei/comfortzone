@@ -40,8 +40,8 @@ public class LevelsTracker extends ParseObject {
             return fetchIfNeeded().getInt(KEY_LEVEL);
         } catch (ParseException e) {
             e.printStackTrace();
-        } return -1;
-
+        }
+        return -1;
     }
 
     public void setLevel(int level) {
@@ -54,7 +54,7 @@ public class LevelsTracker extends ParseObject {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-       return 0;
+        return 0;
     }
 
     public int getAverage() {
@@ -62,7 +62,8 @@ public class LevelsTracker extends ParseObject {
             return fetchIfNeeded().getInt(KEY_AVERAGE);
         } catch (ParseException e) {
             e.printStackTrace();
-        } return MIN_TEMP;
+        }
+        return MIN_TEMP;
     }
 
     public int getTempAverage() {
@@ -70,7 +71,8 @@ public class LevelsTracker extends ParseObject {
             return fetchIfNeeded().getInt(KEY_TEMP_AVERAGE);
         } catch (ParseException e) {
             e.printStackTrace();
-        } return MIN_TEMP;
+        }
+        return MIN_TEMP;
     }
 
     public int getLowRange() {
@@ -78,7 +80,8 @@ public class LevelsTracker extends ParseObject {
             return fetchIfNeeded().getInt(KEY_LOW_RANGE);
         } catch (ParseException e) {
             e.printStackTrace();
-        } return MIN_TEMP;
+        }
+        return MIN_TEMP;
     }
 
     public void setLowRange(int minTemp) {
@@ -94,11 +97,16 @@ public class LevelsTracker extends ParseObject {
             return fetchIfNeeded().getInt(KEY_HIGH_RANGE);
         } catch (ParseException e) {
             e.printStackTrace();
-        } return MAX_TEMP;
+        }
+        return MAX_TEMP;
     }
 
     public void setAverage(int avg) {
         put(KEY_AVERAGE, avg);
+    }
+
+    public void setTempAverage(int avg) {
+        put(KEY_TEMP_AVERAGE, avg);
     }
 
     public void increaseCount() {
@@ -126,6 +134,7 @@ public class LevelsTracker extends ParseObject {
             return (ArrayList<ComfortLevelEntry>) fetchIfNeeded().get(KEY_ENTRIESLIST);
         } catch (ParseException e) {
             e.printStackTrace();
-        } return new ArrayList<>();
+        }
+        return new ArrayList<>();
     }
 }
