@@ -87,13 +87,8 @@ public class ComfortCalcUtil {
 
     private static Task<Void> calculateSingularAverage(LevelsTracker tracker) {
         List<ComfortLevelEntry> entryArrayList = tracker.getComfortEntriesList();
-        int sum = entryArrayList.stream().mapToInt(entry -> entry.getTemp()).sum();
-        int count = tracker.getCount();
-        if (count > 0) {
-            tracker.setAverage(sum / count);
-        } else {
-            tracker.setAverage(MIN_TEMP);
-        }
+        List<Integer> newEntries = entryArrayList.stream().map(entry -> entry.getTemp()).collect(Collectors.toList());
+        tracker.setAverage(getAverage(newEntries, MIN_TEMP));
         return tracker.saveInBackground();
     }
 
@@ -106,8 +101,8 @@ public class ComfortCalcUtil {
             averages[firstNonEmptyVal] = MIN_TEMP;
             firstNonEmptyVal += 1;
         }
-        if (trackerList.get(0).getAverage() < trackerList.get(firstNonEmptyVal).getAverage()
-                || trackerList.get(0).getCount() > trackerList.get(1).getCount()) {
+        if (isValid(trackerList.get(0), trackerList.get(firstNonEmptyVal))
+                || trackerList.get(0).getCount() > trackerList.get(firstNonEmptyVal).getCount()) {
             averages[0] = trackerList.get(0).getAverage();
         } else {
             averages[0] = MIN_TEMP;
@@ -119,30 +114,22 @@ public class ComfortCalcUtil {
             LevelsTracker laterTracker = trackerList.get(i);
             if (laterTracker.getAverage() != MIN_TEMP) {
 
-                if (earlierTracker.getAverage() > laterTracker.getAverage()) {
+                if (!isValid(earlierTracker, laterTracker)) {
                     int countEarlier = earlierTracker.getCount();
                     int countLater = laterTracker.getCount();
 
-                    if (countEarlier > countLater) {
+                    if (countEarlier >= countLater) {
                         // the later value needs to be changed since it has fewer data points
                         ArrayList<ComfortLevelEntry> entryArrayList = laterTracker.getComfortEntriesList();
-                        List<Integer> newEntries = entryArrayList.stream()
-                                .filter(entry -> entry.getTemp() > earlierTracker.getAverage())
-                                .map(entry -> entry.getTemp())
-                                .collect(Collectors.toList());
-                        int sum = newEntries.stream().mapToInt(Integer::intValue).sum();
-                        if (newEntries.size() > 0) {
-                            averages[i] = sum / newEntries.size();
-                        } else {
-                            averages[i] = MIN_TEMP;
-                        }
+                        int lowerbound = earlierTracker.getAverage();
+                        filterForHigherTemps(entryArrayList, lowerbound, i);
 
                     } else {
                         // the earlier value needs to be changed
                         averages[i] = laterTracker.getAverage();
                         ArrayList<ComfortLevelEntry> entryArrayList = earlierTracker.getComfortEntriesList();
                         int upperbound = laterTracker.getAverage();
-                        filterLowerTemps(entryArrayList, upperbound, earlierIndex);
+                        filterForLowerTemps(entryArrayList, upperbound, earlierIndex);
 
                         // after changing the earlier value, need to backtrack to see if the previus values are still valid
                         int currentPointer = i;
@@ -150,7 +137,7 @@ public class ComfortCalcUtil {
                             if (averages[backwardsPointer] > averages[currentPointer]) {
                                 LevelsTracker currentTracker = trackerList.get(backwardsPointer);
                                 ArrayList<ComfortLevelEntry> currentEntries = currentTracker.getComfortEntriesList();
-                                filterLowerTemps(currentEntries, trackerList.get(currentPointer).getAverage(), backwardsPointer);
+                                filterForLowerTemps(currentEntries, trackerList.get(currentPointer).getAverage(), backwardsPointer);
 
                                 if (averages[backwardsPointer] != MIN_TEMP) {
                                     currentPointer = backwardsPointer;
@@ -171,17 +158,34 @@ public class ComfortCalcUtil {
         }
     }
 
-    private static void filterLowerTemps(ArrayList<ComfortLevelEntry> entryArrayList, int upperbound, int position) {
+    private static boolean isValid(LevelsTracker earlierTracker, LevelsTracker laterTracker) {
+        return earlierTracker.getAverage() < laterTracker.getAverage();
+    }
+
+    private static void filterForHigherTemps(ArrayList<ComfortLevelEntry> entryArrayList, int lowerbound, int position) {
+        List<Integer> newEntries = entryArrayList.stream()
+                .filter(entry -> entry.getTemp() > lowerbound)
+                .map(entry -> entry.getTemp())
+                .collect(Collectors.toList());
+        averages[position] = getAverage(newEntries, MAX_TEMP);
+    }
+
+    private static void filterForLowerTemps(ArrayList<ComfortLevelEntry> entryArrayList, int upperbound, int position) {
         List<Integer> newEntries = entryArrayList.stream()
                 .filter(entry -> entry.getTemp() < upperbound)
                 .map(entry -> entry.getTemp())
                 .collect(Collectors.toList());
-        int sum = newEntries.stream().mapToInt(Integer::intValue).sum();
+        averages[position] = getAverage(newEntries, MIN_TEMP);
+    }
+
+    private static int getAverage(List<Integer> newEntries, int defaultValue) {
         if (newEntries.size() > 0) {
-            averages[position] = sum / newEntries.size();
+            int sum = newEntries.stream().mapToInt(Integer::intValue).sum();
+            return sum / newEntries.size();
         } else {
-            averages[position] = MIN_TEMP;
+            return defaultValue;
         }
+
     }
 
     private static void fillInEmptyAverages() {
