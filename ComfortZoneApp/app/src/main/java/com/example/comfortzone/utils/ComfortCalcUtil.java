@@ -73,8 +73,7 @@ public class ComfortCalcUtil {
                 int[] averages = new int[TOTAL_LEVELS];
                 goThroughTrackerList(trackerArrayList, averages);
                 fillInEmptyAverages(averages);
-                saveTempAverage(trackerArrayList, averages);
-                saveRanges(trackerArrayList, averages);
+                saveTempAverageAndRanges(trackerArrayList, averages);
                 return null;
             }
         });
@@ -231,29 +230,24 @@ public class ComfortCalcUtil {
         }
     }
 
-    private static void saveTempAverage(ArrayList<LevelsTracker> trackerArrayList, int[] averages) {
-         for (int i = 0; i < TOTAL_LEVELS; i++) {
-             LevelsTracker tracker = trackerArrayList.get(i);
-             tracker.setTempAverage(averages[i]);
-             tracker.saveInBackground();
-         }
-    }
-
-    private static void saveRanges(ArrayList<LevelsTracker> trackerArrayList, int[] averages) {
+    private static void saveTempAverageAndRanges(ArrayList<LevelsTracker> trackerArrayList, int[] averages) {
         int minTemp = MIN_TEMP;
         for (int i = 0; i < TOTAL_LEVELS - 1; i++) {
-            int lowRange = averages[i];
-            int highRange = averages[i+1];
-            int highTemp = (highRange + lowRange) / 2;
-            LevelsTracker tracker = trackerArrayList.get(i);
-            tracker.setLowRange(minTemp);
-            tracker.setHighRange(highTemp);
-            minTemp = highTemp;
-            tracker.saveInBackground();
+             LevelsTracker tracker = trackerArrayList.get(i);
+             int lowRange = averages[i];
+             int highRange = averages[i+1];
+             int highTemp = (highRange + lowRange) / 2;
+             tracker.setLowRange(minTemp);
+             tracker.setHighRange(highTemp);
+             tracker.setTempAverage(averages[i]);
+             minTemp = highTemp;
+
+             tracker.saveInBackground();
         }
         LevelsTracker lastTracker = trackerArrayList.get(TOTAL_LEVELS - 1);
         lastTracker.setLowRange(minTemp);
         lastTracker.setHighRange(MAX_TEMP);
+        lastTracker.setTempAverage(averages[TOTAL_LEVELS - 1]);
         lastTracker.saveInBackground();
     }
 }
