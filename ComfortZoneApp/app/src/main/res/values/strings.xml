@@ -34,8 +34,8 @@
         <item>Alphabet: A-Z</item>
         <item>Temperature: Low to High</item>
         <item>Temperature: High to Low</item>
-        <item>Distance: Low to High</item>
-        <item>Distance: High to Low</item>
+        <item>Distance: Nearest First</item>
+        <item>Distance: Farthest First</item>
         <item>Population: Low to High</item>
         <item>Population: High to Low</item>
     </string-array>

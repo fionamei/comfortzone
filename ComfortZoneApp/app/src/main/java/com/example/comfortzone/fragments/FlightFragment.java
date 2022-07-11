@@ -5,7 +5,6 @@ import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +31,10 @@ import com.parse.ParseUser;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class FlightFragment extends Fragment {
 
@@ -46,6 +47,28 @@ public class FlightFragment extends Fragment {
     private Spinner spSort;
     private ArrayAdapter<CharSequence> spinnerAdapter;
     private EditText etSearchCity;
+
+    private enum POSITIONS {
+        ALPHA(0), INC_TEMP(1), DEC_TEMP(2), DIST_NEAR(3), DIST_FAR(4), INC_POP(5), DEC_POP(6);
+
+        private int position;
+
+        private POSITIONS(int position) {
+            this.position = position;
+        }
+
+        static Map<Integer, POSITIONS> positionsMap = new HashMap<>();
+
+        static {
+            for (POSITIONS position_idx : POSITIONS.values()) {
+                positionsMap.put(position_idx.position, position_idx);
+            }
+        }
+
+        private static POSITIONS getPosition(int position) {
+            return positionsMap.get(position);
+        }
+    }
 
     public FlightFragment() {
         // Required empty public constructor
@@ -133,26 +156,27 @@ public class FlightFragment extends Fragment {
     }
 
     private void sortBy(int position) {
-        switch (position) {
-            case 0:
+        POSITIONS pos = POSITIONS.getPosition(position);
+        switch (pos) {
+            case ALPHA:
                 FilteringUtils.sortAlphabetical(cityList);
                 break;
-            case 1:
+            case INC_TEMP:
                 FilteringUtils.sortIncTemp(cityList);
                 break;
-            case 2:
+            case DEC_TEMP:
                 FilteringUtils.sortDecTemp(cityList);
                 break;
-            case 3:
+            case DIST_NEAR:
                 FilteringUtils.sortDecDist(cityList);
                 break;
-            case 4:
+            case DIST_FAR:
                 FilteringUtils.sortIncDist(cityList);
                 break;
-            case 5:
+            case INC_POP:
                 FilteringUtils.sortDecRank(cityList);
                 break;
-            case 6:
+            case DEC_POP:
                 FilteringUtils.sortIncRank(cityList);
                 break;
         }

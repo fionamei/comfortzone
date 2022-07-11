@@ -19,7 +19,6 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
 
     private Context context;
     private List<WeatherData> cityList;
-    private List<WeatherData> tempList;
 
     public FlightsAdapter(Context context, List<WeatherData> cityList) {
         this.context = context;
