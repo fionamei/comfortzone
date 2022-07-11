@@ -1,4 +1,6 @@
 package com.example.comfortzone;
+import static com.example.comfortzone.utils.WeatherDbUtil.maybeUpdateCitiesList;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -34,6 +36,7 @@ public class HostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         maybeRequestPermissions();
+        maybeUpdateCitiesList(this);
 
         initViews();
         listenerSetup();

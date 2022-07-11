@@ -49,7 +49,6 @@ public class FlightFragment extends Fragment {
         db = AllWeathersDatabase.getDbInstance(getContext().getApplicationContext());
 
         initViews(view);
-        maybeUpdateCitiesList(getContext());
         populateViews();
     }
 
