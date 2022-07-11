@@ -1,7 +1,6 @@
 package com.example.comfortzone;
 
 import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
-import static com.example.comfortzone.utils.ComfortCalcUtil.calculateComfortTemp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,12 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
+import com.example.comfortzone.utils.ComfortCalcUtil;
+import com.example.comfortzone.utils.ComfortLevelUtil;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -24,7 +25,10 @@ import com.parse.boltsinternal.Task;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
 
 public class InitialComfortActivity extends AppCompatActivity {
 
@@ -70,14 +74,19 @@ public class InitialComfortActivity extends AppCompatActivity {
                 int tempZero = Integer.parseInt(etZero.getText().toString());
                 int tempFive = Integer.parseInt(etFive.getText().toString());
                 int tempTen = Integer.parseInt(etTen.getText().toString());
-                save(tempZero, tempFive, tempTen);
-                goHostActivity();
+                if (tempZero < tempFive && tempFive < tempTen) {
+                    save(tempZero, tempFive, tempTen);
+                    goHostActivity();
+                } else {
+                    Toast.makeText(InitialComfortActivity.this, "Your temperature estimates must be in ascending order", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
     }
 
     private void calculateComfort(ParseUser user) {
-        int comfort = calculateComfortTemp(user);
+        int comfort = ComfortCalcUtil.calculateComfortTemp(user);
         user.put(ComfortCalcUtil.KEY_PERFECT_COMFORT, comfort);
         user.saveInBackground();
     }
@@ -103,11 +112,13 @@ public class InitialComfortActivity extends AppCompatActivity {
                                     if (task.getError() != null) {
                                         Log.e(TAG, "error saving entries in background");
                                     } else {
+                                        ComfortLevelUtil.sortTrackerByLevel(trackerList);
                                         user.addAll(KEY_LEVEL_TRACKERS, trackerList);
                                         user.saveInBackground(new SaveCallback() {
                                             @Override
                                             public void done(ParseException e) {
                                                 calculateComfort(user);
+                                                ComfortCalcUtil.calculateAverages(user);
                                             }
                                         });
                                     }

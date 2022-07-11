@@ -1,26 +1,28 @@
 package com.example.comfortzone;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.example.comfortzone.fragments.FlightFragment;
 import com.example.comfortzone.fragments.InputFragment;
 import com.example.comfortzone.fragments.ProfileFragment;
 import com.example.comfortzone.models.ComfortLevelEntry;
+import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.example.comfortzone.utils.ComfortLevelUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import android.view.Menu;
-import android.widget.Toast;
-
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ public class HostActivity extends AppCompatActivity {
 
         maybeRequestPermissions();
         maybeUpdateComfortLevel();
-
+        
         initViews();
         listenerSetup();
     }
@@ -67,6 +69,7 @@ public class HostActivity extends AppCompatActivity {
         ArrayList<ComfortLevelEntry> todayEntries = (ArrayList<ComfortLevelEntry>) currentUser.get(ComfortLevelUtil.KEY_TODAY_ENTRIES);
         if (!todayEntries.isEmpty() && todayEntries.get(0).getUpdatedAt() != null && !DateUtils.isToday(todayEntries.get(0).getUpdatedAt().getTime())) {
             ComfortLevelUtil.updateComfortLevel(currentUser);
+            ComfortCalcUtil.calculateAverages(currentUser);
         }
     }
 

@@ -1,13 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FlightFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.FlightFragment"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/titleMargin"
+        android:layout_marginHorizontal="@dimen/generalMargin">
+
+        <TextView
+            android:id="@+id/tvFilterDescription"
+            android:layout_width="@dimen/textWidth"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/filter_by_comfort_level"
+            android:textColor="@color/black"
+            android:textSize="@dimen/miniTextSize" />
+
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/rsComfortFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stepSize="1.0"
+            android:valueFrom="0.0"
+            android:valueTo="10.0"
+            app:values="@array/initial_slider_values" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/generalMargin">
+
+        <TextView
+            android:id="@+id/tvSortDescription"
+            android:layout_width="@dimen/textWidth"
+            android:layout_height="wrap_content"
+            android:text="@string/sort_by"
+            android:textColor="@color/black"
+            android:textSize="@dimen/miniTextSize" />
+
+        <Spinner
+            android:id="@+id/spSort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/generalMargin"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/etSearchCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/generalMargin"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/search_for_a_city"
+        android:textSize="@dimen/miniTextSize" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCities"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</FrameLayout>
+</LinearLayout>
