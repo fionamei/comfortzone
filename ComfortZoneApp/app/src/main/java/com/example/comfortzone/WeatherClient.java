@@ -6,6 +6,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.models.WeatherData.Coordinates;
+import com.example.comfortzone.models.WeatherGroupData;
+import com.example.comfortzone.utils.WeatherDbUtil;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,6 +24,8 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import rx.Observable;
+import rx.Subscriber;
 
 public class WeatherClient extends OkHttpClient {
 
@@ -70,18 +75,27 @@ public class WeatherClient extends OkHttpClient {
             }
         });}
 
-    public void getGroupWeatherData(String url, WeatherCallback callback) {
+    public Observable<Object> getGroupWeatherData(String url, Coordinates coordinates) {
         Request request = new Request.Builder().url(url).build();
-        newCall(request).enqueue(new Callback() {
+        return Observable.create(new Observable.OnSubscribe<Object>() {
             @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e(TAG, "failed making group api request " + e);
-            }
+            public void call(Subscriber<? super Object> subscriber) {
+                newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        Log.e(TAG, "failed making group api request " + e);
+                        subscriber.onError(e);
+                    }
 
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                String data = response.body().string();
-                callback.onGetWeatherData(data);
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                        String data = response.body().string();
+                        Gson gson = new Gson();
+                        WeatherGroupData weathers = gson.fromJson(data, WeatherGroupData.class);
+                        WeatherDbUtil.saveCities(weathers, coordinates);
+                        subscriber.onCompleted();
+                    }
+                });
             }
         });
     }
