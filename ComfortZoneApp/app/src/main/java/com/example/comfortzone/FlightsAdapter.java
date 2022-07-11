@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.models.WeatherData;
 
-import java.text.Normalizer;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -52,93 +50,9 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
         notifyDataSetChanged();
     }
 
-    public void filterClearAndAdd(List<WeatherData> cities) {
+    public void updateCities(List<WeatherData> weathers) {
         cityList.clear();
-        addAll(cities);
-    }
-
-    public void sortAlphabetical() {
-        cityList.sort(new Comparator<WeatherData>() {
-            @Override
-            public int compare(WeatherData o1, WeatherData o2) {
-                if (o1 == o2)
-                    return 0;
-                return o1.getCity().compareTo(o2.getCity());
-            }
-        });
-        notifyDataSetChanged();
-    }
-
-    public void sortIncTemp() {
-        cityList.sort(new Comparator<WeatherData>() {
-            @Override
-            public int compare(WeatherData o1, WeatherData o2) {
-                if (o1 == o2)
-                    return 0;
-                return o1.getTempData().getTemp() < o2.getTempData().getTemp() ? -1 : 1;
-            }
-        });
-        notifyDataSetChanged();
-    }
-
-    public void sortDecTemp() {
-        cityList.sort(new Comparator<WeatherData>() {
-            @Override
-            public int compare(WeatherData o1, WeatherData o2) {
-                if (o1 == o2)
-                    return 0;
-                return o1.getTempData().getTemp() > o2.getTempData().getTemp() ? -1 : 1;
-            }
-        });
-        notifyDataSetChanged();
-    }
-
-    public void sortIncRank() {
-        cityList.sort(new Comparator<WeatherData>() {
-            @Override
-            public int compare(WeatherData o1, WeatherData o2) {
-                if (o1 == o2)
-                    return 0;
-                return o1.getRank() < o2.getRank() ? -1 : 1;
-            }
-        });
-        notifyDataSetChanged();
-    }
-
-    public void sortDecRank() {
-        cityList.sort(new Comparator<WeatherData>() {
-            @Override
-            public int compare(WeatherData o1, WeatherData o2) {
-                if (o1 == o2)
-                    return 0;
-                return o1.getRank() > o2.getRank() ? -1 : 1;
-            }
-        });
-        notifyDataSetChanged();
-    }
-
-    public void sortIncDist() {
-        cityList.sort(new Comparator<WeatherData>() {
-            @Override
-            public int compare(WeatherData o1, WeatherData o2) {
-                if (o1 == o2)
-                    return 0;
-                return o1.getDistanceBetween() > o2.getDistanceBetween() ? -1 : 1;
-            }
-        });
-        notifyDataSetChanged();
-    }
-
-    public void sortDecDist() {
-        cityList.sort(new Comparator<WeatherData>() {
-            @Override
-            public int compare(WeatherData o1, WeatherData o2) {
-                if (o1 == o2)
-                    return 0;
-                return o1.getDistanceBetween() < o2.getDistanceBetween() ? -1 : 1;
-            }
-        });
-        notifyDataSetChanged();
+        addAll(weathers);
     }
 
     public void searchCity(CharSequence name, List<WeatherData> cities) {

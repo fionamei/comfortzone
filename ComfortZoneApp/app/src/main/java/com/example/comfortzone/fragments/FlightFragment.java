@@ -19,13 +19,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.util.StringUtil;
 
 import com.example.comfortzone.AllWeathersDatabase;
 import com.example.comfortzone.FlightsAdapter;
 import com.example.comfortzone.R;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.utils.FilteringUtils;
 import com.example.comfortzone.utils.WeatherDbUtil;
 import com.google.android.material.slider.RangeSlider;
 import com.parse.ParseUser;
@@ -34,7 +34,6 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 public class FlightFragment extends Fragment {
 
@@ -114,7 +113,7 @@ public class FlightFragment extends Fragment {
                 int lowRange = ((ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS)).get(lowComfort).getLowRange();
                 int highRange = ((ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS)).get(highComfort).getHighRange();
                 List<WeatherData> weathers = db.weatherDao().getRange(lowRange, highRange);
-                flightsAdapter.filterClearAndAdd(weathers);
+                flightsAdapter.updateCities(weathers);
                 sortBy(spSort.getSelectedItemPosition());
             }
         });
@@ -136,27 +135,28 @@ public class FlightFragment extends Fragment {
     private void sortBy(int position) {
         switch (position) {
             case 0:
-                flightsAdapter.sortAlphabetical();
+                FilteringUtils.sortAlphabetical(cityList);
                 break;
             case 1:
-                flightsAdapter.sortIncTemp();
+                FilteringUtils.sortIncTemp(cityList);
                 break;
             case 2:
-                flightsAdapter.sortDecTemp();
+                FilteringUtils.sortDecTemp(cityList);
                 break;
             case 3:
-                flightsAdapter.sortDecDist();
+                FilteringUtils.sortDecDist(cityList);
                 break;
             case 4:
-                flightsAdapter.sortIncDist();
+                FilteringUtils.sortIncDist(cityList);
                 break;
             case 5:
-                flightsAdapter.sortDecRank();
+                FilteringUtils.sortDecRank(cityList);
                 break;
             case 6:
-                flightsAdapter.sortIncRank();
+                FilteringUtils.sortIncRank(cityList);
                 break;
         }
+        flightsAdapter.notifyDataSetChanged();
     }
 
     private void setSearchCityListener() {

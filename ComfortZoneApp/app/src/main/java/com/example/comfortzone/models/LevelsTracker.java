@@ -4,14 +4,11 @@ import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_TEMP_AVERAGE;
 import static com.example.comfortzone.utils.ComfortCalcUtil.MAX_TEMP;
 import static com.example.comfortzone.utils.ComfortCalcUtil.MIN_TEMP;
 
-import com.example.comfortzone.utils.ComfortLevelUtil;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @ParseClassName("LevelsTracker")
 public class LevelsTracker extends ParseObject {
