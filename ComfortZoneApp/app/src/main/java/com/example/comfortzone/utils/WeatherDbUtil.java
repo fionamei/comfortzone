@@ -93,4 +93,9 @@ public class WeatherDbUtil {
         }
     }
 
+    public static List<WeatherData> getAll() {
+        return db.weatherDao().getAll();
+
+    }
+
 }
