@@ -31,10 +31,8 @@ import com.parse.ParseUser;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class FlightFragment extends Fragment {
 

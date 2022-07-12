@@ -3,7 +3,6 @@
     <string name="username">username</string>
     <string name="password">password</string>
     <string name="create_account">Create account</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="welcome">Welcome!</string>
     <string name="introduction">ComfortZone will track your comfort zones for different temperature levels! A \'0\' represents the point where you are crazy cold! Similarly, a \'10\' represents a crazy hot degree. And \'5\' is your estimated perfect temperature!</string>
@@ -27,6 +26,8 @@
     <string name="delete">delete</string>
     <string name="comfort">Comfort:</string>
     <string name="temperature">Temperature:</string>
+    <string name="cityIcon">cityIcon</string>
+    <string name="cityId">cityId</string>
     <string name="filter_by_comfort_level">Filter by Comfort Level:</string>
     <string name="sort_by">Sort by...</string>
     <string name="search_for_a_city">Search for a city!</string>
