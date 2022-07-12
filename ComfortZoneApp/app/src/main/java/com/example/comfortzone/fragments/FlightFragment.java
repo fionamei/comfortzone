@@ -34,6 +34,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import rx.Observable;
+import rx.Subscriber;
+
 public class FlightFragment extends Fragment {
 
     public static final String TAG = "FlightFragment";
@@ -71,8 +74,7 @@ public class FlightFragment extends Fragment {
 
         initViews(view);
         setObjects();
-        WeatherDbUtil.maybeUpdateCitiesList(getActivity());
-        populateViews();
+        checkCitiesSaved();
         listenerSetup();
     }
 
@@ -91,6 +93,28 @@ public class FlightFragment extends Fragment {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
+    private void checkCitiesSaved() {
+        Observable<Object> dataSetupObservable = WeatherDbUtil.maybeUpdateCitiesList(getActivity());
+        Subscriber dataSetupSubscriber = new Subscriber() {
+            @Override
+            public void onCompleted() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        populateViews();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Throwable e) {}
+
+            @Override
+            public void onNext(Object o) {}
+        };
+        dataSetupObservable.subscribe(dataSetupSubscriber);
+    }
+
     private void populateViews() {
         rvCities.setAdapter(flightsAdapter);
         rvCities.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -107,9 +131,7 @@ public class FlightFragment extends Fragment {
     private void setFilterListener() {
         rsComfortFilter.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(@NonNull RangeSlider slider) {
-
-            }
+            public void onStartTrackingTouch(@NonNull RangeSlider slider) {}
 
             @Override
             public void onStopTrackingTouch(@NonNull RangeSlider slider) {
@@ -134,8 +156,7 @@ public class FlightFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
@@ -169,21 +190,16 @@ public class FlightFragment extends Fragment {
     private void setSearchCityListener() {
         etSearchCity.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
                 String city = Normalizer.normalize(s, Normalizer.Form.NFD);
                 city = city.replaceAll("[^\\p{ASCII}]", "");
                 flightsAdapter.searchCity(city.toLowerCase(Locale.ROOT), cityList);
-
             }
         });
 
