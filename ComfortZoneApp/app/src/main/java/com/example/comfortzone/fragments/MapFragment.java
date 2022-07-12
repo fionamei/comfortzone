@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.models.WeatherData.Coordinates;
+import com.example.comfortzone.utils.WeatherDbUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -19,11 +21,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     GoogleMap googleMapFragment;
     MapView mvMap;
-    Coordinates currentLoc;
+    public static final int MAX_CITIES = 20;
 
     public MapFragment() {
         // Required empty public constructor
@@ -58,6 +62,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         MapsInitializer.initialize(getContext());
         googleMapFragment = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(currentLoc.getLat(), currentLoc.getLon())));
+        addMapMarkers(googleMap, WeatherDbUtil.getAll().subList(0, MAX_CITIES));
+    }
+
+    public void addMapMarkers(GoogleMap googleMap, List<WeatherData> weatherData) {
+        for (WeatherData weather : weatherData) {
+            googleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(weather.getCoord().getLat(), weather.getCoord().getLon()))
+                    .title(weather.getCity()));
+        }
     }
 }

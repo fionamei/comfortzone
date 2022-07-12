@@ -11,6 +11,7 @@ import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.models.WeatherGroupData;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -66,5 +67,10 @@ public class WeatherDbUtil {
             weatherFromDb.setTimeUploaded(weather.getTimeUploaded());
             db.weatherDao().updateWeatherData(weatherFromDb);
         }
+    }
+
+    public static List<WeatherData> getAll() {
+        return db.weatherDao().getAll();
+
     }
 }
