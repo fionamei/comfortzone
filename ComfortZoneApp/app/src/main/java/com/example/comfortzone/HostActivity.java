@@ -1,4 +1,11 @@
 package com.example.comfortzone;
+import static com.example.comfortzone.utils.WeatherDbUtil.maybeUpdateCitiesList;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
 import android.content.Intent;
@@ -8,12 +15,6 @@ import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.example.comfortzone.fragments.FlightFragment;
 import com.example.comfortzone.fragments.InputFragment;
@@ -41,8 +42,8 @@ public class HostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         maybeRequestPermissions();
+        maybeUpdateCitiesList(this);
         maybeUpdateComfortLevel();
-        
         initViews();
         listenerSetup();
     }
@@ -94,7 +95,7 @@ public class HostActivity extends AppCompatActivity {
                         fragment = new ProfileFragment();
                         break;
                 }
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment, "input").commit();
                 return true;
             }
         });

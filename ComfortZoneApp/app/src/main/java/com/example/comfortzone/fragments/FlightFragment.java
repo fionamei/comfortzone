@@ -31,10 +31,8 @@ import com.parse.ParseUser;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -51,27 +49,13 @@ public class FlightFragment extends Fragment {
     private ArrayAdapter<CharSequence> spinnerAdapter;
     private EditText etSearchCity;
 
-    private enum POSITIONS {
-        ALPHA(0), INC_TEMP(1), DEC_TEMP(2), DIST_NEAR(3), DIST_FAR(4), INC_POP(5), DEC_POP(6);
-
-        private int position;
-
-        private POSITIONS(int position) {
-            this.position = position;
-        }
-
-        static Map<Integer, POSITIONS> positionsMap = new HashMap<>();
-
-        static {
-            for (POSITIONS position_idx : POSITIONS.values()) {
-                positionsMap.put(position_idx.position, position_idx);
-            }
-        }
-
-        private static POSITIONS getPosition(int position) {
-            return positionsMap.get(position);
-        }
-    }
+    private final static int ALPHA = 0;
+    private final static int INC_TEMP = 1;
+    private final static int DEC_TEMP = 2;
+    private final static int DIST_NEAR = 3;
+    private final static int DIST_FAR = 4;
+    private final static int INC_POP = 5;
+    private final static int DEC_POP = 6;
 
     public FlightFragment() {
         // Required empty public constructor
@@ -177,8 +161,7 @@ public class FlightFragment extends Fragment {
     }
 
     private void sortBy(int position) {
-        POSITIONS pos = POSITIONS.getPosition(position);
-        switch (pos) {
+        switch (position) {
             case ALPHA:
                 FilteringUtils.sortAlphabetical(cityList);
                 break;
