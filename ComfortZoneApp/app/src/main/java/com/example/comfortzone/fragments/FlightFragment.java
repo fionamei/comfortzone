@@ -5,7 +5,6 @@ import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +92,8 @@ public class FlightFragment extends Fragment {
         cityList = new ArrayList<>();
         flightsAdapter = new FlightsAdapter(getContext(), cityList);
         db = AllWeathersDatabase.getDbInstance(getContext().getApplicationContext());
-        spinnerAdapter = ArrayAdapter.createFromResource(getContext(), R.array.filter_array, android.R.layout.simple_spinner_item);
+        spinnerAdapter = ArrayAdapter
+                .createFromResource(getContext(), R.array.filter_array, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
@@ -111,10 +111,12 @@ public class FlightFragment extends Fragment {
             }
 
             @Override
-            public void onError(Throwable e) {}
+            public void onError(Throwable e) {
+            }
 
             @Override
-            public void onNext(Object o) {}
+            public void onNext(Object o) {
+            }
         };
         dataSetupObservable.subscribe(dataSetupSubscriber);
     }
@@ -137,7 +139,8 @@ public class FlightFragment extends Fragment {
     private void setFilterListener() {
         rsComfortFilter.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
             @Override
-            public void onStartTrackingTouch(@NonNull RangeSlider slider) {}
+            public void onStartTrackingTouch(@NonNull RangeSlider slider) {
+            }
 
             @Override
             public void onStopTrackingTouch(@NonNull RangeSlider slider) {
@@ -145,8 +148,10 @@ public class FlightFragment extends Fragment {
                 int lowComfort = values.get(0).intValue();
                 int highComfort = values.get(1).intValue();
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                int lowRange = ((ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS)).get(lowComfort).getLowRange();
-                int highRange = ((ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS)).get(highComfort).getHighRange();
+                int lowRange = ((ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS))
+                        .get(lowComfort).getLowRange();
+                int highRange = ((ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS))
+                        .get(highComfort).getHighRange();
                 List<WeatherData> weathers = db.weatherDao().getRange(lowRange, highRange);
                 flightsAdapter.updateCities(weathers);
                 sortBy(spSort.getSelectedItemPosition());
@@ -162,7 +167,8 @@ public class FlightFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -196,10 +202,12 @@ public class FlightFragment extends Fragment {
     private void setSearchCityListener() {
         etSearchCity.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -217,8 +225,6 @@ public class FlightFragment extends Fragment {
             }
         });
     }
-
-
 
 
 }
