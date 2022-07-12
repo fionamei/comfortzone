@@ -21,7 +21,7 @@ android {
         buildConfigField("String", "PARSE_CLIENT_KEY", apikeyProperties["PARSE_CLIENT_KEY"])
         buildConfigField("String", "APPLICATION_ID", apikeyProperties["APPLICATION_ID"])
         buildConfigField("String", "WEATHER_API_KEY", apikeyProperties["WEATHER_API_KEY"])
-        buildConfigField("String", "GOOGLEMAPS_API_KEY", apikeyProperties["GOOGLEMAPS_API_KEY"])
+        resValue("string", "GOOGLEMAPS_API_KEY", apikeyProperties["GOOGLEMAPS_API_KEY"])
 
         javaCompileOptions {
             annotationProcessorOptions {

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.example.comfortzone.R;
 import com.example.comfortzone.models.WeatherData;
-import com.example.comfortzone.models.WeatherData.Coordinates;
 import com.example.comfortzone.utils.WeatherDbUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -25,8 +24,7 @@ import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
-    GoogleMap googleMapFragment;
-    MapView mvMap;
+    private MapView mvMap;
     public static final int MAX_CITIES = 20;
 
     public MapFragment() {
@@ -60,7 +58,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
-        googleMapFragment = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         addMapMarkers(googleMap, WeatherDbUtil.getAll().subList(0, MAX_CITIES));
     }
