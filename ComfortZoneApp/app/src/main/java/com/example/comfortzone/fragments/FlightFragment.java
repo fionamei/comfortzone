@@ -16,8 +16,7 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.comfortzone.AllWeathersDatabase;
 import com.example.comfortzone.FlightsAdapter;
@@ -41,16 +40,6 @@ import rx.Subscriber;
 public class FlightFragment extends Fragment {
 
     public static final String TAG = "FlightFragment";
-    private FlightsAdapter flightsAdapter;
-    private List<WeatherData> cityList;
-    private RecyclerView rvCities;
-    private AllWeathersDatabase db;
-    private RangeSlider rsComfortFilter;
-    private Spinner spSort;
-    private ArrayAdapter<CharSequence> spinnerAdapter;
-    private EditText etSearchCity;
-    private MaterialButtonToggleGroup tgCityDisplay;
-
     private final static int ALPHA = 0;
     private final static int INC_TEMP = 1;
     private final static int DEC_TEMP = 2;
@@ -58,6 +47,15 @@ public class FlightFragment extends Fragment {
     private final static int DIST_FAR = 4;
     private final static int INC_POP = 5;
     private final static int DEC_POP = 6;
+
+    private FlightsAdapter flightsAdapter;
+    private List<WeatherData> cityList;
+    private AllWeathersDatabase db;
+    private RangeSlider rsComfortFilter;
+    private Spinner spSort;
+    private ArrayAdapter<CharSequence> spinnerAdapter;
+    private EditText etSearchCity;
+    private MaterialButtonToggleGroup tgCityDisplay;
 
     public FlightFragment() {
         // Required empty public constructor
@@ -81,7 +79,6 @@ public class FlightFragment extends Fragment {
     }
 
     private void initViews(@NonNull View view) {
-        rvCities = view.findViewById(R.id.rvCities);
         rsComfortFilter = view.findViewById(R.id.rsComfortFilter);
         spSort = view.findViewById(R.id.spSort);
         etSearchCity = view.findViewById(R.id.etSearchCity);
@@ -122,8 +119,6 @@ public class FlightFragment extends Fragment {
     }
 
     private void populateViews() {
-        rvCities.setAdapter(flightsAdapter);
-        rvCities.setLayoutManager(new LinearLayoutManager(getContext()));
         flightsAdapter.addAll(db.weatherDao().getAll());
         spSort.setAdapter(spinnerAdapter);
         tgCityDisplay.check(R.id.btnList);
@@ -222,9 +217,31 @@ public class FlightFragment extends Fragment {
         tgCityDisplay.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override
             public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+                if (checkedId == R.id.btnList && isChecked) {
+                    goToListView();
+                } else if (checkedId == R.id.btnMap && isChecked) {
+                    goToMapView();
+                }
             }
         });
     }
 
+    private void goToListView() {
+        Fragment fragment = CityListViewFragment.newInstance(cityList);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.flViewsContainer, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void goToMapView() {
+        Fragment fragment = MapFragment.newInstance(cityList);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.flViewsContainer, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
 
 }

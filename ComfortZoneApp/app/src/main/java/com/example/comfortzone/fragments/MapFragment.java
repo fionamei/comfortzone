@@ -1,18 +1,18 @@
 package com.example.comfortzone.fragments;
 
+import static com.example.comfortzone.fragments.CityListViewFragment.ARG_CITY_LIST;
+
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.comfortzone.R;
 import com.example.comfortzone.models.WeatherData;
-import com.example.comfortzone.utils.WeatherDbUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -20,27 +20,40 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private MapView mvMap;
     public static final int MAX_CITIES = 20;
+    private List<WeatherData> cityList;
 
     public MapFragment() {
         // Required empty public constructor
+    }
+
+    public static MapFragment newInstance(List<WeatherData> cityList) {
+        MapFragment fragment = new MapFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_CITY_LIST, Parcels.wrap(cityList));
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            cityList = Parcels.unwrap((getArguments().getParcelable(ARG_CITY_LIST)));
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_map, container, false);
     }
 
@@ -59,7 +72,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        addMapMarkers(googleMap, WeatherDbUtil.getAll().subList(0, MAX_CITIES));
+        addMapMarkers(googleMap, cityList.subList(0, MAX_CITIES));
     }
 
     public void addMapMarkers(GoogleMap googleMap, List<WeatherData> weatherData) {

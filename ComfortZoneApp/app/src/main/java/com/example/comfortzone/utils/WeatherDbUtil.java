@@ -1,7 +1,6 @@
 package com.example.comfortzone.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.location.Location;
 
 import com.example.comfortzone.AllWeathersDatabase;
@@ -92,10 +91,4 @@ public class WeatherDbUtil {
             db.weatherDao().updateWeatherData(weatherFromDb);
         }
     }
-
-    public static List<WeatherData> getAll() {
-        return db.weatherDao().getAll();
-
-    }
-
 }
