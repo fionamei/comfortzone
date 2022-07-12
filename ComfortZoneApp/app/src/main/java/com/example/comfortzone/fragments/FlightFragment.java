@@ -90,7 +90,7 @@ public class FlightFragment extends Fragment {
 
         initViews(view);
         setObjects();
-        checkCities();
+        checkCitiesSaved();
         listenerSetup();
     }
 
@@ -109,9 +109,9 @@ public class FlightFragment extends Fragment {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
-    private void checkCities() {
-        Observable<Object> ob = WeatherDbUtil.maybeUpdateCitiesList(getActivity());
-        Subscriber mySubscriber = new Subscriber() {
+    private void checkCitiesSaved() {
+        Observable<Object> dataSetupObservable = WeatherDbUtil.maybeUpdateCitiesList(getActivity());
+        Subscriber dataSetupSubscriber = new Subscriber() {
             @Override
             public void onCompleted() {
                 getActivity().runOnUiThread(new Runnable() {
@@ -128,7 +128,7 @@ public class FlightFragment extends Fragment {
             @Override
             public void onNext(Object o) {}
         };
-        ob.subscribe(mySubscriber);
+        dataSetupObservable.subscribe(dataSetupSubscriber);
     }
 
     private void populateViews() {

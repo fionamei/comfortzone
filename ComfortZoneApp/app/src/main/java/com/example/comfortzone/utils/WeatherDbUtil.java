@@ -76,8 +76,7 @@ public class WeatherDbUtil {
         for (String apiUrl : groupUrls) {
             listObservables.add(client.getGroupWeatherData(apiUrl, coordinates));
         }
-        Observable<Object> mergedObservables = Observable.merge(listObservables);
-        return mergedObservables;
+        return Observable.merge(listObservables);
     }
 
     public static void saveCities(WeatherGroupData weathers, Coordinates coordinates) {
