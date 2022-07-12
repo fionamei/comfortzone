@@ -5,6 +5,7 @@ import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.utils.FilteringUtils;
 import com.example.comfortzone.utils.WeatherDbUtil;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.slider.RangeSlider;
 import com.parse.ParseUser;
 
@@ -48,6 +50,7 @@ public class FlightFragment extends Fragment {
     private Spinner spSort;
     private ArrayAdapter<CharSequence> spinnerAdapter;
     private EditText etSearchCity;
+    private MaterialButtonToggleGroup tgCityDisplay;
 
     private final static int ALPHA = 0;
     private final static int INC_TEMP = 1;
@@ -83,6 +86,7 @@ public class FlightFragment extends Fragment {
         rsComfortFilter = view.findViewById(R.id.rsComfortFilter);
         spSort = view.findViewById(R.id.spSort);
         etSearchCity = view.findViewById(R.id.etSearchCity);
+        tgCityDisplay = view.findViewById(R.id.tgCityDisplay);
     }
 
     private void setObjects() {
@@ -120,12 +124,14 @@ public class FlightFragment extends Fragment {
         rvCities.setLayoutManager(new LinearLayoutManager(getContext()));
         flightsAdapter.addAll(db.weatherDao().getAll());
         spSort.setAdapter(spinnerAdapter);
+        tgCityDisplay.check(R.id.btnList);
     }
 
     private void listenerSetup() {
         setFilterListener();
         setSortListener();
         setSearchCityListener();
+        displayToggleListener();
     }
 
     private void setFilterListener() {
@@ -202,7 +208,14 @@ public class FlightFragment extends Fragment {
                 flightsAdapter.searchCity(city.toLowerCase(Locale.ROOT), cityList);
             }
         });
+    }
 
+    private void displayToggleListener() {
+        tgCityDisplay.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+            @Override
+            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+            }
+        });
     }
 
 
