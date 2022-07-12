@@ -48,7 +48,7 @@ public class WeatherClient extends OkHttpClient {
         return urlBuilder.build().toString();
     }
 
-    public void getWeatherData(String lat, String lon, GetWeatherCallback weatherCallback) {
+    public void getWeatherData(String lat, String lon, WeatherCallback weatherCallback) {
         String url = getWeatherURL(lat, lon);
         final Request request = new Request.Builder()
                 .url(url)
@@ -70,7 +70,7 @@ public class WeatherClient extends OkHttpClient {
             }
         });}
 
-    public void getGroupWeatherData(String url, GetWeatherCallback callback) {
+    public void getGroupWeatherData(String url, WeatherCallback callback) {
         Request request = new Request.Builder().url(url).build();
         newCall(request).enqueue(new Callback() {
             @Override
@@ -86,13 +86,13 @@ public class WeatherClient extends OkHttpClient {
         });
     }
 
-    public void getGroupWeatherUrl(Context context, GroupUrlCallback callback) {
+    public List<String> getGroupWeatherUrl(Context context) {
         AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(context.getApplicationContext());
         List<WeatherData> cityList = db.weatherDao().getAll();
         List<String> ids = cityList.stream().map(city -> String.valueOf(city.getId())).collect(Collectors.toList());
         List<List<String>> batchesCities = Lists.partition(ids, MAX_API_CITIES);
         List<String> batchCityUrls = batchesCities.stream().map(batch -> getBatchUrl(batch)).collect(Collectors.toList());
-        callback.onGetWeatherUrlGroupIds(batchCityUrls);
+        return batchCityUrls;
     }
 
     private String getBatchUrl(List<String> batchCity) {

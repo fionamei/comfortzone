@@ -1,5 +1,5 @@
 package com.example.comfortzone;
 
-public interface GetLocationCallback {
+public interface LocationCallback {
     void onLocationUpdated(String lat, String lon);
 }

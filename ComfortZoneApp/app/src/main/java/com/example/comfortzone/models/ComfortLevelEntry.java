@@ -1,6 +1,7 @@
 package com.example.comfortzone.models;
 
-import com.example.comfortzone.utils.ParseUtil;
+import com.example.comfortzone.utils.ComfortLevelUtil;
+
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -33,16 +34,21 @@ public class ComfortLevelEntry extends ParseObject {
         put(KEY_TEMP, temp);
     };
 
-    public int getTemp() throws ParseException {
-        return fetchIfNeeded().getInt(KEY_TEMP);
+    public int getTemp() {
+        try {
+            return fetchIfNeeded().getInt(KEY_TEMP);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     };
 
     public void setComfortLevel(int comfort) {
         put(KEY_COMFORTLEVEL, comfort);
     }
 
-    public int getComfortLevel() {
-        return getInt(KEY_COMFORTLEVEL);
+    public int getComfortLevel() throws ParseException {
+        return fetchIfNeeded().getInt(KEY_COMFORTLEVEL);
     }
 
     public void deleteEntry() {
@@ -60,7 +66,7 @@ public class ComfortLevelEntry extends ParseObject {
     public void deleteEntryFromTodayList(ParseUser currentUser) {
         List<ComfortLevelEntry> toRemove = new ArrayList<>();
         toRemove.add(this);
-        currentUser.removeAll(ParseUtil.KEY_TODAY_ENTRIES, toRemove);
+        currentUser.removeAll(ComfortLevelUtil.KEY_TODAY_ENTRIES, toRemove);
         currentUser.saveInBackground();
     }
 

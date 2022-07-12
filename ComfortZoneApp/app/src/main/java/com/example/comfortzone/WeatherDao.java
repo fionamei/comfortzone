@@ -29,4 +29,7 @@ public interface WeatherDao {
 
     @Query("SELECT * FROM weatherdata WHERE id = :id LIMIT 1")
     WeatherData getWeatherById(int id);
+
+    @Query("SELECT * FROM WeatherData WHERE `temp` BETWEEN :lowRange AND :highRange")
+    List<WeatherData> getRange(int lowRange, int highRange);
 }

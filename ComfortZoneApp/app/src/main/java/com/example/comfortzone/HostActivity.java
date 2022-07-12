@@ -11,16 +11,22 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.format.DateUtils;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.comfortzone.fragments.FlightFragment;
 import com.example.comfortzone.fragments.InputFragment;
 import com.example.comfortzone.fragments.ProfileFragment;
+import com.example.comfortzone.models.ComfortLevelEntry;
+import com.example.comfortzone.utils.ComfortCalcUtil;
+import com.example.comfortzone.utils.ComfortLevelUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import android.view.Menu;
-import android.widget.Toast;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
 
 public class HostActivity extends AppCompatActivity {
 
@@ -37,7 +43,7 @@ public class HostActivity extends AppCompatActivity {
 
         maybeRequestPermissions();
         maybeUpdateCitiesList(this);
-
+        maybeUpdateComfortLevel();
         initViews();
         listenerSetup();
     }
@@ -57,6 +63,15 @@ public class HostActivity extends AppCompatActivity {
     private void requestPermissions() {
         ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_ID);
+    }
+
+    private void maybeUpdateComfortLevel() {
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        ArrayList<ComfortLevelEntry> todayEntries = (ArrayList<ComfortLevelEntry>) currentUser.get(ComfortLevelUtil.KEY_TODAY_ENTRIES);
+        if (!todayEntries.isEmpty() && todayEntries.get(0).getUpdatedAt() != null && !DateUtils.isToday(todayEntries.get(0).getUpdatedAt().getTime())) {
+            ComfortLevelUtil.updateComfortLevel(currentUser);
+            ComfortCalcUtil.calculateAverages(currentUser);
+        }
     }
 
     private void initViews() {
@@ -80,7 +95,7 @@ public class HostActivity extends AppCompatActivity {
                         fragment = new ProfileFragment();
                         break;
                 }
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment, "input").commit();
                 return true;
             }
         });

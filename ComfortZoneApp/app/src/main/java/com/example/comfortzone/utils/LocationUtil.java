@@ -1,4 +1,5 @@
 package com.example.comfortzone.utils;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -7,13 +8,16 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.provider.Settings;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
-import com.example.comfortzone.GetLocationCallback;
+
+import com.example.comfortzone.LocationCallback;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
 import java.util.concurrent.TimeUnit;
 
 public class LocationUtil {
@@ -23,7 +27,7 @@ public class LocationUtil {
     private static FusedLocationProviderClient fusedLocationClient;
 
     @SuppressLint("MissingPermission")
-    public static void getLastLocation(Activity activity, GetLocationCallback locationCallback) {
+    public static void getLastLocation(Activity activity, LocationCallback locationCallback) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
         if (isLocationEnabled(activity)) {
             fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
@@ -52,7 +56,7 @@ public class LocationUtil {
     }
 
     @SuppressLint("MissingPermission")
-    private static void requestNewLocationData(Context context, GetLocationCallback locationCallback) {
+    private static void requestNewLocationData(Context context, LocationCallback locationCallback) {
         fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_LOW_POWER, null)
                 .addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override

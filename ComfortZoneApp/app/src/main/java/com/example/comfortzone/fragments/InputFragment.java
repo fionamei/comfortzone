@@ -12,13 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.comfortzone.GetLocationCallback;
+import com.example.comfortzone.LocationCallback;
 import com.example.comfortzone.InputsAdapter;
 import com.example.comfortzone.R;
+import com.example.comfortzone.utils.ComfortLevelUtil;
 import com.example.comfortzone.utils.LocationUtil;
-import com.example.comfortzone.utils.ParseUtil;
 import com.example.comfortzone.WeatherClient;
-import com.example.comfortzone.GetWeatherCallback;
+import com.example.comfortzone.WeatherCallback;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
@@ -75,7 +75,6 @@ public class InputFragment extends Fragment {
         initViews(view);
         getWeatherClass();
         queryInputs();
-        listenerSetup();
     }
 
     private void initViews(View view) {
@@ -99,23 +98,26 @@ public class InputFragment extends Fragment {
     }
 
     private void getWeatherClass() {
-        LocationUtil.getLastLocation(getActivity(), new GetLocationCallback() {
+        LocationUtil.getLastLocation(getActivity(), new LocationCallback() {
             @Override
             public void onLocationUpdated(String lat, String lon) {
-                client.getWeatherData(lat, lon, new GetWeatherCallback() {
+                client.getWeatherData(lat, lon, new WeatherCallback() {
                     @Override
                     public void onGetWeatherData(String data) {
                         Gson gson = new GsonBuilder().create();
                         weatherData = gson.fromJson(data, WeatherData.class);
                         weatherData.setDate();
                         weatherData.setTime();
-                        getActivity().runOnUiThread(new Runnable() {
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
 
-                            @Override
-                            public void run() {
-                                populateViews();
-                            }
-                        });
+                                @Override
+                                public void run() {
+                                    populateViews();
+                                    listenerSetup();
+                                }
+                            });
+                        }
                     }
                 });
             }
@@ -123,7 +125,7 @@ public class InputFragment extends Fragment {
     }
 
     private void queryInputs() {
-        ArrayList<ComfortLevelEntry> comfortLevelEntryArrayList = (ArrayList<ComfortLevelEntry>) currentUser.get(ParseUtil.KEY_TODAY_ENTRIES);
+        ArrayList<ComfortLevelEntry> comfortLevelEntryArrayList = (ArrayList<ComfortLevelEntry>) currentUser.get(ComfortLevelUtil.KEY_TODAY_ENTRIES);
         adapter.addAll(comfortLevelEntryArrayList);
     }
 
@@ -144,7 +146,7 @@ public class InputFragment extends Fragment {
                     @Override
                     public void done(ParseException e) {
                         try {
-                            ParseUtil.updateEntriesList(currentUser, newEntry);
+                            ComfortLevelUtil.updateEntriesList(currentUser, newEntry);
                             entries.add(INSERT_INDEX, newEntry);
                             adapter.notifyItemInserted(INSERT_INDEX);
                         } catch (ParseException ex) {
@@ -163,7 +165,7 @@ public class InputFragment extends Fragment {
                 ComfortLevelEntry comfortEntry = entries.get(position);
                 adapter.remove(position);
 
-                LevelsTracker tracker = null;
+                LevelsTracker tracker;
                 try {
                     tracker = comfortEntry.getLevelTracker();
                     tracker.removeEntry(comfortEntry);

@@ -51,6 +51,17 @@ public class WeatherData {
     @ColumnInfo
     private String description;
 
+    public float getDistanceBetween() {
+        return distanceBetween;
+    }
+
+    public void setDistanceBetween(float distanceBetween) {
+        this.distanceBetween = distanceBetween;
+    }
+
+    @ColumnInfo
+    private float distanceBetween;
+
     public Coordinates getCoord() {
         return coord;
     }
@@ -86,6 +97,14 @@ public class WeatherData {
     public static class Coordinates {
         private double lat;
         private double lon;
+
+        public Coordinates() {
+        }
+
+        public Coordinates(String lat, String lon) {
+            this.lat = Double.parseDouble(lat);
+            this.lon = Double.parseDouble(lon);
+        }
 
         public double getLat() {
             return this.lat;

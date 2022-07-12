@@ -26,6 +26,9 @@
     <dimen name="cityDetailImageSize">200dp</dimen>
     <dimen name="cityDetailHeight">120dp</dimen>
 
+    <!--    width       -->
+    <dimen name="textWidth">100dp</dimen>
+
     <!--    stroke      -->
     <dimen name="buttonStroke">1dp</dimen>
 
