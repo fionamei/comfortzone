@@ -53,7 +53,6 @@ public class FlightFragment extends Fragment {
     }
 
 
-
     private void initViews(@NonNull View view) {
         rvCities = view.findViewById(R.id.rvCities);
     }
@@ -63,9 +62,6 @@ public class FlightFragment extends Fragment {
         rvCities.setLayoutManager(new LinearLayoutManager(getContext()));
         flightsAdapter.addAll(db.weatherDao().getAll());
     }
-
-
-
 
 
 }

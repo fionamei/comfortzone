@@ -1,11 +1,10 @@
 package com.example.comfortzone;
 
+import static com.example.comfortzone.CityDetailActivity.ARG_CITY_ID;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.transition.Fade;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.example.comfortzone.fragments.FlightFragment;
 import com.example.comfortzone.models.WeatherData;
 
 import java.util.List;
@@ -88,7 +81,6 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
             tvTemperature.setText(String.valueOf(city.getTempData().getTemp()));
             tvCityName.setText(city.getCity());
             Glide.with(context).load(city.getImage()).circleCrop().into(ivCityIcon);
-            ivCityIcon.setTransitionName(context.getResources().getString(R.string.cityIcon));
         }
 
         private void listenerSetup() {
@@ -96,9 +88,9 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, CityDetailActivity.class);
-                    intent.putExtra(context.getResources().getString(R.string.cityId), v.getId());
+                    intent.putExtra(ARG_CITY_ID, v.getId());
                     ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation((Activity) context, ivCityIcon, context.getResources().getString(R.string.cityIcon));
+                            makeSceneTransitionAnimation((Activity) context, ivCityIcon, ivCityIcon.getTransitionName());
                     context.startActivity(intent, options.toBundle());
                 }
             });
