@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.comfortzone.models.WeatherData;
 
-@Database(entities = {WeatherData.class}, version = 4)
+@Database(entities = {WeatherData.class}, version = 5)
 public abstract class AllWeathersDatabase extends RoomDatabase {
 
     public static final String DB_NAME = "All_Weathers_Database";

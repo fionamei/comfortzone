@@ -19,6 +19,9 @@
         android:theme="@style/Theme.ComfortZone"
         tools:targetApi="31">
         <activity
+            android:name=".CityDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".InitialComfortActivity"
             android:exported="false" />
         <activity
