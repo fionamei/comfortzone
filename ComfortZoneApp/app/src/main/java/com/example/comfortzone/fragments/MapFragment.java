@@ -20,11 +20,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateCityListCallback {
 
+    public static final String TAG= "MapFragment";
     public static final int MAX_CITIES = 20;
     private final LatLng MAP_CENTER = new LatLng(39.8283, -98.5795);
 
@@ -38,7 +38,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        cityList = new ArrayList<>();
         super.onCreate(savedInstanceState);
     }
 
@@ -86,9 +85,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
 
     @Override
     public void onCityListUpdated(List<WeatherData> newCityList) {
+        cityList = newCityList;
         if (mGoogleMap!= null) {
             mGoogleMap.clear();
-            cityList = newCityList;
             addMapMarkers(mGoogleMap, reducedCityList());
         }
     }
