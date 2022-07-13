@@ -1,6 +1,9 @@
 package com.example.comfortzone.flight.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +23,7 @@ public class CityDetailActivity extends AppCompatActivity {
     private TextView tvCityName;
     private ImageView ivCityIcon;
     private TextView tvCityDescription;
+    private Button btnBookFlight;
 
     private int cityId;
 
@@ -34,17 +38,29 @@ public class CityDetailActivity extends AppCompatActivity {
 
         initViews();
         populateViews();
+        bookFlightListener();
     }
 
     private void initViews() {
         tvCityName = findViewById(R.id.tvCityName);
         ivCityIcon = findViewById(R.id.ivCityIcon);
         tvCityDescription = findViewById(R.id.tvCityDescription);
+        btnBookFlight = findViewById(R.id.btnBookFlight);
     }
 
     private void populateViews() {
         tvCityName.setText(String.format("%s, %s", cityData.getCity(), cityData.getState()));
         tvCityDescription.setText(cityData.getDescription());
         Glide.with(this).load(cityData.getImage()).transform(new RoundedCorners(IMAGE_RADIUS)).into(ivCityIcon);
+    }
+
+    private void bookFlightListener() {
+        btnBookFlight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(CityDetailActivity.this, BookFlightActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }
