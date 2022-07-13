@@ -39,7 +39,6 @@ import rx.Subscriber;
 public class FlightFragment extends Fragment {
 
     public static final String TAG = "FlightFragment";
-    public static final String TAG_LIST_VIEW = "ListView";
     private final static int ALPHA = 0;
     private final static int INC_TEMP = 1;
     private final static int DEC_TEMP = 2;
@@ -56,6 +55,8 @@ public class FlightFragment extends Fragment {
     private EditText etSearchCity;
     private MaterialButtonToggleGroup tgCityDisplay;
     private FragmentManager fragmentManager;
+    private MapFragment mapFragment;
+    private CityListViewFragment cityListViewFragment;
 
     public FlightFragment() {
         // Required empty public constructor
@@ -74,6 +75,7 @@ public class FlightFragment extends Fragment {
 
         initViews(view);
         setObjects();
+        createFragments();
         checkCitiesSaved();
         listenerSetup();
     }
@@ -92,6 +94,11 @@ public class FlightFragment extends Fragment {
                 .createFromResource(getContext(), R.array.filter_array, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fragmentManager = getActivity().getSupportFragmentManager();
+    }
+
+    private void createFragments() {
+        mapFragment = new MapFragment();
+        cityListViewFragment = new CityListViewFragment();
     }
 
     private void checkCitiesSaved() {
@@ -228,22 +235,24 @@ public class FlightFragment extends Fragment {
     }
 
     private void updateViewsList(List<WeatherData> cityList) {
-        CityListViewFragment cityListViewFragment = (CityListViewFragment) fragmentManager.findFragmentByTag(TAG_LIST_VIEW);
-        cityListViewFragment.onCityListUpdated(cityList);
+        if (cityListViewFragment != null) {
+            cityListViewFragment.onCityListUpdated(cityList);
+        }
+        if (mapFragment != null) {
+            mapFragment.onCityListUpdated(cityList);
+        }
     }
 
     private void goToListView() {
-        Fragment fragment = new CityListViewFragment();
         fragmentManager.beginTransaction()
-                .replace(R.id.flViewsContainer, fragment, TAG_LIST_VIEW)
+                .replace(R.id.flViewsContainer, cityListViewFragment)
                 .addToBackStack(null)
                 .commit();
     }
 
     private void goToMapView() {
-        Fragment fragment = MapFragment.newInstance(cityList);
         fragmentManager.beginTransaction()
-                .replace(R.id.flViewsContainer, fragment)
+                .replace(R.id.flViewsContainer, mapFragment)
                 .addToBackStack(null)
                 .commit();
     }

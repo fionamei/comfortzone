@@ -22,7 +22,6 @@ import java.util.List;
 
 public class CityListViewFragment extends Fragment implements UpdateCityListCallback {
 
-    public static final String ARG_CITY_LIST = "cityList";
     public static final String TAG = "CityListViewFragment";
 
     private FlightsAdapter flightsAdapter;
@@ -35,6 +34,7 @@ public class CityListViewFragment extends Fragment implements UpdateCityListCall
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        cityList = new ArrayList<>();
         super.onCreate(savedInstanceState);
     }
 
@@ -57,7 +57,6 @@ public class CityListViewFragment extends Fragment implements UpdateCityListCall
     }
 
     private void setObjects() {
-        cityList = new ArrayList<>();
         flightsAdapter = new FlightsAdapter(getContext(), cityList);
     }
 

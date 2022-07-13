@@ -1,7 +1,5 @@
 package com.example.comfortzone.fragments;
 
-import static com.example.comfortzone.fragments.CityListViewFragment.ARG_CITY_LIST;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +20,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.parceler.Parcels;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateCityListCallback {
@@ -38,21 +35,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
         // Required empty public constructor
     }
 
-    public static MapFragment newInstance(List<WeatherData> cityList) {
-        MapFragment fragment = new MapFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(ARG_CITY_LIST, Parcels.wrap(cityList));
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        cityList = new ArrayList<>();
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            cityList = Parcels.unwrap((getArguments().getParcelable(ARG_CITY_LIST)));
-        }
     }
 
     @Override
@@ -76,8 +62,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
     public void onMapReady(@NonNull GoogleMap googleMap) {
         MapsInitializer.initialize(getContext());
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        addMapMarkers(googleMap, cityList.subList(0, MAX_CITIES));
+        addMapMarkers(googleMap, reducedCityList());
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(MAP_CENTER));
+    }
+
+    private List<WeatherData> reducedCityList() {
+        if (cityList.size() > MAX_CITIES) {
+            return cityList.subList(0, MAX_CITIES);
+        } else {
+            return cityList;
+        }
     }
 
     public void addMapMarkers(GoogleMap googleMap, List<WeatherData> weatherData) {
@@ -89,7 +83,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
     }
 
     @Override
-    public void onCityListUpdated(List<WeatherData> cityList) {
-
+    public void onCityListUpdated(List<WeatherData> newCityList) {
+        cityList = newCityList;
     }
 }
