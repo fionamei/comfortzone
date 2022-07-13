@@ -1,14 +1,21 @@
 package com.example.comfortzone.fragments;
 
+import static com.example.comfortzone.CityDetailActivity.ARG_CITY_ID;
+
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.comfortzone.CityDetailActivity;
 import com.example.comfortzone.R;
 import com.example.comfortzone.UpdateCityListCallback;
 import com.example.comfortzone.models.WeatherData;
@@ -18,6 +25,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
@@ -50,7 +58,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initViews(view);
+        createMap();
+    }
+
+    private void initViews(@NonNull View view) {
         mvMap = view.findViewById(R.id.mvMap);
+    }
+
+    private void createMap() {
         if (mvMap != null) {
             mvMap.onCreate(null);
             mvMap.onResume();
@@ -65,6 +81,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         addMapMarkers(googleMap, reducedCityList());
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(MAP_CENTER));
+        markerClickListener();
     }
 
     private List<WeatherData> reducedCityList() {
@@ -79,7 +96,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
         for (WeatherData weather : weatherData) {
             googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(weather.getCoord().getLat(), weather.getCoord().getLon()))
-                    .title(weather.getCity()));
+                    .title(weather.getCity()))
+                    .setTag(weather.getId());
         }
     }
 
@@ -90,5 +108,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
             mGoogleMap.clear();
             addMapMarkers(mGoogleMap, reducedCityList());
         }
+    }
+
+    private void markerClickListener() {
+        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(@NonNull Marker marker) {
+                int cityId = (int) marker.getTag();
+                Intent intent = new Intent(getContext(), CityDetailActivity.class);
+                intent.putExtra(ARG_CITY_ID, cityId);
+                getActivity().startActivity(intent);
+            }
+        });
     }
 }
