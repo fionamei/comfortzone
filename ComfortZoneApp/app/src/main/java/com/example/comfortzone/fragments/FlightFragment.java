@@ -146,6 +146,7 @@ public class FlightFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(@NonNull RangeSlider slider) {
+                etSearchCity.setText("");
                 List<Float> values = slider.getValues();
                 int lowComfort = values.get(0).intValue();
                 int highComfort = values.get(1).intValue();

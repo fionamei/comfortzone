@@ -29,6 +29,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
     private final LatLng MAP_CENTER = new LatLng(39.8283, -98.5795);
 
     private MapView mvMap;
+    private GoogleMap mGoogleMap;
     private List<WeatherData> cityList;
 
     public MapFragment() {
@@ -60,6 +61,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+        mGoogleMap = googleMap;
         MapsInitializer.initialize(getContext());
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         addMapMarkers(googleMap, reducedCityList());
@@ -84,6 +86,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
 
     @Override
     public void onCityListUpdated(List<WeatherData> newCityList) {
-        cityList = newCityList;
+        if (mGoogleMap!= null) {
+            mGoogleMap.clear();
+            cityList = newCityList;
+            addMapMarkers(mGoogleMap, reducedCityList());
+        }
     }
 }
