@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name=".ParseApplication"
+        android:name=".data.network.ParseApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -19,16 +19,16 @@
         android:theme="@style/Theme.ComfortZone"
         tools:targetApi="31">
         <activity
-            android:name=".CityDetailActivity"
+            android:name=".flight.ui.CityDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".InitialComfortActivity"
+            android:name=".initial.InitialComfortActivity"
             android:exported="false" />
         <activity
-            android:name=".SignupActivity"
+            android:name=".initial.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".initial.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HostActivity"
+            android:name=".ui.HostActivity"
             android:exported="false" />
 
         <uses-library

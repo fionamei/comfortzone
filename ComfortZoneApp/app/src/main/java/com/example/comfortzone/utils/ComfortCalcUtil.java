@@ -1,6 +1,6 @@
 package com.example.comfortzone.utils;
 
-import static com.example.comfortzone.InitialComfortActivity.TOTAL_LEVELS;
+import static com.example.comfortzone.initial.InitialComfortActivity.TOTAL_LEVELS;
 
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;

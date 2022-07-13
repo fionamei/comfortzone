@@ -1,7 +1,8 @@
-package com.example.comfortzone;
+package com.example.comfortzone.data.network;
 
 import android.app.Application;
 
+import com.example.comfortzone.BuildConfig;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
 import com.parse.Parse;

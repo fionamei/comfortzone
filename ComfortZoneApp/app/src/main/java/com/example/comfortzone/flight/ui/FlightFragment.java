@@ -1,4 +1,4 @@
-package com.example.comfortzone.fragments;
+package com.example.comfortzone.flight.ui;
 
 import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
 
@@ -18,11 +18,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.comfortzone.AllWeathersDatabase;
+import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.R;
+import com.example.comfortzone.flight.utils.FilteringUtils;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
-import com.example.comfortzone.utils.FilteringUtils;
 import com.example.comfortzone.utils.WeatherDbUtil;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.slider.RangeSlider;

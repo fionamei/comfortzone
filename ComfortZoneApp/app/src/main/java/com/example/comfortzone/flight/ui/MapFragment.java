@@ -1,23 +1,19 @@
-package com.example.comfortzone.fragments;
+package com.example.comfortzone.flight.ui;
 
-import static com.example.comfortzone.CityDetailActivity.ARG_CITY_ID;
+import static com.example.comfortzone.flight.ui.CityDetailActivity.ARG_CITY_ID;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.comfortzone.CityDetailActivity;
 import com.example.comfortzone.R;
-import com.example.comfortzone.UpdateCityListCallback;
+import com.example.comfortzone.flight.callbacks.UpdateCityListCallback;
 import com.example.comfortzone.models.WeatherData;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

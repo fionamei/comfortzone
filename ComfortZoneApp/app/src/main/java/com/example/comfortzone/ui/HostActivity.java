@@ -1,4 +1,4 @@
-package com.example.comfortzone;
+package com.example.comfortzone.ui;
 import static com.example.comfortzone.utils.WeatherDbUtil.maybeUpdateCitiesList;
 
 import androidx.annotation.NonNull;
@@ -12,13 +12,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.comfortzone.fragments.FlightFragment;
-import com.example.comfortzone.fragments.InputFragment;
-import com.example.comfortzone.fragments.ProfileFragment;
+import com.example.comfortzone.R;
+import com.example.comfortzone.initial.LoginActivity;
+import com.example.comfortzone.flight.ui.FlightFragment;
+import com.example.comfortzone.input.ui.InputFragment;
+import com.example.comfortzone.profile.ProfileFragment;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.example.comfortzone.utils.ComfortLevelUtil;

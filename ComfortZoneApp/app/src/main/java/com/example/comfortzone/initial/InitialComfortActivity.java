@@ -1,4 +1,4 @@
-package com.example.comfortzone;
+package com.example.comfortzone.initial;
 
 import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
 
@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.comfortzone.ui.HostActivity;
+import com.example.comfortzone.R;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.utils.ComfortCalcUtil;

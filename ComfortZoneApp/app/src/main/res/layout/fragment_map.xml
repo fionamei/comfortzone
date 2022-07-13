@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MapFragment">
+    tools:context=".flight.ui.MapFragment">
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mvMap"

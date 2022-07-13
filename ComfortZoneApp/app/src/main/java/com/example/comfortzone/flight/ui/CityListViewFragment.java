@@ -1,7 +1,6 @@
-package com.example.comfortzone.fragments;
+package com.example.comfortzone.flight.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.comfortzone.FlightsAdapter;
 import com.example.comfortzone.R;
-import com.example.comfortzone.UpdateCityListCallback;
+import com.example.comfortzone.flight.callbacks.UpdateCityListCallback;
 import com.example.comfortzone.models.WeatherData;
 
 import java.util.ArrayList;

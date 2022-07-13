@@ -1,4 +1,4 @@
-package com.example.comfortzone.fragments;
+package com.example.comfortzone.profile;
 
 import android.os.Bundle;
 
