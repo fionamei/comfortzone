@@ -19,7 +19,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.comfortzone.AllWeathersDatabase;
-import com.example.comfortzone.FlightsAdapter;
 import com.example.comfortzone.R;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
@@ -40,6 +39,7 @@ import rx.Subscriber;
 public class FlightFragment extends Fragment {
 
     public static final String TAG = "FlightFragment";
+    public static final String TAG_LIST_VIEW = "ListView";
     private final static int ALPHA = 0;
     private final static int INC_TEMP = 1;
     private final static int DEC_TEMP = 2;
@@ -48,7 +48,6 @@ public class FlightFragment extends Fragment {
     private final static int INC_POP = 5;
     private final static int DEC_POP = 6;
 
-    private FlightsAdapter flightsAdapter;
     private List<WeatherData> cityList;
     private AllWeathersDatabase db;
     private RangeSlider rsComfortFilter;
@@ -56,6 +55,7 @@ public class FlightFragment extends Fragment {
     private ArrayAdapter<CharSequence> spinnerAdapter;
     private EditText etSearchCity;
     private MaterialButtonToggleGroup tgCityDisplay;
+    private FragmentManager fragmentManager;
 
     public FlightFragment() {
         // Required empty public constructor
@@ -87,11 +87,11 @@ public class FlightFragment extends Fragment {
 
     private void setObjects() {
         cityList = new ArrayList<>();
-        flightsAdapter = new FlightsAdapter(getContext(), cityList);
         db = AllWeathersDatabase.getDbInstance(getContext().getApplicationContext());
         spinnerAdapter = ArrayAdapter
                 .createFromResource(getContext(), R.array.filter_array, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fragmentManager = getActivity().getSupportFragmentManager();
     }
 
     private void checkCitiesSaved() {
@@ -119,7 +119,7 @@ public class FlightFragment extends Fragment {
     }
 
     private void populateViews() {
-        flightsAdapter.addAll(db.weatherDao().getAll());
+        cityList.addAll(db.weatherDao().getAll());
         spSort.setAdapter(spinnerAdapter);
         tgCityDisplay.check(R.id.btnList);
     }
@@ -147,9 +147,9 @@ public class FlightFragment extends Fragment {
                         .get(lowComfort).getLowRange();
                 int highRange = ((ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS))
                         .get(highComfort).getHighRange();
-                List<WeatherData> weathers = db.weatherDao().getRange(lowRange, highRange);
-                flightsAdapter.updateCities(weathers);
+                cityList = db.weatherDao().getRange(lowRange, highRange);
                 sortBy(spSort.getSelectedItemPosition());
+                updateViewsList(cityList);
             }
         });
     }
@@ -159,6 +159,7 @@ public class FlightFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 sortBy(position);
+                updateViewsList(cityList);
             }
 
             @Override
@@ -191,7 +192,6 @@ public class FlightFragment extends Fragment {
                 FilteringUtils.sortIncRank(cityList);
                 break;
         }
-        flightsAdapter.notifyDataSetChanged();
     }
 
     private void setSearchCityListener() {
@@ -208,7 +208,8 @@ public class FlightFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 String city = Normalizer.normalize(s, Normalizer.Form.NFD);
                 city = city.replaceAll("[^\\p{ASCII}]", "");
-                flightsAdapter.searchCity(city.toLowerCase(Locale.ROOT), cityList);
+                List<WeatherData> searchedCity = FilteringUtils.searchCity(city.toLowerCase(Locale.ROOT), cityList);
+                updateViewsList(searchedCity);
             }
         });
     }
@@ -226,18 +227,21 @@ public class FlightFragment extends Fragment {
         });
     }
 
+    private void updateViewsList(List<WeatherData> cityList) {
+        CityListViewFragment cityListViewFragment = (CityListViewFragment) fragmentManager.findFragmentByTag(TAG_LIST_VIEW);
+        cityListViewFragment.onCityListUpdated(cityList);
+    }
+
     private void goToListView() {
-        Fragment fragment = CityListViewFragment.newInstance(cityList);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        Fragment fragment = new CityListViewFragment();
         fragmentManager.beginTransaction()
-                .replace(R.id.flViewsContainer, fragment)
+                .replace(R.id.flViewsContainer, fragment, TAG_LIST_VIEW)
                 .addToBackStack(null)
                 .commit();
     }
 
     private void goToMapView() {
         Fragment fragment = MapFragment.newInstance(cityList);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.flViewsContainer, fragment)
                 .addToBackStack(null)

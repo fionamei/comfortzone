@@ -12,7 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.UpdateCityListCallback;
 import com.example.comfortzone.models.WeatherData;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -24,10 +26,12 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateCityListCallback {
+
+    public static final int MAX_CITIES = 20;
+    private final LatLng MAP_CENTER = new LatLng(39.8283, -98.5795);
 
     private MapView mvMap;
-    public static final int MAX_CITIES = 20;
     private List<WeatherData> cityList;
 
     public MapFragment() {
@@ -73,6 +77,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         MapsInitializer.initialize(getContext());
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         addMapMarkers(googleMap, cityList.subList(0, MAX_CITIES));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(MAP_CENTER));
     }
 
     public void addMapMarkers(GoogleMap googleMap, List<WeatherData> weatherData) {
@@ -81,5 +86,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     .position(new LatLng(weather.getCoord().getLat(), weather.getCoord().getLon()))
                     .title(weather.getCity()));
         }
+    }
+
+    @Override
+    public void onCityListUpdated(List<WeatherData> cityList) {
+
     }
 }

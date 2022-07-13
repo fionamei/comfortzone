@@ -63,11 +63,6 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
         addAll(weathers);
     }
 
-    public void searchCity(CharSequence name, List<WeatherData> cities) {
-        cityList = cities.stream().filter(city -> city.getCity().toLowerCase(Locale.ROOT).contains(name)).collect(Collectors.toList());
-        notifyDataSetChanged();
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvTemperature;

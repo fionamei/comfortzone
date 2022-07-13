@@ -1,6 +1,10 @@
 package com.example.comfortzone.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,31 +12,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-
-import com.example.comfortzone.AllWeathersDatabase;
 import com.example.comfortzone.FlightsAdapter;
 import com.example.comfortzone.R;
+import com.example.comfortzone.UpdateCityListCallback;
 import com.example.comfortzone.models.WeatherData;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CityListViewFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class CityListViewFragment extends Fragment {
+public class CityListViewFragment extends Fragment implements UpdateCityListCallback {
 
     public static final String ARG_CITY_LIST = "cityList";
     public static final String TAG = "CityListViewFragment";
@@ -45,21 +33,9 @@ public class CityListViewFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static CityListViewFragment newInstance(List<WeatherData> cityList) {
-        CityListViewFragment fragment = new CityListViewFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(ARG_CITY_LIST, Parcels.wrap(cityList));
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            cityList = Parcels.unwrap((getArguments().getParcelable(ARG_CITY_LIST)));
-
-        }
     }
 
     @Override
@@ -81,11 +57,17 @@ public class CityListViewFragment extends Fragment {
     }
 
     private void setObjects() {
+        cityList = new ArrayList<>();
         flightsAdapter = new FlightsAdapter(getContext(), cityList);
     }
 
     private void populateViews() {
         rvCities.setAdapter(flightsAdapter);
         rvCities.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    @Override
+    public void onCityListUpdated(List<WeatherData> newCityList) {
+        flightsAdapter.updateCities(newCityList);
     }
 }
