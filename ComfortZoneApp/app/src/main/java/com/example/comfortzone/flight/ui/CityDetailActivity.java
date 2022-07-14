@@ -2,6 +2,7 @@ package com.example.comfortzone.flight.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,12 +14,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.R;
+import com.example.comfortzone.flight.callbacks.IataCallback;
+import com.example.comfortzone.flight.data.IataClient;
 import com.example.comfortzone.models.WeatherData;
 
 public class CityDetailActivity extends AppCompatActivity {
 
+    public static final String TAG = "CityDetailActivity";
     public static final String ARG_CITY_ID = "cityId";
     public static final int IMAGE_RADIUS = 20;
+    public static final String ARG_IATA = "IATA";
+
     private WeatherData cityData;
     private TextView tvCityName;
     private ImageView ivCityIcon;
@@ -59,7 +65,14 @@ public class CityDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(CityDetailActivity.this, BookFlightActivity.class);
-                startActivity(i);
+                IataClient client = new IataClient();
+                client.getBearerToken(String.valueOf(cityData.getCoord().getLat()), String.valueOf(cityData.getCoord().getLon()), new IataCallback() {
+                    @Override
+                    public void onGetIata(String iata) {
+                        i.putExtra(ARG_IATA, iata);
+                        startActivity(i);
+                    }
+                });
             }
         });
     }

@@ -22,7 +22,8 @@ android {
         buildConfigField("String", "APPLICATION_ID", apikeyProperties["APPLICATION_ID"])
         buildConfigField("String", "WEATHER_API_KEY", apikeyProperties["WEATHER_API_KEY"])
         resValue("string", "GOOGLEMAPS_API_KEY", apikeyProperties["GOOGLEMAPS_API_KEY"])
-        buildConfigField("String", "AMADEUS_ACCESS_TOKEN", apikeyProperties["AMADEUS_ACCESS_TOKEN"])
+        buildConfigField("String", "AMADEUS_API_KEY", apikeyProperties["AMADEUS_API_KEY"])
+        buildConfigField("String", "AMADEUS_SECRET_KEY", apikeyProperties["AMADEUS_SECRET_KEY"])
 
         javaCompileOptions {
             annotationProcessorOptions {
