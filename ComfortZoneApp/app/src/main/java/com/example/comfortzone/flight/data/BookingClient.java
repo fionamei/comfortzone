@@ -27,21 +27,19 @@ public class BookingClient extends OkHttpClient {
     public static final String KEY_API_KEY = "apikey";
     public static final String KEY_FLY_FROM = "fly_from";
     public static final String KEY_FLY_TO = "fly_to";
-    public static final String KEY_DATE_FROM = "date_from";
     public static final String KEY_CURR = "curr";
     public static final String CURR = "USD";
 
-    private String getBookingUrl(String flyFrom, String flyTo, String dateFrom) {
+    private String getBookingUrl(String flyFrom, String flyTo) {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(BOOKING_BASE_URL).newBuilder();
         urlBuilder.addQueryParameter(KEY_FLY_FROM, flyFrom);
         urlBuilder.addQueryParameter(KEY_FLY_TO, flyTo);
-        urlBuilder.addQueryParameter(KEY_DATE_FROM, dateFrom);
         urlBuilder.addQueryParameter(KEY_CURR, CURR);
         return urlBuilder.build().toString();
     }
 
-    public void getBookingLinks(String flyFrom, String flyTo, String dateFrom, FlightBookingsCallback callback) {
-        String url = getBookingUrl(flyFrom, flyTo, dateFrom);
+    public void getBookingLinks(String flyFrom, String flyTo, FlightBookingsCallback callback) {
+        String url = getBookingUrl(flyFrom, flyTo);
         final Request request = new Request.Builder()
                 .url(url)
                 .header(KEY_API_KEY, KIWI_API_KEY)

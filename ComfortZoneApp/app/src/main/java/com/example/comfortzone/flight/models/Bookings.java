@@ -9,9 +9,14 @@ public class Bookings {
 
     public static class FlightBookings {
         public String deep_link;
+        public int price;
 
         public String getDeep_link() {
             return this.deep_link;
+        }
+
+        public int getPrice() {
+            return this.price;
         }
     }
 
