@@ -24,6 +24,7 @@ android {
         resValue("string", "GOOGLEMAPS_API_KEY", apikeyProperties["GOOGLEMAPS_API_KEY"])
         buildConfigField("String", "AMADEUS_API_KEY", apikeyProperties["AMADEUS_API_KEY"])
         buildConfigField("String", "AMADEUS_SECRET_KEY", apikeyProperties["AMADEUS_SECRET_KEY"])
+        buildConfigField("String", "KIWI_API_KEY", apikeyProperties["KIWI_API_KEY"])
 
         javaCompileOptions {
             annotationProcessorOptions {
