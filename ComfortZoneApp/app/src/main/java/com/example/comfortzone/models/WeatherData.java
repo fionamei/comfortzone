@@ -8,11 +8,14 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
 @Entity
+@Parcel(analyze = WeatherData.class)
 public class WeatherData {
 
     @PrimaryKey
@@ -94,6 +97,7 @@ public class WeatherData {
         this.rank = rank;
     }
 
+    @Parcel
     public static class Coordinates {
         private double lat;
         private double lon;
@@ -169,9 +173,12 @@ public class WeatherData {
         this.timeUploaded = timeUploaded;
     }
 
+    @Parcel
     public static class TempData {
         @SerializedName("feels_like")
         private double temp;
+
+        public TempData() {}
 
         public TempData(double temp) {
             setTemp(temp);

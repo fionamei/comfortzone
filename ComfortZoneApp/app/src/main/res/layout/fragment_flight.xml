@@ -68,10 +68,35 @@
         android:hint="@string/search_for_a_city"
         android:textSize="@dimen/miniTextSize" />
 
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/tgCityDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/generalMargin"
+        app:singleSelection="true"
+        app:selectionRequired="true"
+        android:layout_gravity="end">
+        <Button
+            android:id="@+id/btnList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/list_view"
+            style="?attr/materialButtonOutlinedStyle"
+            />
+        <Button
+            android:id="@+id/btnMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/map_view"
+            style="?attr/materialButtonOutlinedStyle"
+            />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCities"
+    <FrameLayout
+        android:id="@+id/flViewsContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
 </LinearLayout>

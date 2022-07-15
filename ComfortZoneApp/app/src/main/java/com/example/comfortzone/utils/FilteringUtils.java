@@ -1,7 +1,5 @@
 package com.example.comfortzone.utils;
 
-import android.util.Log;
-
 import com.example.comfortzone.models.WeatherData;
 
 import java.util.Comparator;
@@ -86,6 +84,10 @@ public class FilteringUtils {
                 return o1.getDistanceBetween() < o2.getDistanceBetween() ? -1 : 1;
             }
         });
+    }
+
+    public static List<WeatherData> searchCity(CharSequence name, List<WeatherData> cities) {
+        return cities.stream().filter(city -> city.getCity().toLowerCase(Locale.ROOT).contains(name.toString().toLowerCase(Locale.ROOT))).collect(Collectors.toList());
     }
 
 }
