@@ -1,7 +1,5 @@
 package com.example.comfortzone.flight.ui;
 
-import static com.example.comfortzone.flight.ui.FlightFragment.LOC_IATA;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,10 +14,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.comfortzone.R;
 import com.example.comfortzone.data.local.AllWeathersDatabase;
-import com.example.comfortzone.flight.callbacks.FlightBookingsCallback;
-import com.example.comfortzone.flight.data.BookingClient;
-import com.example.comfortzone.flight.models.Bookings.FlightBookings;
+import com.example.comfortzone.flight.utils.FlightUtil;
 import com.example.comfortzone.models.WeatherData;
+
+import rx.Observable;
+import rx.Subscriber;
 
 public class CityDetailActivity extends AppCompatActivity {
 
@@ -32,6 +31,7 @@ public class CityDetailActivity extends AppCompatActivity {
     private ImageView ivCityIcon;
     private TextView tvCityDescription;
     private Button btnBookFlight;
+    private String deepLink;
 
     private int cityId;
 
@@ -46,7 +46,7 @@ public class CityDetailActivity extends AppCompatActivity {
 
         initViews();
         populateViews();
-        bookFlightListener();
+        checkDeepLink();
     }
 
     private void initViews() {
@@ -54,6 +54,7 @@ public class CityDetailActivity extends AppCompatActivity {
         ivCityIcon = findViewById(R.id.ivCityIcon);
         tvCityDescription = findViewById(R.id.tvCityDescription);
         btnBookFlight = findViewById(R.id.btnBookFlight);
+        btnBookFlight.setEnabled(false);
     }
 
     private void populateViews() {
@@ -62,17 +63,39 @@ public class CityDetailActivity extends AppCompatActivity {
         Glide.with(this).load(cityData.getImage()).transform(new RoundedCorners(IMAGE_RADIUS)).into(ivCityIcon);
     }
 
+
+    private void checkDeepLink() {
+        Observable deepLinkOb = FlightUtil.getDeepLink(cityData);
+        Subscriber deepLinkSub = new Subscriber() {
+            @Override
+            public void onCompleted() {
+                bookFlightListener();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        btnBookFlight.setEnabled(true);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+                deepLink = (String) o;
+            }
+        };
+        deepLinkOb.subscribe(deepLinkSub);
+    }
+
     private void bookFlightListener() {
         btnBookFlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BookingClient client = new BookingClient();
-                client.getBookingLinks(LOC_IATA, cityData.getIata(), new FlightBookingsCallback() {
-                    @Override
-                    public void onFlightBookingList(FlightBookings flightBookings) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(flightBookings.getDeep_link())));
-                    }
-                });
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(deepLink)));
             }
         });
     }

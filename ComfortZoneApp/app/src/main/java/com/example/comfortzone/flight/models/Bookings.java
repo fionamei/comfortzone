@@ -11,7 +11,7 @@ public class Bookings {
         public String deep_link;
         public int price;
 
-        public String getDeep_link() {
+        public String getDeepLink() {
             return this.deep_link;
         }
 
