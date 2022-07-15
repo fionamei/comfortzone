@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -35,6 +34,13 @@ public class HostActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private final FragmentManager fragmentManager = getSupportFragmentManager();
+    private FlightFragment flightFragment;
+    private InputFragment inputFragment;
+    private ProfileFragment profileFragment;
+    private Fragment fragment;
+    private int enterAnimation;
+    private int exitAnimation;
+
 
     public static final String TAG = "Main Activity";
     public static final int PERMISSION_ID = 44;
@@ -48,6 +54,7 @@ public class HostActivity extends AppCompatActivity {
         maybeUpdateCitiesList(this);
         maybeUpdateComfortLevel();
         initViews();
+        createFragments();
         listenerSetup();
     }
 
@@ -81,28 +88,56 @@ public class HostActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
     }
 
+    private void createFragments() {
+        flightFragment = new FlightFragment();
+        inputFragment = new InputFragment();
+        profileFragment = new ProfileFragment();
+    }
+
     private void listenerSetup() {
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.action_flight:
-                        fragment = new FlightFragment();
+                        fragment = flightFragment;
+                        getAnimationLeftToRight();
                         break;
                     case R.id.action_input:
-                        fragment = new InputFragment();
+                        if (fragment == flightFragment) {
+                            getAnimationRightToLeft();
+                        } else {
+                            getAnimationLeftToRight();
+                        }
+                        fragment = inputFragment;
                         break;
                     case R.id.action_profile:
                     default:
-                        fragment = new ProfileFragment();
+                        fragment = profileFragment;
+                        getAnimationRightToLeft();
                         break;
                 }
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment, "input").commit();
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(
+                                enterAnimation,
+                                exitAnimation
+                        )
+                        .replace(R.id.flContainer, fragment, "input")
+                        .commit();
                 return true;
             }
         });
         bottomNavigationView.setSelectedItemId(R.id.action_profile);
+    }
+
+    private void getAnimationRightToLeft() {
+        enterAnimation = R.anim.enter_from_right;
+        exitAnimation = R.anim.exit_to_left;
+    }
+
+    private void getAnimationLeftToRight() {
+        enterAnimation = R.anim.enter_from_left;
+        exitAnimation = R.anim.exit_to_right;
     }
 
     @Override
