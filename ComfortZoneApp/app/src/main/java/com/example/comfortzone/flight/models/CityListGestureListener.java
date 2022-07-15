@@ -13,6 +13,8 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityOptionsCompat;
 
 import com.example.comfortzone.flight.ui.CityDetailActivity;
+import com.example.comfortzone.utils.UserPreferenceUtil;
+import com.parse.ParseUser;
 
 public class CityListGestureListener extends GestureDetector.SimpleOnGestureListener {
 
@@ -39,6 +41,7 @@ public class CityListGestureListener extends GestureDetector.SimpleOnGestureList
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
+        UserPreferenceUtil.saveCity(ParseUser.getCurrentUser(), cvCityRoot.getId());
         return super.onDoubleTap(e);
     }
 
