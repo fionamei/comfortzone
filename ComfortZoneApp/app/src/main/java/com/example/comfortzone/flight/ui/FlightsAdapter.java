@@ -1,11 +1,10 @@
 package com.example.comfortzone.flight.ui;
 
-import static com.example.comfortzone.flight.ui.CityDetailActivity.ARG_CITY_ID;
-
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,11 +12,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.comfortzone.R;
+import com.example.comfortzone.flight.models.CityListGestureListener;
 import com.example.comfortzone.models.WeatherData;
 
 import java.util.List;
@@ -88,15 +87,14 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
             Glide.with(context).load(city.getImage()).circleCrop().into(ivCityIcon);
         }
 
+        @SuppressLint("ClickableViewAccessibility")
         private void listenerSetup() {
-            cvCityRoot.setOnClickListener(new View.OnClickListener() {
+            cvCityRoot.setOnTouchListener(new View.OnTouchListener() {
+                final GestureDetector gestureDetector = new GestureDetector(context, new CityListGestureListener(context, ivCityIcon, cvCityRoot));
                 @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, CityDetailActivity.class);
-                    intent.putExtra(ARG_CITY_ID, v.getId());
-                    ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation((Activity) context, ivCityIcon, ivCityIcon.getTransitionName());
-                    context.startActivity(intent, options.toBundle());
+                public boolean onTouch(View v, MotionEvent event) {
+                    gestureDetector.onTouchEvent(event);
+                    return true;
                 }
             });
         }
