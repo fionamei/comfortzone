@@ -1,4 +1,4 @@
-package com.example.comfortzone.utils;
+package com.example.comfortzone.flight.utils;
 
 import com.example.comfortzone.models.WeatherData;
 

@@ -1,4 +1,4 @@
-package com.example.comfortzone;
+package com.example.comfortzone.initial;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.comfortzone.ui.HostActivity;
+import com.example.comfortzone.R;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_margin="@dimen/generalMargin"
-            tools:context=".fragments.InputFragment">
+            tools:context=".input.ui.InputFragment">
 
             <TextView
                 android:id="@+id/tvTempIntro"

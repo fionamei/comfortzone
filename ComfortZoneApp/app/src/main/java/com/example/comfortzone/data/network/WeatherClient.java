@@ -1,10 +1,14 @@
-package com.example.comfortzone;
+package com.example.comfortzone.data.network;
 
 import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.comfortzone.BuildConfig;
+import com.example.comfortzone.callback.CityListCallback;
+import com.example.comfortzone.data.local.AllWeathersDatabase;
+import com.example.comfortzone.input.callbacks.WeatherCallback;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.models.WeatherData.Coordinates;
 import com.example.comfortzone.models.WeatherGroupData;

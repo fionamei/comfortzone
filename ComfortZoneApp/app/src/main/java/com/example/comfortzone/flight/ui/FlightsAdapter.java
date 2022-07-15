@@ -1,6 +1,6 @@
-package com.example.comfortzone;
+package com.example.comfortzone.flight.ui;
 
-import static com.example.comfortzone.CityDetailActivity.ARG_CITY_ID;
+import static com.example.comfortzone.flight.ui.CityDetailActivity.ARG_CITY_ID;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,11 +17,10 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.comfortzone.R;
 import com.example.comfortzone.models.WeatherData;
 
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
 public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHolder> {
 

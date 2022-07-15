@@ -1,4 +1,4 @@
-package com.example.comfortzone;
+package com.example.comfortzone.data.local;
 
 import android.content.Context;
 

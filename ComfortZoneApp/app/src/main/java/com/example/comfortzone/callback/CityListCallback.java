@@ -1,4 +1,4 @@
-package com.example.comfortzone;
+package com.example.comfortzone.callback;
 
 import com.example.comfortzone.models.WeatherData;
 

@@ -3,10 +3,10 @@ package com.example.comfortzone.utils;
 import android.app.Activity;
 import android.location.Location;
 
-import com.example.comfortzone.AllWeathersDatabase;
-import com.example.comfortzone.CityListCallback;
-import com.example.comfortzone.LocationCallback;
-import com.example.comfortzone.WeatherClient;
+import com.example.comfortzone.data.local.AllWeathersDatabase;
+import com.example.comfortzone.callback.CityListCallback;
+import com.example.comfortzone.input.callbacks.LocationCallback;
+import com.example.comfortzone.data.network.WeatherClient;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.models.WeatherData.Coordinates;
 import com.example.comfortzone.models.WeatherGroupData;

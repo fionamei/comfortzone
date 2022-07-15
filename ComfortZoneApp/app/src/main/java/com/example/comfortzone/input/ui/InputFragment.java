@@ -1,4 +1,4 @@
-package com.example.comfortzone.fragments;
+package com.example.comfortzone.input.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,13 +12,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.comfortzone.LocationCallback;
-import com.example.comfortzone.InputsAdapter;
 import com.example.comfortzone.R;
+import com.example.comfortzone.input.callbacks.LocationCallback;
+import com.example.comfortzone.input.callbacks.WeatherCallback;
 import com.example.comfortzone.utils.ComfortLevelUtil;
 import com.example.comfortzone.utils.LocationUtil;
-import com.example.comfortzone.WeatherClient;
-import com.example.comfortzone.WeatherCallback;
+import com.example.comfortzone.data.network.WeatherClient;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;

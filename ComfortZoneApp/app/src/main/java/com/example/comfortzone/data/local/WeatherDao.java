@@ -1,4 +1,4 @@
-package com.example.comfortzone;
+package com.example.comfortzone.data.local;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
