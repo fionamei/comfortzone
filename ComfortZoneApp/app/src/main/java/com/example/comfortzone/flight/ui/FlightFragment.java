@@ -31,7 +31,6 @@ import com.parse.ParseUser;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -106,7 +105,7 @@ public class FlightFragment extends Fragment {
         Subscriber dataSetupSubscriber = new Subscriber() {
             @Override
             public void onCompleted() {
-                getActivity().runOnUiThread(new Runnable() {
+                requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         populateViews();
@@ -217,7 +216,7 @@ public class FlightFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 String city = Normalizer.normalize(s, Normalizer.Form.NFD);
                 city = city.replaceAll("[^\\p{ASCII}]", "");
-                List<WeatherData> searchedCity = FilteringUtils.searchCity(city.toLowerCase(Locale.ROOT), cityList);
+                List<WeatherData> searchedCity = FilteringUtils.searchCity(city, cityList);
                 updateViewsList(searchedCity);
             }
         });
@@ -228,9 +227,9 @@ public class FlightFragment extends Fragment {
             @Override
             public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
                 if (checkedId == R.id.btnList && isChecked) {
-                    goToListView();
+                    goToDisplay(cityListViewFragment);
                 } else if (checkedId == R.id.btnMap && isChecked) {
-                    goToMapView();
+                    goToDisplay(mapFragment);
                 }
             }
         });
@@ -245,16 +244,9 @@ public class FlightFragment extends Fragment {
         }
     }
 
-    private void goToListView() {
+    private void goToDisplay(Fragment fragment) {
         fragmentManager.beginTransaction()
-                .replace(R.id.flViewsContainer, cityListViewFragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    private void goToMapView() {
-        fragmentManager.beginTransaction()
-                .replace(R.id.flViewsContainer, mapFragment)
+                .replace(R.id.flViewsContainer, fragment)
                 .addToBackStack(null)
                 .commit();
     }
