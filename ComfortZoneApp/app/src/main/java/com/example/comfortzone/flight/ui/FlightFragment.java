@@ -18,8 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.R;
+import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.flight.utils.FilteringUtils;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;

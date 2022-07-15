@@ -1,5 +1,7 @@
 package com.example.comfortzone.input.ui;
 
+import static com.example.comfortzone.flight.ui.FlightFragment.LOC_IATA;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.flight.callbacks.IataCallback;
+import com.example.comfortzone.flight.data.IataClient;
 import com.example.comfortzone.input.callbacks.LocationCallback;
 import com.example.comfortzone.input.callbacks.WeatherCallback;
 import com.example.comfortzone.utils.ComfortLevelUtil;
@@ -100,6 +104,14 @@ public class InputFragment extends Fragment {
         LocationUtil.getLastLocation(getActivity(), new LocationCallback() {
             @Override
             public void onLocationUpdated(String lat, String lon) {
+                IataClient iataClient = new IataClient();
+                iataClient.getIataResponse(lat, lon, new IataCallback() {
+                    @Override
+                    public void onGetIata(String iata) {
+                        LOC_IATA = iata;
+                    }
+                });
+
                 client.getWeatherData(lat, lon, new WeatherCallback() {
                     @Override
                     public void onGetWeatherData(String data) {
