@@ -87,7 +87,7 @@ public class FilteringUtils {
     }
 
     public static List<WeatherData> searchCity(CharSequence name, List<WeatherData> cities) {
-        return cities.stream().filter(city -> city.getCity().toLowerCase(Locale.ROOT).contains(name)).collect(Collectors.toList());
+        return cities.stream().filter(city -> city.getCity().toLowerCase(Locale.ROOT).contains(name.toString().toLowerCase(Locale.ROOT))).collect(Collectors.toList());
     }
 
 }
