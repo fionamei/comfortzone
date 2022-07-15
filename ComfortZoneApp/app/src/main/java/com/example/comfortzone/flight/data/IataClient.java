@@ -69,7 +69,7 @@ public class IataClient extends OkHttpClient {
         });
     }
 
-    public void getBearerToken(String lat, String lon, IataCallback callback) {
+    public void getIataResponse(String lat, String lon, IataCallback callback) {
         Request bearerTokenRequest = getBearerTokenRequest();
         newCall(bearerTokenRequest).enqueue(new Callback() {
             @Override

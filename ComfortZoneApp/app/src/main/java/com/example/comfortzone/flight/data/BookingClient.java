@@ -32,8 +32,8 @@ public class BookingClient extends OkHttpClient {
 
     private String getBookingUrl(String flyFrom, String flyTo) {
         HttpUrl.Builder urlBuilder = HttpUrl.parse(BOOKING_BASE_URL).newBuilder();
-        urlBuilder.addQueryParameter(KEY_FLY_FROM, flyFrom);
-        urlBuilder.addQueryParameter(KEY_FLY_TO, flyTo);
+        urlBuilder.addQueryParameter(KEY_FLY_FROM, String.format("city:%s", flyFrom));
+        urlBuilder.addQueryParameter(KEY_FLY_TO, String.format("city:%s", flyTo));
         urlBuilder.addQueryParameter(KEY_CURR, CURR);
         return urlBuilder.build().toString();
     }
@@ -57,7 +57,7 @@ public class BookingClient extends OkHttpClient {
                     Gson gson = new Gson();
                     Bookings bookings = gson.fromJson(data, Bookings.class);
                     FlightBookings[] flightBookings = bookings.getBookings();
-                    callback.onFlightBookingList(flightBookings);
+                    callback.onFlightBookingList(flightBookings[0]);
                 } catch (IOException e) {
                     Log.e(TAG, "could not get body" + e);
                 }

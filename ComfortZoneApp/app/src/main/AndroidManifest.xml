@@ -19,9 +19,6 @@
         android:theme="@style/Theme.ComfortZone"
         tools:targetApi="31">
         <activity
-            android:name=".flight.ui.BookFlightActivity"
-            android:exported="false" />
-        <activity
             android:name=".flight.ui.CityDetailActivity"
             android:exported="false" />
         <activity

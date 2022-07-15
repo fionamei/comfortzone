@@ -39,6 +39,8 @@ import rx.Subscriber;
 public class FlightFragment extends Fragment {
 
     public static final String TAG = "FlightFragment";
+    public static String LOC_IATA;
+
     private final static int ALPHA = 0;
     private final static int INC_TEMP = 1;
     private final static int DEC_TEMP = 2;
@@ -106,7 +108,7 @@ public class FlightFragment extends Fragment {
         Subscriber dataSetupSubscriber = new Subscriber() {
             @Override
             public void onCompleted() {
-                getActivity().runOnUiThread(new Runnable() {
+                requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         populateViews();

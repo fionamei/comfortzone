@@ -1,8 +1,10 @@
 package com.example.comfortzone.flight.ui;
 
+import static com.example.comfortzone.flight.ui.FlightFragment.LOC_IATA;
+
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,10 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.R;
-import com.example.comfortzone.flight.callbacks.IataCallback;
-import com.example.comfortzone.flight.data.IataClient;
+import com.example.comfortzone.data.local.AllWeathersDatabase;
+import com.example.comfortzone.flight.callbacks.FlightBookingsCallback;
+import com.example.comfortzone.flight.data.BookingClient;
+import com.example.comfortzone.flight.models.Bookings.FlightBookings;
 import com.example.comfortzone.models.WeatherData;
 
 public class CityDetailActivity extends AppCompatActivity {
@@ -23,7 +26,6 @@ public class CityDetailActivity extends AppCompatActivity {
     public static final String TAG = "CityDetailActivity";
     public static final String ARG_CITY_ID = "cityId";
     public static final int IMAGE_RADIUS = 20;
-    public static final String ARG_IATA = "IATA";
 
     private WeatherData cityData;
     private TextView tvCityName;
@@ -64,13 +66,11 @@ public class CityDetailActivity extends AppCompatActivity {
         btnBookFlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CityDetailActivity.this, BookFlightActivity.class);
-                IataClient client = new IataClient();
-                client.getBearerToken(String.valueOf(cityData.getCoord().getLat()), String.valueOf(cityData.getCoord().getLon()), new IataCallback() {
+                BookingClient client = new BookingClient();
+                client.getBookingLinks(LOC_IATA, cityData.getIata(), new FlightBookingsCallback() {
                     @Override
-                    public void onGetIata(String iata) {
-                        i.putExtra(ARG_IATA, iata);
-                        startActivity(i);
+                    public void onFlightBookingList(FlightBookings flightBookings) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(flightBookings.getDeep_link())));
                     }
                 });
             }
