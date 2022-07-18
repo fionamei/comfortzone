@@ -75,12 +75,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
         mGoogleMap = googleMap;
         MapsInitializer.initialize(getContext());
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        addMapMarkers(googleMap, reducedCityList());
+        addMapMarkers(googleMap, getReducedCityList());
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(MAP_CENTER));
         markerClickListener();
     }
 
-    private List<WeatherData> reducedCityList() {
+    private List<WeatherData> getReducedCityList() {
         if (cityList.size() > MAX_CITIES) {
             return cityList.subList(0, MAX_CITIES);
         } else {
@@ -92,7 +92,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
         for (WeatherData weather : weatherData) {
             googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(weather.getCoord().getLat(), weather.getCoord().getLon()))
-                    .title(weather.getCity()))
+                    .title(weather.getCity() + ", " + weather.getState()))
                     .setTag(weather.getId());
         }
     }
@@ -102,7 +102,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
         cityList = newCityList;
         if (mGoogleMap!= null) {
             mGoogleMap.clear();
-            addMapMarkers(mGoogleMap, reducedCityList());
+            addMapMarkers(mGoogleMap, getReducedCityList());
         }
     }
 
