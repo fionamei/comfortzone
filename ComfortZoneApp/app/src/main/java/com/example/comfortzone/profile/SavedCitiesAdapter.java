@@ -1,7 +1,6 @@
 package com.example.comfortzone.profile;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,6 @@ public class SavedCitiesAdapter extends RecyclerView.Adapter<SavedCitiesAdapter.
 
     @Override
     public int getItemCount() {
-        Log.i("saved", "saved cities r " + savedCities);
         return savedCities.size();
     }
 
