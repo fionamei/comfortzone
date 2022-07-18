@@ -73,10 +73,9 @@ public class ProfileFragment extends Fragment {
         tvPerfectTemp.setText(String.valueOf(currentUser.get(ComfortCalcUtil.KEY_PERFECT_COMFORT)));
     }
 
-    public List<WeatherData> getSavedCities() {
+    public void getSavedCities() {
         ArrayList<Integer> savedCityIds = (ArrayList<Integer>) currentUser.get(KEY_SAVED_CITIES);
         AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext());
         adapter.addAll(savedCityIds.stream().map(cityId -> db.weatherDao().getWeatherById(cityId)).collect(Collectors.toList()));
-        return savedCities;
     }
 }
