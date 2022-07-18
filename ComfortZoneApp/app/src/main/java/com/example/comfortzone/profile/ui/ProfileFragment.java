@@ -1,7 +1,8 @@
-package com.example.comfortzone.profile;
+package com.example.comfortzone.profile.ui;
+
+import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_SAVED_CITIES;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.R;
 import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.profile.callback.SwipeToDeleteCallback;
 import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.parse.ParseUser;
 
@@ -24,8 +27,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProfileFragment extends Fragment {
-
-    public static final String KEY_SAVED_CITIES = "savedCities";
 
     private TextView tvPerfectTemp;
     private ParseUser currentUser;
@@ -53,6 +54,7 @@ public class ProfileFragment extends Fragment {
         getDataObjects();
         initViews(view);
         populateViews();
+        setUpRecyclerView();
         getSavedCities();
     }
 
@@ -68,12 +70,18 @@ public class ProfileFragment extends Fragment {
     }
 
     private void populateViews() {
-        rvSavedCities.setAdapter(adapter);
-        rvSavedCities.setLayoutManager(new LinearLayoutManager(getContext()));
         tvPerfectTemp.setText(String.valueOf(currentUser.get(ComfortCalcUtil.KEY_PERFECT_COMFORT)));
     }
 
-    public void getSavedCities() {
+    private void setUpRecyclerView() {
+        rvSavedCities.setAdapter(adapter);
+        rvSavedCities.setLayoutManager(new LinearLayoutManager(getContext()));
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new SwipeToDeleteCallback(adapter));
+        itemTouchHelper.attachToRecyclerView(rvSavedCities);
+    }
+
+    private void getSavedCities() {
         ArrayList<Integer> savedCityIds = (ArrayList<Integer>) currentUser.get(KEY_SAVED_CITIES);
         AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext());
         adapter.addAll(savedCityIds.stream().map(cityId -> db.weatherDao().getWeatherById(cityId)).collect(Collectors.toList()));

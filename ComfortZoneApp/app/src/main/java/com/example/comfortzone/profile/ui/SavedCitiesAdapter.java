@@ -1,4 +1,4 @@
-package com.example.comfortzone.profile;
+package com.example.comfortzone.profile.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.comfortzone.R;
 import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.utils.UserPreferenceUtil;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -47,6 +49,17 @@ public class SavedCitiesAdapter extends RecyclerView.Adapter<SavedCitiesAdapter.
     public void addAll(List<WeatherData> cities) {
         savedCities.addAll(cities);
         notifyDataSetChanged();
+    }
+
+    public Context getContext() {
+        return this.context;
+    }
+
+    public void deleteItem(int position) {
+        WeatherData toDelete = savedCities.get(position);
+        UserPreferenceUtil.deleteSavedCity(ParseUser.getCurrentUser(), toDelete);
+        savedCities.remove(position);
+        notifyItemRemoved(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
