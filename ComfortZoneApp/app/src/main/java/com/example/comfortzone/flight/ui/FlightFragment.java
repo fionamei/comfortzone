@@ -105,6 +105,9 @@ public class FlightFragment extends Fragment {
         Subscriber dataSetupSubscriber = new Subscriber() {
             @Override
             public void onCompleted() {
+                if (getActivity() == null) {
+                    return;
+                }
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -214,10 +217,12 @@ public class FlightFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String city = Normalizer.normalize(s, Normalizer.Form.NFD);
-                city = city.replaceAll("[^\\p{ASCII}]", "");
-                List<WeatherData> searchedCity = FilteringUtils.searchCity(city, cityList);
-                updateViewsList(searchedCity);
+                if (!s.toString().isEmpty()) {
+                    String city = Normalizer.normalize(s, Normalizer.Form.NFD);
+                    city = city.replaceAll("[^\\p{ASCII}]", "");
+                    List<WeatherData> searchedCity = FilteringUtils.searchCity(city, cityList);
+                    updateViewsList(searchedCity);
+                }
             }
         });
     }
