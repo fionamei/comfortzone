@@ -45,14 +45,12 @@
             android:required="false" />
 
         <meta-data
-            tools:replace="android:value"
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/GOOGLEMAPS_API_KEY" />
-
+            android:value="@string/GOOGLEMAPS_API_KEY"
+            tools:replace="android:value" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
     </application>
 
 </manifest>
