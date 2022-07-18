@@ -1,5 +1,14 @@
 package com.example.comfortzone.ui;
-import static com.example.comfortzone.utils.WeatherDbUtil.maybeUpdateCitiesList;
+
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.text.format.DateUtils;
+import android.util.Pair;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,25 +16,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.text.format.DateUtils;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
-
 import com.example.comfortzone.R;
-import com.example.comfortzone.initial.LoginActivity;
 import com.example.comfortzone.flight.ui.FlightFragment;
+import com.example.comfortzone.initial.LoginActivity;
 import com.example.comfortzone.input.ui.InputFragment;
-import com.example.comfortzone.profile.ProfileFragment;
 import com.example.comfortzone.models.ComfortLevelEntry;
+import com.example.comfortzone.profile.ProfileFragment;
 import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.example.comfortzone.utils.ComfortLevelUtil;
+import com.example.comfortzone.utils.WeatherDbUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -38,9 +38,6 @@ public class HostActivity extends AppCompatActivity {
     private InputFragment inputFragment;
     private ProfileFragment profileFragment;
     private Fragment fragment;
-    private int enterAnimation;
-    private int exitAnimation;
-
 
     public static final String TAG = "Main Activity";
     public static final int PERMISSION_ID = 44;
@@ -51,7 +48,7 @@ public class HostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         maybeRequestPermissions();
-        maybeUpdateCitiesList(this);
+        WeatherDbUtil.maybeUpdateCitiesList(this);
         maybeUpdateComfortLevel();
         initViews();
         createFragments();
@@ -95,49 +92,45 @@ public class HostActivity extends AppCompatActivity {
     }
 
     private void listenerSetup() {
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_flight:
-                        fragment = flightFragment;
-                        getAnimationLeftToRight();
-                        break;
-                    case R.id.action_input:
-                        if (fragment == flightFragment) {
-                            getAnimationRightToLeft();
-                        } else {
-                            getAnimationLeftToRight();
-                        }
-                        fragment = inputFragment;
-                        break;
-                    case R.id.action_profile:
-                    default:
-                        fragment = profileFragment;
-                        getAnimationRightToLeft();
-                        break;
-                }
-                fragmentManager.beginTransaction()
-                        .setCustomAnimations(
-                                enterAnimation,
-                                exitAnimation
-                        )
-                        .replace(R.id.flContainer, fragment, "input")
-                        .commit();
-                return true;
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            Pair<Integer, Integer> animations;
+            switch (item.getItemId()) {
+                case R.id.action_flight:
+                    fragment = flightFragment;
+                    animations = setAnimationLeftToRight();
+                    break;
+                case R.id.action_input:
+                    if (fragment == flightFragment) {
+                        animations = setAnimationRightToLeft();
+                    } else {
+                        animations = setAnimationLeftToRight();
+                    }
+                    fragment = inputFragment;
+                    break;
+                case R.id.action_profile:
+                default:
+                    fragment = profileFragment;
+                    animations = setAnimationRightToLeft();
+                    break;
             }
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(
+                            animations.first,
+                            animations.second
+                    )
+                    .replace(R.id.flContainer, fragment, "input")
+                    .commit();
+            return true;
         });
         bottomNavigationView.setSelectedItemId(R.id.action_profile);
     }
 
-    private void getAnimationRightToLeft() {
-        enterAnimation = R.anim.enter_from_right;
-        exitAnimation = R.anim.exit_to_left;
+    private Pair<Integer, Integer> setAnimationRightToLeft() {
+        return new Pair<>(R.anim.enter_from_right, R.anim.exit_to_left);
     }
 
-    private void getAnimationLeftToRight() {
-        enterAnimation = R.anim.enter_from_left;
-        exitAnimation = R.anim.exit_to_right;
+    private Pair<Integer, Integer> setAnimationLeftToRight() {
+        return new Pair<>(R.anim.enter_from_left, R.anim.exit_to_right);
     }
 
     @Override
@@ -174,7 +167,7 @@ public class HostActivity extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSION_ID: {
                 if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Permission denied. You cannot use the app.", Toast.LENGTH_SHORT).show();

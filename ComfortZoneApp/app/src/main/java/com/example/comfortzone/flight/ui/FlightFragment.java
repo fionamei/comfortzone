@@ -217,7 +217,7 @@ public class FlightFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!s.toString().equals("")) {
+                if (!s.toString().isEmpty()) {
                     String city = Normalizer.normalize(s, Normalizer.Form.NFD);
                     city = city.replaceAll("[^\\p{ASCII}]", "");
                     List<WeatherData> searchedCity = FilteringUtils.searchCity(city, cityList);
