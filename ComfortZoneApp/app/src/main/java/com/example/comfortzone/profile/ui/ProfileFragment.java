@@ -44,7 +44,6 @@ public class ProfileFragment extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -96,7 +95,11 @@ public class ProfileFragment extends Fragment {
                     public void run() {
                         ArrayList<Integer> savedCityIds = (ArrayList<Integer>) currentUser.get(KEY_SAVED_CITIES);
                         AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext());
-                        adapter.addAll(savedCityIds.stream().map(cityId -> db.weatherDao().getWeatherById(cityId)).collect(Collectors.toList()));                    }
+                        adapter.addAll(savedCityIds
+                                .stream()
+                                .map(cityId -> db.weatherDao().getWeatherById(cityId))
+                                .collect(Collectors.toList()));
+                    }
                 });
             }
 
