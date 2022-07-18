@@ -23,6 +23,7 @@
     <dimen name="weatherCardHeight">280dp</dimen>
     <dimen name="profilePerfTempHeight">150dp</dimen>
     <dimen name="cityIconSize">80dp</dimen>
+    <dimen name="savedCityIconSize">60dp</dimen>
     <dimen name="cityDetailImageSize">200dp</dimen>
     <dimen name="cityDetailHeight">120dp</dimen>
 

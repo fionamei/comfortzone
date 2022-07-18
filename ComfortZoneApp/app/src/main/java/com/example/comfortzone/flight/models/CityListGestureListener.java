@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityOptionsCompat;
@@ -42,6 +43,7 @@ public class CityListGestureListener extends GestureDetector.SimpleOnGestureList
     @Override
     public boolean onDoubleTap(MotionEvent e) {
         UserPreferenceUtil.saveCity(ParseUser.getCurrentUser(), cvCityRoot.getId());
+        Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT).show();
         return super.onDoubleTap(e);
     }
 

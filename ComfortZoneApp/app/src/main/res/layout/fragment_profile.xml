@@ -73,4 +73,19 @@
 
     </androidx.cardview.widget.CardView>
 
+    <TextView
+        android:id="@+id/tvSavedCitiesDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/generalMargin"
+        android:layout_marginTop="@dimen/titleMargin"
+        android:text="@string/saved_cities"
+        android:textColor="@color/black"
+        android:textSize="@dimen/titleTextSize" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSavedCities"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </LinearLayout>

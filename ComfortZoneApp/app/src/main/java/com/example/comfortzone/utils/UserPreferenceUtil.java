@@ -8,7 +8,7 @@ public class UserPreferenceUtil {
     public static final String KEY_SAVED_CITIES = "savedCities";
 
     public static void saveCity(ParseUser currentUser, int cityId) {
-        currentUser.add(KEY_SAVED_CITIES, cityId);
+        currentUser.addUnique(KEY_SAVED_CITIES, cityId);
         currentUser.saveInBackground();
     }
 

@@ -33,6 +33,7 @@
     <string name="search_for_a_city">Search for a city!</string>
     <string name="list_view">List View</string>
     <string name="map_view">Map View</string>
+    <string name="saved_cities">Saved Cities:</string>
     <string-array name="filter_array">
         <item>Alphabet: A-Z</item>
         <item>Temperature: Low to High</item>
