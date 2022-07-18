@@ -45,6 +45,6 @@ public class CityDetailActivity extends AppCompatActivity {
     private void populateViews() {
         tvCityName.setText(String.format("%s, %s", cityData.getCity(), cityData.getState()));
         tvCityDescription.setText(cityData.getDescription());
-        Glide.with(this).load(cityData.getImage()).transform(new RoundedCorners(IMAGE_RADIUS)).into(ivCityIcon);
+        Glide.with(this).load(cityData.getImage()).transform(new RoundedCorners(IMAGE_RADIUS)).centerCrop().into(ivCityIcon);
     }
 }

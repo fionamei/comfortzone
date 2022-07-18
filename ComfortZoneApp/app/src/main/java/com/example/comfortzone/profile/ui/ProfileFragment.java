@@ -3,6 +3,7 @@ package com.example.comfortzone.profile.ui;
 import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_SAVED_CITIES;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +21,15 @@ import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.profile.callback.SwipeToDeleteCallback;
 import com.example.comfortzone.utils.ComfortCalcUtil;
+import com.example.comfortzone.utils.WeatherDbUtil;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import rx.Observable;
+import rx.Subscriber;
 
 public class ProfileFragment extends Fragment {
 
@@ -82,8 +87,27 @@ public class ProfileFragment extends Fragment {
     }
 
     private void getSavedCities() {
-        ArrayList<Integer> savedCityIds = (ArrayList<Integer>) currentUser.get(KEY_SAVED_CITIES);
-        AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext());
-        adapter.addAll(savedCityIds.stream().map(cityId -> db.weatherDao().getWeatherById(cityId)).collect(Collectors.toList()));
+        Observable<Object> dataSetupObservable = WeatherDbUtil.maybeUpdateCitiesList(getActivity());
+        Subscriber dataSetupSubscriber = new Subscriber() {
+            @Override
+            public void onCompleted() {
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayList<Integer> savedCityIds = (ArrayList<Integer>) currentUser.get(KEY_SAVED_CITIES);
+                        AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext());
+                        adapter.addAll(savedCityIds.stream().map(cityId -> db.weatherDao().getWeatherById(cityId)).collect(Collectors.toList()));                    }
+                });
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(Object o) {
+            }
+        };
+        dataSetupObservable.subscribe(dataSetupSubscriber);
     }
 }
