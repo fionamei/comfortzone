@@ -46,7 +46,7 @@ public class CityDetailActivity extends AppCompatActivity {
 
         initViews();
         populateViews();
-        checkDeepLink();
+        getDeepLink();
     }
 
     private void initViews() {
@@ -64,12 +64,12 @@ public class CityDetailActivity extends AppCompatActivity {
     }
 
 
-    private void checkDeepLink() {
+    private void getDeepLink() {
         Observable deepLinkOb = FlightUtil.getDeepLink(cityData);
         Subscriber deepLinkSub = new Subscriber() {
             @Override
             public void onCompleted() {
-                bookFlightListener();
+                setBookFlightListener();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -84,14 +84,14 @@ public class CityDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNext(Object o) {
-                deepLink = (String) o;
+            public void onNext(Object bookingLink) {
+                deepLink = (String) bookingLink;
             }
         };
         deepLinkOb.subscribe(deepLinkSub);
     }
 
-    private void bookFlightListener() {
+    private void setBookFlightListener() {
         btnBookFlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

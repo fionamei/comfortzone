@@ -19,7 +19,7 @@ public class FlightUtil {
                 BookingClient client = new BookingClient();
                 client.getBookingLinks(LOC_IATA, cityData.getIata(), new FlightBookingsCallback() {
                     @Override
-                    public void onFlightBookingList(Bookings.FlightBookings flightBookings) {
+                    public void onGetFlightBooking(Bookings.FlightBookings flightBookings) {
                         subscriber.onNext(flightBookings.getDeepLink());
                         subscriber.onCompleted();
                     }

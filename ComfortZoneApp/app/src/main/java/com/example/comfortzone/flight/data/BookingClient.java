@@ -1,6 +1,5 @@
 package com.example.comfortzone.flight.data;
 
-import android.text.format.DateUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -59,7 +58,7 @@ public class BookingClient extends OkHttpClient {
                     Bookings bookings = gson.fromJson(data, Bookings.class);
                     FlightBookings[] flightBookings = bookings.getBookings();
                     Log.i(TAG, "data " + data);
-                    callback.onFlightBookingList(flightBookings[0]);
+                    callback.onGetFlightBooking(flightBookings[0]);
                 } catch (IOException e) {
                     Log.e(TAG, "could not get body" + e);
                 }

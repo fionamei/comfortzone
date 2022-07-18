@@ -8,11 +8,12 @@ public class Bookings {
     private FlightBookings[] bookings;
 
     public static class FlightBookings {
-        public String deep_link;
+        @SerializedName("deep_link")
+        public String deepLink;
         public int price;
 
         public String getDeepLink() {
-            return this.deep_link;
+            return this.deepLink;
         }
 
         public int getPrice() {

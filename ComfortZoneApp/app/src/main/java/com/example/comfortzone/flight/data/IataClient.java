@@ -24,7 +24,7 @@ import okhttp3.Response;
 public class IataClient extends OkHttpClient {
 
     public static final String TAG = "IataClient";
-    public static final String AMADEUS_BASE_URL = "https://test.api.amadeus.com/v1/reference-data/locations/airports";
+    public static final String AMADEUS_IATA_URL = "https://test.api.amadeus.com/v1/reference-data/locations/airports";
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_LONGITUDE = "longitude";
     public static final String KEY_HEADER = "Authorization";
@@ -34,10 +34,10 @@ public class IataClient extends OkHttpClient {
     public static final String AMADEUS_API_KEY = BuildConfig.AMADEUS_API_KEY;
     public static final String KEY_CLIENT_SECRET = "client_secret";
     public static final String AMADEUS_API_SECRET = BuildConfig.AMADEUS_SECRET_KEY;
-    public static final String AMADEUS_BEARER_BASE_URL = "https://test.api.amadeus.com/v1/security/oauth2/token";
+    public static final String AMADEUS_BEARER_URL = "https://test.api.amadeus.com/v1/security/oauth2/token";
 
     private String getIataURL(String lat, String lon) {
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(AMADEUS_BASE_URL).newBuilder();
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(AMADEUS_IATA_URL).newBuilder();
         urlBuilder.addQueryParameter(KEY_LATITUDE, lat);
         urlBuilder.addQueryParameter(KEY_LONGITUDE, lon);
         return urlBuilder.build().toString();
@@ -83,7 +83,7 @@ public class IataClient extends OkHttpClient {
                     String data = response.body().string();
                     Gson gson = new Gson();
                     AccessToken accessToken = gson.fromJson(data, AccessToken.class);
-                    String accessTokenString = accessToken.getAccess_token();
+                    String accessTokenString = accessToken.getAccessToken();
                     getIataCode(lat, lon, callback, accessTokenString);
                 } catch (IOException e) {
                     Log.e(TAG, "failed to get bearer token" + e);
@@ -100,7 +100,7 @@ public class IataClient extends OkHttpClient {
                 .add(KEY_GRANT_TYPE, BODY_GRANT_TYPE)
                 .build();
         return new Request.Builder()
-                .url(AMADEUS_BEARER_BASE_URL)
+                .url(AMADEUS_BEARER_URL)
                 .post(body)
                 .build();
     }
