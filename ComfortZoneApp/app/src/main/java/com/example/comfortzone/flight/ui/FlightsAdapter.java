@@ -1,24 +1,27 @@
 package com.example.comfortzone.flight.ui;
 
-import static com.example.comfortzone.flight.ui.CityDetailActivity.ARG_CITY_ID;
+import static com.example.comfortzone.flight.listeners.CityListGestureListener.BORDER_WIDTH;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.comfortzone.R;
+import com.example.comfortzone.flight.listeners.CityListGestureListener;
 import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.utils.UserPreferenceUtil;
+import com.google.android.material.card.MaterialCardView;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -66,7 +69,7 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
 
         private TextView tvTemperature;
         private TextView tvCityName;
-        private CardView cvCityRoot;
+        private MaterialCardView cvCityRoot;
         private ImageView ivCityIcon;
 
         public ViewHolder(@NonNull View itemView) {
@@ -86,17 +89,21 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
             tvTemperature.setText(String.valueOf(city.getTempData().getTemp()));
             tvCityName.setText(city.getCity());
             Glide.with(context).load(city.getImage()).circleCrop().into(ivCityIcon);
+            if (UserPreferenceUtil.isCityAlreadySaved(ParseUser.getCurrentUser(), city.getId())) {
+                cvCityRoot.setStrokeWidth(BORDER_WIDTH);
+            } else {
+                cvCityRoot.setStrokeWidth(0);
+            }
         }
 
+        @SuppressLint("ClickableViewAccessibility")
         private void listenerSetup() {
-            cvCityRoot.setOnClickListener(new View.OnClickListener() {
+            cvCityRoot.setOnTouchListener(new View.OnTouchListener() {
+                final GestureDetector gestureDetector = new GestureDetector(context, new CityListGestureListener(context, ivCityIcon, cvCityRoot));
                 @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, CityDetailActivity.class);
-                    intent.putExtra(ARG_CITY_ID, v.getId());
-                    ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation((Activity) context, ivCityIcon, ivCityIcon.getTransitionName());
-                    context.startActivity(intent, options.toBundle());
+                public boolean onTouch(View v, MotionEvent event) {
+                    gestureDetector.onTouchEvent(event);
+                    return true;
                 }
             });
         }

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Pair;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -20,6 +21,8 @@ import com.example.comfortzone.R;
 import com.example.comfortzone.flight.ui.FlightFragment;
 import com.example.comfortzone.initial.LoginActivity;
 import com.example.comfortzone.input.ui.InputFragment;
+
+import com.example.comfortzone.profile.ui.ProfileFragment;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.profile.ProfileFragment;
 import com.example.comfortzone.utils.ComfortCalcUtil;
