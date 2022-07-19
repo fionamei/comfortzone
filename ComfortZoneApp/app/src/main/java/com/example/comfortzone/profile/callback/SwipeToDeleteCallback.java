@@ -1,7 +1,6 @@
 package com.example.comfortzone.profile.callback;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.comfortzone.R;
 import com.example.comfortzone.profile.ui.SavedCitiesAdapter;
 
-public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback{
+public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
 
     private final ColorDrawable background;
     private SavedCitiesAdapter savedCitiesAdapter;

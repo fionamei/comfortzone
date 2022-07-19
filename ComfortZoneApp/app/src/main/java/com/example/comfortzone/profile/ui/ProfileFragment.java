@@ -90,6 +90,9 @@ public class ProfileFragment extends Fragment {
         Subscriber dataSetupSubscriber = new Subscriber() {
             @Override
             public void onCompleted() {
+                if (getActivity() == null) {
+                    return;
+                }
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

@@ -1,5 +1,7 @@
 package com.example.comfortzone.flight.ui;
 
+import static com.example.comfortzone.flight.models.CityListGestureListener.BORDER_WIDTH;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.GestureDetector;
@@ -11,13 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.comfortzone.R;
 import com.example.comfortzone.flight.models.CityListGestureListener;
 import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.utils.UserPreferenceUtil;
+import com.google.android.material.card.MaterialCardView;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -65,7 +69,7 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
 
         private TextView tvTemperature;
         private TextView tvCityName;
-        private CardView cvCityRoot;
+        private MaterialCardView cvCityRoot;
         private ImageView ivCityIcon;
 
         public ViewHolder(@NonNull View itemView) {
@@ -85,6 +89,11 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
             tvTemperature.setText(String.valueOf(city.getTempData().getTemp()));
             tvCityName.setText(city.getCity());
             Glide.with(context).load(city.getImage()).circleCrop().into(ivCityIcon);
+            if (UserPreferenceUtil.isCityAlreadySaved(ParseUser.getCurrentUser(), city.getId())) {
+                cvCityRoot.setStrokeWidth(BORDER_WIDTH);
+            } else {
+                cvCityRoot.setStrokeWidth(0);
+            }
         }
 
         @SuppressLint("ClickableViewAccessibility")

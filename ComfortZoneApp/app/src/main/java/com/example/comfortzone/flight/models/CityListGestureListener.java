@@ -13,17 +13,20 @@ import android.widget.Toast;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityOptionsCompat;
 
+import com.example.comfortzone.R;
 import com.example.comfortzone.flight.ui.CityDetailActivity;
 import com.example.comfortzone.utils.UserPreferenceUtil;
+import com.google.android.material.card.MaterialCardView;
 import com.parse.ParseUser;
 
 public class CityListGestureListener extends GestureDetector.SimpleOnGestureListener {
 
+    public static final int BORDER_WIDTH = 5;
     private Context context;
     private ImageView ivCityIcon;
-    private CardView cvCityRoot;
+    private MaterialCardView cvCityRoot;
 
-    public CityListGestureListener(Context context, ImageView ivCityIcon, CardView cvCityRoot) {
+    public CityListGestureListener(Context context, ImageView ivCityIcon, MaterialCardView cvCityRoot) {
         this.context = context;
         this.ivCityIcon = ivCityIcon;
         this.cvCityRoot = cvCityRoot;
@@ -42,8 +45,17 @@ public class CityListGestureListener extends GestureDetector.SimpleOnGestureList
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
-        UserPreferenceUtil.saveCity(ParseUser.getCurrentUser(), cvCityRoot.getId());
-        Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT).show();
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        int cityId = cvCityRoot.getId();
+        if (UserPreferenceUtil.isCityAlreadySaved(currentUser, cityId)) {
+            UserPreferenceUtil.deleteSavedCity(currentUser, cityId);
+            cvCityRoot.setStrokeWidth(0);
+            Toast.makeText(context, "Unsaved!", Toast.LENGTH_SHORT).show();
+        } else {
+            UserPreferenceUtil.saveCity(ParseUser.getCurrentUser(), cvCityRoot.getId());
+            cvCityRoot.setStrokeWidth(BORDER_WIDTH);
+            Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT).show();
+        }
         return super.onDoubleTap(e);
     }
 

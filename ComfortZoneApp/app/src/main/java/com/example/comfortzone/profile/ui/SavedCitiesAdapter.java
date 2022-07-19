@@ -56,7 +56,7 @@ public class SavedCitiesAdapter extends RecyclerView.Adapter<SavedCitiesAdapter.
     }
 
     public void deleteItem(int position) {
-        WeatherData toDelete = savedCities.get(position);
+        int toDelete = savedCities.get(position).getId();
         UserPreferenceUtil.deleteSavedCity(ParseUser.getCurrentUser(), toDelete);
         savedCities.remove(position);
         notifyItemRemoved(position);
