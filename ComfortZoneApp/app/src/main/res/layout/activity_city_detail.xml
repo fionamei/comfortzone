@@ -35,4 +35,11 @@
         android:layout_margin="@dimen/generalMargin"
         android:textSize="@dimen/generalTextSize"
         tools:text="new york city is so great!!!" />
+
+    <Button
+        android:id="@+id/btnBookFlight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/generalMargin"
+        android:text="@string/book_a_flight" />
 </LinearLayout>

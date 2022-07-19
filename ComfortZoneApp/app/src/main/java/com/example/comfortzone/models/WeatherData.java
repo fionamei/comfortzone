@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.checkerframework.checker.units.qual.C;
 import org.parceler.Parcel;
 
 import java.time.LocalDateTime;
@@ -54,6 +55,9 @@ public class WeatherData {
     @ColumnInfo
     private String description;
 
+    @ColumnInfo
+    private String iata;
+
     public float getDistanceBetween() {
         return distanceBetween;
     }
@@ -95,6 +99,14 @@ public class WeatherData {
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public String getIata() {
+        return iata;
+    }
+
+    public void setIata(String iata) {
+        this.iata = iata;
     }
 
     @Parcel

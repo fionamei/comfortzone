@@ -18,8 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.R;
+import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.flight.utils.FilteringUtils;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
@@ -38,6 +38,8 @@ import rx.Subscriber;
 public class FlightFragment extends Fragment {
 
     public static final String TAG = "FlightFragment";
+    public static String LOC_IATA;
+
     private final static int ALPHA = 0;
     private final static int INC_TEMP = 1;
     private final static int DEC_TEMP = 2;
@@ -217,10 +219,12 @@ public class FlightFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String city = Normalizer.normalize(s, Normalizer.Form.NFD);
-                city = city.replaceAll("[^\\p{ASCII}]", "");
-                List<WeatherData> searchedCity = FilteringUtils.searchCity(city, cityList);
-                updateViewsList(searchedCity);
+                if (!s.toString().isEmpty()) {
+                    String city = Normalizer.normalize(s, Normalizer.Form.NFD);
+                    city = city.replaceAll("[^\\p{ASCII}]", "");
+                    List<WeatherData> searchedCity = FilteringUtils.searchCity(city, cityList);
+                    updateViewsList(searchedCity);
+                }
             }
         });
     }
