@@ -24,7 +24,6 @@ import com.example.comfortzone.input.ui.InputFragment;
 
 import com.example.comfortzone.profile.ui.ProfileFragment;
 import com.example.comfortzone.models.ComfortLevelEntry;
-import com.example.comfortzone.profile.ProfileFragment;
 import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.example.comfortzone.utils.ComfortLevelUtil;
 import com.example.comfortzone.utils.WeatherDbUtil;
