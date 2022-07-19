@@ -3,7 +3,6 @@ package com.example.comfortzone.profile.ui;
 import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_SAVED_CITIES;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,7 @@ public class ProfileFragment extends Fragment {
         initViews(view);
         populateViews();
         setUpRecyclerView();
-        getSavedCities();
+        setSavedCitiesAdapter();
     }
 
     private void getDataObjects() {
@@ -81,11 +80,11 @@ public class ProfileFragment extends Fragment {
         rvSavedCities.setAdapter(adapter);
         rvSavedCities.setLayoutManager(new LinearLayoutManager(getContext()));
         ItemTouchHelper itemTouchHelper = new
-                ItemTouchHelper(new SwipeToDeleteCallback(adapter));
+                ItemTouchHelper(new SwipeToDeleteCallback(adapter, getContext()));
         itemTouchHelper.attachToRecyclerView(rvSavedCities);
     }
 
-    private void getSavedCities() {
+    private void setSavedCitiesAdapter() {
         Observable<Object> dataSetupObservable = WeatherDbUtil.maybeUpdateCitiesList(getActivity());
         Subscriber dataSetupSubscriber = new Subscriber() {
             @Override

@@ -1,4 +1,4 @@
-package com.example.comfortzone.flight.models;
+package com.example.comfortzone.flight.listeners;
 
 import static com.example.comfortzone.flight.ui.CityDetailActivity.ARG_CITY_ID;
 
@@ -10,10 +10,8 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityOptionsCompat;
 
-import com.example.comfortzone.R;
 import com.example.comfortzone.flight.ui.CityDetailActivity;
 import com.example.comfortzone.utils.UserPreferenceUtil;
 import com.google.android.material.card.MaterialCardView;

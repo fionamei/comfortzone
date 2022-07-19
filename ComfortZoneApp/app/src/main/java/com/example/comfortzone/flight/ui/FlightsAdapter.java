@@ -1,6 +1,6 @@
 package com.example.comfortzone.flight.ui;
 
-import static com.example.comfortzone.flight.models.CityListGestureListener.BORDER_WIDTH;
+import static com.example.comfortzone.flight.listeners.CityListGestureListener.BORDER_WIDTH;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.comfortzone.R;
-import com.example.comfortzone.flight.models.CityListGestureListener;
+import com.example.comfortzone.flight.listeners.CityListGestureListener;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.utils.UserPreferenceUtil;
 import com.google.android.material.card.MaterialCardView;

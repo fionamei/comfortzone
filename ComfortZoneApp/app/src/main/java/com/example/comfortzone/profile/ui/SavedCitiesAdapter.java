@@ -51,10 +51,6 @@ public class SavedCitiesAdapter extends RecyclerView.Adapter<SavedCitiesAdapter.
         notifyDataSetChanged();
     }
 
-    public Context getContext() {
-        return this.context;
-    }
-
     public void deleteItem(int position) {
         int toDelete = savedCities.get(position).getId();
         UserPreferenceUtil.deleteSavedCity(ParseUser.getCurrentUser(), toDelete);
