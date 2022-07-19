@@ -2,10 +2,13 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cvRootView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/generalMargin"
     android:layout_marginBottom="@dimen/miniMargin"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
     app:cardCornerRadius="@dimen/cardRadius">
 
     <LinearLayout
@@ -18,6 +21,7 @@
             android:layout_width="@dimen/savedCityIconSize"
             android:layout_height="@dimen/savedCityIconSize"
             android:layout_gravity="center"
+            android:transitionName="@string/cityIcon"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView

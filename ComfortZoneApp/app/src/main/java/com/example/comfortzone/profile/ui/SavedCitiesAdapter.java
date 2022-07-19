@@ -1,6 +1,10 @@
 package com.example.comfortzone.profile.ui;
 
+import static com.example.comfortzone.flight.ui.CityDetailActivity.ARG_CITY_ID;
+
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,10 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.comfortzone.R;
+import com.example.comfortzone.flight.ui.CityDetailActivity;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.utils.UserPreferenceUtil;
 import com.parse.ParseUser;
@@ -39,6 +46,7 @@ public class SavedCitiesAdapter extends RecyclerView.Adapter<SavedCitiesAdapter.
     public void onBindViewHolder(@NonNull SavedCitiesAdapter.ViewHolder holder, int position) {
         WeatherData city = savedCities.get(position);
         holder.bind(city);
+        holder.cvRootView.setId(city.getId());
     }
 
     @Override
@@ -62,20 +70,36 @@ public class SavedCitiesAdapter extends RecyclerView.Adapter<SavedCitiesAdapter.
 
         private ImageView ivCityIcon;
         private TextView tvCityName;
+        private CardView cvRootView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             initViews(itemView);
+            setSavedCityListener();
         }
 
         private void initViews(View itemView) {
             tvCityName = itemView.findViewById(R.id.tvCityName);
             ivCityIcon = itemView.findViewById(R.id.ivCityIcon);
+            cvRootView = itemView.findViewById(R.id.cvRootView);
         }
 
         public void bind(WeatherData city) {
             tvCityName.setText(city.getCity());
             Glide.with(context).load(city.getImage()).circleCrop().into(ivCityIcon);
+        }
+
+        public void setSavedCityListener() {
+            cvRootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, CityDetailActivity.class);
+                    intent.putExtra(ARG_CITY_ID, v.getId());
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation((Activity) context, ivCityIcon, ivCityIcon.getTransitionName());
+                    context.startActivity(intent, options.toBundle());
+                }
+            });
         }
     }
 }
