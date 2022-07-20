@@ -125,7 +125,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsCallba
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Pair<Integer, Integer> animations;
             if (isLoading) {
-                animations = setAnimationLeftToRight();
+                animations = new Pair<>(0,0);
                 fragment = new LoadingFragment();
             } else {
                 animations = bottomNavSelected(item);
