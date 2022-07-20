@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -238,7 +237,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsCallba
 
     private void loadData() {
         Observable<Object> citiesSetupObservable = WeatherDbUtil.maybeUpdateCitiesList(this);
-        Observable<Object> locationSetupObservable = getWeatherClass();
+        Observable<Object> locationSetupObservable = LocationUtil.getLocationObservable(this);
         Observable<Object> mergedObservable = Observable.merge(new ArrayList<>(Arrays.asList(locationSetupObservable, citiesSetupObservable)));
         Subscriber<Object> dataSetupSubscriber = new Subscriber<Object>() {
             @Override
@@ -256,40 +255,12 @@ public class HostActivity extends AppCompatActivity implements UserDetailsCallba
             }
 
             @Override
-            public void onNext(Object o) {
+            public void onNext(Object coordIataPair) {
+                Pair<Coordinates, String> pair = (Pair<Coordinates, String>) coordIataPair;
+                coordinates = pair.first;
+                iataCode = pair.second;
             }
         };
         mergedObservable.subscribe(dataSetupSubscriber);
-    }
-
-    private Observable<Object> getWeatherClass() {
-        return Observable.create(new Observable.OnSubscribe<Object>() {
-            @Override
-            public void call(Subscriber<? super Object> subscriber) {
-                LocationUtil.getLastLocation(HostActivity.this, new LocationCallback() {
-                    @Override
-                    public void onLocationUpdated(String lat, String lon) {
-                        getIataObservable(lat, lon).subscribe(subscriber);
-                        coordinates = new Coordinates(lat, lon);
-                    }
-                });
-            }
-        });
-    }
-
-    private Observable<Object> getIataObservable(String lat, String lon) {
-        IataClient iataClient = new IataClient();
-        return Observable.create(new Observable.OnSubscribe<Object>() {
-            @Override
-            public void call(Subscriber<? super Object> subscriber) {
-                iataClient.getIataResponse(lat, lon, new IataCallback() {
-                    @Override
-                    public void onGetIata(String iata) {
-                        iataCode = iata;
-                        subscriber.onCompleted();
-                    }
-                });
-            }
-        });
     }
 }

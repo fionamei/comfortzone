@@ -7,11 +7,16 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.provider.Settings;
+import android.util.Pair;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.comfortzone.flight.callbacks.IataCallback;
+import com.example.comfortzone.flight.data.IataClient;
 import com.example.comfortzone.input.callbacks.LocationCallback;
+import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.ui.HostActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -19,6 +24,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
+import rx.Subscriber;
 
 public class LocationUtil {
 
@@ -71,5 +79,36 @@ public class LocationUtil {
                         }
                     }
                 });
+    }
+
+    public static Observable<Object> getLocationObservable(Activity activity) {
+        return Observable.create(new Observable.OnSubscribe<Object>() {
+            @Override
+            public void call(Subscriber<? super Object> subscriber) {
+                LocationUtil.getLastLocation(activity, new LocationCallback() {
+                    @Override
+                    public void onLocationUpdated(String lat, String lon) {
+                        getIataObservable(lat, lon).subscribe(subscriber);
+                    }
+                });
+            }
+        });
+    }
+
+    private static Observable<Object> getIataObservable(String lat, String lon) {
+        IataClient iataClient = new IataClient();
+        return Observable.create(new Observable.OnSubscribe<Object>() {
+            @Override
+            public void call(Subscriber<? super Object> subscriber) {
+                iataClient.getIataResponse(lat, lon, new IataCallback() {
+                    @Override
+                    public void onGetIata(String iata) {
+                        Pair<WeatherData.Coordinates, String> mergedInfo = new Pair<>(new WeatherData.Coordinates(lat, lon), iata);
+                        subscriber.onNext(mergedInfo);
+                        subscriber.onCompleted();
+                    }
+                });
+            }
+        });
     }
 }
