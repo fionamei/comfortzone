@@ -19,16 +19,13 @@ import com.example.comfortzone.R;
 import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.profile.callback.SwipeToDeleteCallback;
+import com.example.comfortzone.ui.HostActivity;
 import com.example.comfortzone.utils.ComfortCalcUtil;
-import com.example.comfortzone.utils.WeatherDbUtil;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import rx.Observable;
-import rx.Subscriber;
 
 public class ProfileFragment extends Fragment {
 
@@ -36,7 +33,6 @@ public class ProfileFragment extends Fragment {
     private ParseUser currentUser;
     private RecyclerView rvSavedCities;
     private SavedCitiesAdapter adapter;
-    private List<WeatherData> savedCities;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -63,8 +59,8 @@ public class ProfileFragment extends Fragment {
 
     private void getDataObjects() {
         currentUser = ParseUser.getCurrentUser();
-        savedCities = new ArrayList<>();
-        adapter = new SavedCitiesAdapter(getContext(), savedCities);
+        List<WeatherData> savedCities = new ArrayList<>();
+        adapter = new SavedCitiesAdapter(getContext(), savedCities, ((HostActivity) getActivity()).getIataCode());
     }
 
     private void initViews(@NonNull View view) {
@@ -85,34 +81,13 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setSavedCitiesAdapter() {
-        Observable<Object> dataSetupObservable = WeatherDbUtil.maybeUpdateCitiesList(getActivity());
-        Subscriber dataSetupSubscriber = new Subscriber() {
-            @Override
-            public void onCompleted() {
-                if (getActivity() == null) {
-                    return;
-                }
-                requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ArrayList<Integer> savedCityIds = (ArrayList<Integer>) currentUser.get(KEY_SAVED_CITIES);
-                        AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext());
-                        adapter.addAll(savedCityIds
-                                .stream()
-                                .map(cityId -> db.weatherDao().getWeatherById(cityId))
-                                .collect(Collectors.toList()));
-                    }
-                });
-            }
-
-            @Override
-            public void onError(Throwable e) {
-            }
-
-            @Override
-            public void onNext(Object o) {
-            }
-        };
-        dataSetupObservable.subscribe(dataSetupSubscriber);
+        ArrayList<Integer> savedCityIds = (ArrayList<Integer>) currentUser.get(KEY_SAVED_CITIES);
+        if (savedCityIds != null) {
+            AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext());
+            adapter.addAll(savedCityIds
+                    .stream()
+                    .map(cityId -> db.weatherDao().getWeatherById(cityId))
+                    .collect(Collectors.toList()));
+        }
     }
 }

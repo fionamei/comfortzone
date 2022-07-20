@@ -1,6 +1,7 @@
 package com.example.comfortzone.profile.ui;
 
 import static com.example.comfortzone.flight.ui.CityDetailActivity.ARG_CITY_ID;
+import static com.example.comfortzone.flight.ui.CityDetailActivity.ARG_IATA;
 
 import android.app.Activity;
 import android.content.Context;
@@ -29,10 +30,12 @@ public class SavedCitiesAdapter extends RecyclerView.Adapter<SavedCitiesAdapter.
 
     private Context context;
     private List<WeatherData> savedCities;
+    private String iata;
 
-    public SavedCitiesAdapter (Context context, List<WeatherData> savedCities) {
+    public SavedCitiesAdapter (Context context, List<WeatherData> savedCities, String iata) {
         this.context = context;
         this.savedCities = savedCities;
+        this.iata = iata;
     }
 
     @NonNull
@@ -95,6 +98,7 @@ public class SavedCitiesAdapter extends RecyclerView.Adapter<SavedCitiesAdapter.
                 public void onClick(View v) {
                     Intent intent = new Intent(context, CityDetailActivity.class);
                     intent.putExtra(ARG_CITY_ID, v.getId());
+                    intent.putExtra(ARG_IATA, iata);
                     ActivityOptionsCompat options = ActivityOptionsCompat.
                             makeSceneTransitionAnimation((Activity) context, ivCityIcon, ivCityIcon.getTransitionName());
                     context.startActivity(intent, options.toBundle());

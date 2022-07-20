@@ -1,6 +1,7 @@
 package com.example.comfortzone.flight.ui;
 
 import static com.example.comfortzone.flight.ui.CityDetailActivity.ARG_CITY_ID;
+import static com.example.comfortzone.flight.ui.CityDetailActivity.ARG_IATA;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.example.comfortzone.R;
 import com.example.comfortzone.flight.callbacks.UpdateCityListCallback;
 import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.ui.HostActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -113,6 +115,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
                 int cityId = (int) marker.getTag();
                 Intent intent = new Intent(getContext(), CityDetailActivity.class);
                 intent.putExtra(ARG_CITY_ID, cityId);
+                intent.putExtra(ARG_IATA, ((HostActivity) getActivity()).getIataCode());
                 getActivity().startActivity(intent);
             }
         });

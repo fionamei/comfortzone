@@ -29,10 +29,12 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
 
     private Context context;
     private List<WeatherData> cityList;
+    private String iata;
 
-    public FlightsAdapter(Context context, List<WeatherData> cityList) {
+    public FlightsAdapter(Context context, List<WeatherData> cityList, String iata) {
         this.context = context;
         this.cityList = cityList;
+        this.iata = iata;
     }
 
     @NonNull
@@ -99,7 +101,7 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
         @SuppressLint("ClickableViewAccessibility")
         private void listenerSetup() {
             cvCityRoot.setOnTouchListener(new View.OnTouchListener() {
-                final GestureDetector gestureDetector = new GestureDetector(context, new CityListGestureListener(context, ivCityIcon, cvCityRoot));
+                final GestureDetector gestureDetector = new GestureDetector(context, new CityListGestureListener(context, ivCityIcon, cvCityRoot, iata));
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     gestureDetector.onTouchEvent(event);

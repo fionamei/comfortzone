@@ -1,6 +1,7 @@
 package com.example.comfortzone.flight.listeners;
 
 import static com.example.comfortzone.flight.ui.CityDetailActivity.ARG_CITY_ID;
+import static com.example.comfortzone.flight.ui.CityDetailActivity.ARG_IATA;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,11 +24,13 @@ public class CityListGestureListener extends GestureDetector.SimpleOnGestureList
     private Context context;
     private ImageView ivCityIcon;
     private MaterialCardView cvCityRoot;
+    private String iata;
 
-    public CityListGestureListener(Context context, ImageView ivCityIcon, MaterialCardView cvCityRoot) {
+    public CityListGestureListener(Context context, ImageView ivCityIcon, MaterialCardView cvCityRoot, String iata) {
         this.context = context;
         this.ivCityIcon = ivCityIcon;
         this.cvCityRoot = cvCityRoot;
+        this.iata = iata;
     }
 
     @Override
@@ -60,6 +63,7 @@ public class CityListGestureListener extends GestureDetector.SimpleOnGestureList
     private void goToDetailView() {
         Intent intent = new Intent(context, CityDetailActivity.class);
         intent.putExtra(ARG_CITY_ID, cvCityRoot.getId());
+        intent.putExtra(ARG_IATA, iata);
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation((Activity) context, ivCityIcon, ivCityIcon.getTransitionName());
         context.startActivity(intent, options.toBundle());

@@ -1,7 +1,5 @@
 package com.example.comfortzone.input.ui;
 
-import static com.example.comfortzone.flight.ui.FlightFragment.LOC_IATA;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,16 +13,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.comfortzone.R;
-import com.example.comfortzone.flight.callbacks.IataCallback;
-import com.example.comfortzone.flight.data.IataClient;
-import com.example.comfortzone.input.callbacks.LocationCallback;
-import com.example.comfortzone.input.callbacks.WeatherCallback;
-import com.example.comfortzone.utils.ComfortLevelUtil;
-import com.example.comfortzone.utils.LocationUtil;
 import com.example.comfortzone.data.network.WeatherClient;
+import com.example.comfortzone.input.callbacks.WeatherCallback;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.ui.HostActivity;
+import com.example.comfortzone.utils.ComfortLevelUtil;
 import com.google.android.material.slider.Slider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -76,7 +71,8 @@ public class InputFragment extends Fragment {
         adapter = new InputsAdapter(getContext(), entries);
 
         initViews(view);
-        getWeatherClass();
+        getWeatherData();
+//        getWeatherClass();
         queryInputs();
     }
 
@@ -100,40 +96,30 @@ public class InputFragment extends Fragment {
         tvTime.setText(weatherData.getTime());
     }
 
-    private void getWeatherClass() {
-        LocationUtil.getLastLocation(getActivity(), new LocationCallback() {
+    private void getWeatherData() {
+        WeatherData.Coordinates coordinates = ((HostActivity) getActivity()).getLocation();
+        client.getWeatherData(String.valueOf(coordinates.getLat()), String.valueOf(coordinates.getLon()), new WeatherCallback() {
             @Override
-            public void onLocationUpdated(String lat, String lon) {
-                IataClient iataClient = new IataClient();
-                iataClient.getIataResponse(lat, lon, new IataCallback() {
-                    @Override
-                    public void onGetIata(String iata) {
-                        LOC_IATA = iata;
-                    }
-                });
+            public void onGetWeatherData(String data) {
+                Gson gson = new GsonBuilder().create();
+                weatherData = gson.fromJson(data, WeatherData.class);
+                weatherData.setDate();
+                weatherData.setTime();
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
 
-                client.getWeatherData(lat, lon, new WeatherCallback() {
-                    @Override
-                    public void onGetWeatherData(String data) {
-                        Gson gson = new GsonBuilder().create();
-                        weatherData = gson.fromJson(data, WeatherData.class);
-                        weatherData.setDate();
-                        weatherData.setTime();
-                        if (getActivity() != null) {
-                            getActivity().runOnUiThread(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    populateViews();
-                                    listenerSetup();
-                                }
-                            });
+                        @Override
+                        public void run() {
+                            populateViews();
+                            listenerSetup();
                         }
-                    }
-                });
+                    });
+                }
             }
         });
     }
+
+
 
     private void queryInputs() {
         ArrayList<ComfortLevelEntry> comfortLevelEntryArrayList = (ArrayList<ComfortLevelEntry>) currentUser.get(ComfortLevelUtil.KEY_TODAY_ENTRIES);
@@ -193,13 +179,5 @@ public class InputFragment extends Fragment {
             }
 
         });
-
-
     }
-
-
-
-
-
-
 }

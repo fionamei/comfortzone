@@ -16,6 +16,7 @@ import com.example.comfortzone.R;
 import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.flight.utils.FlightUtil;
 import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.ui.HostActivity;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -24,6 +25,7 @@ public class CityDetailActivity extends AppCompatActivity {
 
     public static final String TAG = "CityDetailActivity";
     public static final String ARG_CITY_ID = "cityId";
+    public static final String ARG_IATA = "iataCode";
     public static final int IMAGE_RADIUS = 20;
 
     private WeatherData cityData;
@@ -34,6 +36,7 @@ public class CityDetailActivity extends AppCompatActivity {
     private String deepLink;
 
     private int cityId;
+    private String iata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class CityDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_city_detail);
 
         cityId = getIntent().getIntExtra(ARG_CITY_ID, 0);
+        iata = getIntent().getStringExtra(ARG_IATA);
         AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(this.getApplicationContext());
         cityData = db.weatherDao().getWeatherById(cityId);
 
@@ -65,7 +69,7 @@ public class CityDetailActivity extends AppCompatActivity {
 
 
     private void getDeepLink() {
-        Observable deepLinkOb = FlightUtil.getDeepLink(cityData);
+        Observable deepLinkOb = FlightUtil.getDeepLink(cityData, iata);
         Subscriber deepLinkSub = new Subscriber() {
             @Override
             public void onCompleted() {

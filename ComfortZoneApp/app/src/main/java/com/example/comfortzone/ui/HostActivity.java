@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Pair;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -18,21 +17,30 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.callback.UserLocationCallback;
+import com.example.comfortzone.flight.callbacks.IataCallback;
+import com.example.comfortzone.flight.data.IataClient;
 import com.example.comfortzone.flight.ui.FlightFragment;
 import com.example.comfortzone.initial.LoginActivity;
+import com.example.comfortzone.input.callbacks.LocationCallback;
 import com.example.comfortzone.input.ui.InputFragment;
-
-import com.example.comfortzone.profile.ui.ProfileFragment;
 import com.example.comfortzone.models.ComfortLevelEntry;
+import com.example.comfortzone.models.WeatherData.Coordinates;
+import com.example.comfortzone.profile.ui.ProfileFragment;
 import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.example.comfortzone.utils.ComfortLevelUtil;
+import com.example.comfortzone.utils.LocationUtil;
 import com.example.comfortzone.utils.WeatherDbUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class HostActivity extends AppCompatActivity {
+import rx.Observable;
+import rx.Subscriber;
+
+public class HostActivity extends AppCompatActivity implements UserLocationCallback {
 
     private BottomNavigationView bottomNavigationView;
     private final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -40,6 +48,9 @@ public class HostActivity extends AppCompatActivity {
     private InputFragment inputFragment;
     private ProfileFragment profileFragment;
     private Fragment fragment;
+    private boolean isLoading;
+    private Coordinates coordinates;
+    private String iataCode;
 
     public static final String TAG = "Main Activity";
     public static final int PERMISSION_ID = 44;
@@ -49,12 +60,14 @@ public class HostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        isLoading = true;
+
         maybeRequestPermissions();
-        WeatherDbUtil.maybeUpdateCitiesList(this);
         maybeUpdateComfortLevel();
         initViews();
         createFragments();
         listenerSetup();
+        loadData();
     }
 
     private void maybeRequestPermissions() {
@@ -96,35 +109,47 @@ public class HostActivity extends AppCompatActivity {
     private void listenerSetup() {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Pair<Integer, Integer> animations;
-            switch (item.getItemId()) {
-                case R.id.action_flight:
-                    fragment = flightFragment;
-                    animations = setAnimationLeftToRight();
-                    break;
-                case R.id.action_input:
-                    if (fragment == flightFragment) {
-                        animations = setAnimationRightToLeft();
-                    } else {
-                        animations = setAnimationLeftToRight();
-                    }
-                    fragment = inputFragment;
-                    break;
-                case R.id.action_profile:
-                default:
-                    fragment = profileFragment;
-                    animations = setAnimationRightToLeft();
-                    break;
+            if (isLoading) {
+                animations = setAnimationLeftToRight();
+                fragment = new LoadingFragment();
+            } else {
+                animations = bottomNavSelected(item);
             }
             fragmentManager.beginTransaction()
                     .setCustomAnimations(
                             animations.first,
                             animations.second
                     )
-                    .replace(R.id.flContainer, fragment, "input")
+                    .replace(R.id.flContainer, fragment)
                     .commit();
             return true;
         });
         bottomNavigationView.setSelectedItemId(R.id.action_profile);
+    }
+
+    @NonNull
+    private Pair<Integer, Integer> bottomNavSelected(MenuItem item) {
+        Pair<Integer, Integer> animations;
+        switch (item.getItemId()) {
+            case R.id.action_flight:
+                fragment = flightFragment;
+                animations = setAnimationLeftToRight();
+                break;
+            case R.id.action_input:
+                if (fragment == flightFragment) {
+                    animations = setAnimationRightToLeft();
+                } else {
+                    animations = setAnimationLeftToRight();
+                }
+                fragment = inputFragment;
+                break;
+            case R.id.action_profile:
+            default:
+                fragment = profileFragment;
+                animations = setAnimationRightToLeft();
+                break;
+        }
+        return animations;
     }
 
     private Pair<Integer, Integer> setAnimationRightToLeft() {
@@ -178,5 +203,72 @@ public class HostActivity extends AppCompatActivity {
                 return;
             }
         }
+    }
+
+    @Override
+    public Coordinates getLocation() {
+        return coordinates;
+    }
+
+    @Override
+    public String getIataCode() {
+        return iataCode;
+    }
+
+    private void loadData() {
+        Observable<Object> citiesSetupObservable = WeatherDbUtil.maybeUpdateCitiesList(this);
+        Observable<Object> locationSetupObservable = getWeatherClass();
+        Observable<Object> mergedObservable = Observable.merge(new ArrayList<>(Arrays.asList(locationSetupObservable, citiesSetupObservable)));
+        Subscriber<Object> dataSetupSubscriber = new Subscriber<Object>() {
+            @Override
+            public void onCompleted() {
+                bottomNavSelected(bottomNavigationView.getMenu().findItem(bottomNavigationView.getSelectedItemId()));
+                fragmentManager.beginTransaction()
+                        .replace(R.id.flContainer, fragment)
+                        .commit();
+                isLoading = false;
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+            }
+        };
+        mergedObservable.subscribe(dataSetupSubscriber);
+    }
+
+    private Observable<Object> getWeatherClass() {
+        return Observable.create(new Observable.OnSubscribe<Object>() {
+            @Override
+            public void call(Subscriber<? super Object> subscriber) {
+                LocationUtil.getLastLocation(HostActivity.this, new LocationCallback() {
+                    @Override
+                    public void onLocationUpdated(String lat, String lon) {
+                        getIataObservable(lat, lon).subscribe(subscriber);
+                        coordinates = new Coordinates(lat, lon);
+                    }
+                });
+            }
+        });
+    }
+
+    private Observable<Object> getIataObservable(String lat, String lon) {
+        IataClient iataClient = new IataClient();
+        return Observable.create(new Observable.OnSubscribe<Object>() {
+            @Override
+            public void call(Subscriber<? super Object> subscriber) {
+                iataClient.getIataResponse(lat, lon, new IataCallback() {
+                    @Override
+                    public void onGetIata(String iata) {
+                        iataCode = iata;
+                        subscriber.onCompleted();
+                    }
+                });
+            }
+        });
     }
 }
