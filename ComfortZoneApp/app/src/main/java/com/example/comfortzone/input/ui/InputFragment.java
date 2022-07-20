@@ -72,7 +72,6 @@ public class InputFragment extends Fragment {
 
         initViews(view);
         getWeatherData();
-//        getWeatherClass();
         queryInputs();
     }
 

@@ -74,11 +74,11 @@ public class HostActivity extends AppCompatActivity implements UserDetailsCallba
         initViews();
         createFragments();
         listenerSetup();
-        loadData();
     }
 
     private void maybeRequestPermissions() {
         if (hasPermissions()) {
+            loadData();
             return;
         }
         requestPermissions();
@@ -211,6 +211,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsCallba
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
+                    loadData();
                 } else {
                     Toast.makeText(getApplicationContext(), "Permission denied. You cannot use the app.", Toast.LENGTH_SHORT).show();
                     requestPermissions();
