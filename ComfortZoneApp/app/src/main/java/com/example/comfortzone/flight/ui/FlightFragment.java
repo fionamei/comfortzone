@@ -23,7 +23,6 @@ import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.flight.utils.FilteringUtils;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
-import com.example.comfortzone.utils.WeatherDbUtil;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.slider.RangeSlider;
 import com.parse.ParseUser;
@@ -31,9 +30,6 @@ import com.parse.ParseUser;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
-
-import rx.Observable;
-import rx.Subscriber;
 
 public class FlightFragment extends Fragment {
 
@@ -75,8 +71,8 @@ public class FlightFragment extends Fragment {
         initViews(view);
         setObjects();
         createFragments();
-        checkCitiesSaved();
         listenerSetup();
+        populateViews();
     }
 
     private void initViews(@NonNull View view) {
@@ -98,33 +94,6 @@ public class FlightFragment extends Fragment {
     private void createFragments() {
         mapFragment = new MapFragment();
         cityListViewFragment = new CityListViewFragment();
-    }
-
-    private void checkCitiesSaved() {
-        Observable<Object> dataSetupObservable = WeatherDbUtil.maybeUpdateCitiesList(getActivity());
-        Subscriber dataSetupSubscriber = new Subscriber() {
-            @Override
-            public void onCompleted() {
-                if (getActivity() == null) {
-                    return;
-                }
-                requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        populateViews();
-                    }
-                });
-            }
-
-            @Override
-            public void onError(Throwable e) {
-            }
-
-            @Override
-            public void onNext(Object o) {
-            }
-        };
-        dataSetupObservable.subscribe(dataSetupSubscriber);
     }
 
     private void populateViews() {
