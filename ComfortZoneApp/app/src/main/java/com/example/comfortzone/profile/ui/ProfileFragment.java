@@ -24,6 +24,7 @@ import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,7 +61,7 @@ public class ProfileFragment extends Fragment {
     private void getDataObjects() {
         currentUser = ParseUser.getCurrentUser();
         List<WeatherData> savedCities = new ArrayList<>();
-        adapter = new SavedCitiesAdapter(getContext(), savedCities, ((HostActivity) getActivity()).getIataCode());
+        adapter = new SavedCitiesAdapter(getActivity(), savedCities, ((HostActivity) getActivity()).getIataCode());
     }
 
     private void initViews(@NonNull View view) {
@@ -81,7 +82,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setSavedCitiesAdapter() {
-        ArrayList<Integer> savedCityIds = (ArrayList<Integer>) currentUser.get(KEY_SAVED_CITIES);
+        HashSet<Integer> savedCityIds = ((HostActivity) getActivity()).getSavedCities();
         if (savedCityIds != null) {
             AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext());
             adapter.addAll(savedCityIds

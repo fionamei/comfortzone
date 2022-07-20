@@ -56,7 +56,7 @@ public class CityListViewFragment extends Fragment implements UpdateCityListCall
     }
 
     private void setObjects() {
-        flightsAdapter = new FlightsAdapter(getContext(), cityList, ((HostActivity) getActivity()).getIataCode());
+        flightsAdapter = new FlightsAdapter(getActivity(), cityList, ((HostActivity) getActivity()).getIataCode());
     }
 
     private void populateViews() {

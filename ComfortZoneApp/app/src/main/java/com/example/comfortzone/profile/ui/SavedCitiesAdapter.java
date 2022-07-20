@@ -4,7 +4,6 @@ import static com.example.comfortzone.flight.ui.CityDetailActivity.ARG_CITY_ID;
 import static com.example.comfortzone.flight.ui.CityDetailActivity.ARG_IATA;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +27,12 @@ import java.util.List;
 
 public class SavedCitiesAdapter extends RecyclerView.Adapter<SavedCitiesAdapter.ViewHolder> {
 
-    private Context context;
+    private Activity activity;
     private List<WeatherData> savedCities;
     private String iata;
 
-    public SavedCitiesAdapter (Context context, List<WeatherData> savedCities, String iata) {
-        this.context = context;
+    public SavedCitiesAdapter (Activity activity, List<WeatherData> savedCities, String iata) {
+        this.activity = activity;
         this.savedCities = savedCities;
         this.iata = iata;
     }
@@ -41,7 +40,7 @@ public class SavedCitiesAdapter extends RecyclerView.Adapter<SavedCitiesAdapter.
     @NonNull
     @Override
     public SavedCitiesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_saved_city, parent, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.item_saved_city, parent, false);
         return new ViewHolder(view);
     }
 
@@ -64,7 +63,7 @@ public class SavedCitiesAdapter extends RecyclerView.Adapter<SavedCitiesAdapter.
 
     public void deleteItem(int position) {
         int toDelete = savedCities.get(position).getId();
-        UserPreferenceUtil.deleteSavedCity(ParseUser.getCurrentUser(), toDelete);
+        UserPreferenceUtil.deleteSavedCity(ParseUser.getCurrentUser(), toDelete, activity);
         savedCities.remove(position);
         notifyItemRemoved(position);
     }
@@ -89,19 +88,19 @@ public class SavedCitiesAdapter extends RecyclerView.Adapter<SavedCitiesAdapter.
 
         public void bind(WeatherData city) {
             tvCityName.setText(city.getCity());
-            Glide.with(context).load(city.getImage()).circleCrop().into(ivCityIcon);
+            Glide.with(activity).load(city.getImage()).circleCrop().into(ivCityIcon);
         }
 
         public void setSavedCityListener() {
             cvRootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, CityDetailActivity.class);
+                    Intent intent = new Intent(activity, CityDetailActivity.class);
                     intent.putExtra(ARG_CITY_ID, v.getId());
                     intent.putExtra(ARG_IATA, iata);
                     ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation((Activity) context, ivCityIcon, ivCityIcon.getTransitionName());
-                    context.startActivity(intent, options.toBundle());
+                            makeSceneTransitionAnimation((Activity) activity, ivCityIcon, ivCityIcon.getTransitionName());
+                    activity.startActivity(intent, options.toBundle());
                 }
             });
         }

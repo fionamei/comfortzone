@@ -57,7 +57,6 @@ public class BookingClient extends OkHttpClient {
                     Gson gson = new Gson();
                     Bookings bookings = gson.fromJson(data, Bookings.class);
                     FlightBookings[] flightBookings = bookings.getBookings();
-                    Log.i(TAG, "data " + data);
                     callback.onGetFlightBooking(flightBookings[0]);
                 } catch (IOException e) {
                     Log.e(TAG, "could not get body" + e);

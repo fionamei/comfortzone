@@ -3,7 +3,7 @@ package com.example.comfortzone.flight.ui;
 import static com.example.comfortzone.flight.listeners.CityListGestureListener.BORDER_WIDTH;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.app.Activity;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,18 +21,17 @@ import com.example.comfortzone.flight.listeners.CityListGestureListener;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.utils.UserPreferenceUtil;
 import com.google.android.material.card.MaterialCardView;
-import com.parse.ParseUser;
 
 import java.util.List;
 
 public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHolder> {
 
-    private Context context;
+    private Activity activity;
     private List<WeatherData> cityList;
     private String iata;
 
-    public FlightsAdapter(Context context, List<WeatherData> cityList, String iata) {
-        this.context = context;
+    public FlightsAdapter(Activity activity, List<WeatherData> cityList, String iata) {
+        this.activity = activity;
         this.cityList = cityList;
         this.iata = iata;
     }
@@ -40,7 +39,7 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
     @NonNull
     @Override
     public FlightsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_city, parent, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.item_city, parent, false);
         return new ViewHolder(view);
     }
 
@@ -90,8 +89,8 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
         public void bind(WeatherData city) {
             tvTemperature.setText(String.valueOf(city.getTempData().getTemp()));
             tvCityName.setText(city.getCity());
-            Glide.with(context).load(city.getImage()).circleCrop().into(ivCityIcon);
-            if (UserPreferenceUtil.isCityAlreadySaved(ParseUser.getCurrentUser(), city.getId())) {
+            Glide.with(activity).load(city.getImage()).circleCrop().into(ivCityIcon);
+            if (UserPreferenceUtil.isCityAlreadySaved(city.getId(), activity)) {
                 cvCityRoot.setStrokeWidth(BORDER_WIDTH);
             } else {
                 cvCityRoot.setStrokeWidth(0);
@@ -101,7 +100,7 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
         @SuppressLint("ClickableViewAccessibility")
         private void listenerSetup() {
             cvCityRoot.setOnTouchListener(new View.OnTouchListener() {
-                final GestureDetector gestureDetector = new GestureDetector(context, new CityListGestureListener(context, ivCityIcon, cvCityRoot, iata));
+                final GestureDetector gestureDetector = new GestureDetector(activity, new CityListGestureListener(activity, ivCityIcon, cvCityRoot, iata));
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     gestureDetector.onTouchEvent(event);

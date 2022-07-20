@@ -1,10 +1,13 @@
 package com.example.comfortzone.ui;
 
+import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_SAVED_CITIES;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.comfortzone.R;
-import com.example.comfortzone.callback.UserLocationCallback;
+import com.example.comfortzone.callback.UserDetailsCallback;
 import com.example.comfortzone.flight.callbacks.IataCallback;
 import com.example.comfortzone.flight.data.IataClient;
 import com.example.comfortzone.flight.ui.FlightFragment;
@@ -36,11 +39,12 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 import rx.Observable;
 import rx.Subscriber;
 
-public class HostActivity extends AppCompatActivity implements UserLocationCallback {
+public class HostActivity extends AppCompatActivity implements UserDetailsCallback {
 
     private BottomNavigationView bottomNavigationView;
     private final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -51,6 +55,9 @@ public class HostActivity extends AppCompatActivity implements UserLocationCallb
     private boolean isLoading;
     private Coordinates coordinates;
     private String iataCode;
+    private HashSet<Integer> savedCities;
+    private ParseUser currentUser;
+
 
     public static final String TAG = "Main Activity";
     public static final int PERMISSION_ID = 44;
@@ -64,6 +71,7 @@ public class HostActivity extends AppCompatActivity implements UserLocationCallb
 
         maybeRequestPermissions();
         maybeUpdateComfortLevel();
+        getObjects();
         initViews();
         createFragments();
         listenerSetup();
@@ -88,11 +96,19 @@ public class HostActivity extends AppCompatActivity implements UserLocationCallb
     }
 
     private void maybeUpdateComfortLevel() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        currentUser = ParseUser.getCurrentUser();
         ArrayList<ComfortLevelEntry> todayEntries = (ArrayList<ComfortLevelEntry>) currentUser.get(ComfortLevelUtil.KEY_TODAY_ENTRIES);
         if (!todayEntries.isEmpty() && todayEntries.get(0).getUpdatedAt() != null && !DateUtils.isToday(todayEntries.get(0).getUpdatedAt().getTime())) {
             ComfortLevelUtil.updateComfortLevel(currentUser);
             ComfortCalcUtil.calculateAverages(currentUser);
+        }
+    }
+
+    private void getObjects() {
+        savedCities = new HashSet<Integer>();
+        ArrayList<Integer> savedIds = (ArrayList<Integer>) currentUser.get(KEY_SAVED_CITIES);
+        if (savedIds != null) {
+            savedCities.addAll(savedIds);
         }
     }
 
@@ -213,6 +229,11 @@ public class HostActivity extends AppCompatActivity implements UserLocationCallb
     @Override
     public String getIataCode() {
         return iataCode;
+    }
+
+    @Override
+    public HashSet<Integer> getSavedCities() {
+        return savedCities;
     }
 
     private void loadData() {
