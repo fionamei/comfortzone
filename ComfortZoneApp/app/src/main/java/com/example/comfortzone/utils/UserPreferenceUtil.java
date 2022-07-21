@@ -1,14 +1,13 @@
 package com.example.comfortzone.utils;
 
 import android.app.Activity;
-import android.util.Log;
 
-import com.example.comfortzone.ui.HostActivity;
+import com.example.comfortzone.callback.UserDetailsProvider;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UserPreferenceUtil {
 
@@ -16,14 +15,14 @@ public class UserPreferenceUtil {
     public static final String KEY_SAVED_CITIES = "savedCities";
 
     public static void saveCity(ParseUser currentUser, int cityId, Activity activity) {
-        HashSet<Integer> savedCityIds = ((HostActivity) activity).getSavedCities();
+        Set<Integer> savedCityIds = ((UserDetailsProvider) activity).getSavedCities();
         savedCityIds.add(cityId);
         currentUser.addUnique(KEY_SAVED_CITIES, cityId);
         currentUser.saveInBackground();
     }
 
     public static void deleteSavedCity(ParseUser currentUser, int cityId, Activity activity) {
-        HashSet<Integer> savedCityIds = ((HostActivity) activity).getSavedCities();
+        Set<Integer> savedCityIds = ((UserDetailsProvider) activity).getSavedCities();
         savedCityIds.remove(cityId);
         List<Integer> toRemove = new ArrayList<>();
         toRemove.add(cityId);
@@ -32,7 +31,7 @@ public class UserPreferenceUtil {
     }
 
     public static boolean isCityAlreadySaved (int cityId, Activity activity) {
-        HashSet<Integer> savedCityIds = ((HostActivity) activity).getSavedCities();
+        Set<Integer> savedCityIds = ((UserDetailsProvider) activity).getSavedCities();
         if (savedCityIds != null && savedCityIds.contains(cityId)) {
             return true;
         }

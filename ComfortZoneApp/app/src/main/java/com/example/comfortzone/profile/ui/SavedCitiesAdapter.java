@@ -99,7 +99,7 @@ public class SavedCitiesAdapter extends RecyclerView.Adapter<SavedCitiesAdapter.
                     intent.putExtra(ARG_CITY_ID, v.getId());
                     intent.putExtra(ARG_IATA, iata);
                     ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation((Activity) activity, ivCityIcon, ivCityIcon.getTransitionName());
+                            makeSceneTransitionAnimation(activity, ivCityIcon, ivCityIcon.getTransitionName());
                     activity.startActivity(intent, options.toBundle());
                 }
             });

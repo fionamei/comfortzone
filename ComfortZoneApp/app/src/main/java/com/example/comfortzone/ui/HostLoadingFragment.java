@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 
 import com.example.comfortzone.R;
 
-public class LoadingFragment extends Fragment {
+public class HostLoadingFragment extends Fragment {
 
 
-    public LoadingFragment() {
+    public HostLoadingFragment() {
         // Required empty public constructor
     }
 

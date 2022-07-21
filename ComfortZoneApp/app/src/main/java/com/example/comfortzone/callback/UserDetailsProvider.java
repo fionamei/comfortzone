@@ -4,7 +4,7 @@ import com.example.comfortzone.models.WeatherData.Coordinates;
 
 import java.util.HashSet;
 
-public interface UserDetailsCallback {
+public interface UserDetailsProvider {
     Coordinates getLocation();
 
     String getIataCode();

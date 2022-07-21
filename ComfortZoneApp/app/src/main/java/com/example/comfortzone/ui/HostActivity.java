@@ -19,12 +19,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.comfortzone.R;
-import com.example.comfortzone.callback.UserDetailsCallback;
-import com.example.comfortzone.flight.callbacks.IataCallback;
-import com.example.comfortzone.flight.data.IataClient;
+import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.flight.ui.FlightFragment;
 import com.example.comfortzone.initial.LoginActivity;
-import com.example.comfortzone.input.callbacks.LocationCallback;
 import com.example.comfortzone.input.ui.InputFragment;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.WeatherData.Coordinates;
@@ -43,7 +40,7 @@ import java.util.HashSet;
 import rx.Observable;
 import rx.Subscriber;
 
-public class HostActivity extends AppCompatActivity implements UserDetailsCallback {
+public class HostActivity extends AppCompatActivity implements UserDetailsProvider {
 
     private BottomNavigationView bottomNavigationView;
     private final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -126,7 +123,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsCallba
             Pair<Integer, Integer> animations;
             if (isLoading) {
                 animations = new Pair<>(0,0);
-                fragment = new LoadingFragment();
+                fragment = new HostLoadingFragment();
             } else {
                 animations = bottomNavSelected(item);
             }
@@ -151,11 +148,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsCallba
                 animations = setAnimationLeftToRight();
                 break;
             case R.id.action_input:
-                if (fragment == flightFragment) {
-                    animations = setAnimationRightToLeft();
-                } else {
-                    animations = setAnimationLeftToRight();
-                }
+                animations = fragment == flightFragment ? setAnimationRightToLeft() : setAnimationLeftToRight();
                 fragment = inputFragment;
                 break;
             case R.id.action_profile:

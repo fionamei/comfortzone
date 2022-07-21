@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.flight.callbacks.UpdateCityListCallback;
 import com.example.comfortzone.models.WeatherData;
-import com.example.comfortzone.ui.HostActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class CityListViewFragment extends Fragment implements UpdateCityListCall
     }
 
     private void setObjects() {
-        flightsAdapter = new FlightsAdapter(getActivity(), cityList, ((HostActivity) getActivity()).getIataCode());
+        flightsAdapter = new FlightsAdapter(getActivity(), cityList, ((UserDetailsProvider) getActivity()).getIataCode());
     }
 
     private void populateViews() {

@@ -1,7 +1,5 @@
 package com.example.comfortzone.profile.ui;
 
-import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_SAVED_CITIES;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.profile.callback.SwipeToDeleteCallback;
-import com.example.comfortzone.ui.HostActivity;
 import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.parse.ParseUser;
 
@@ -61,7 +59,7 @@ public class ProfileFragment extends Fragment {
     private void getDataObjects() {
         currentUser = ParseUser.getCurrentUser();
         List<WeatherData> savedCities = new ArrayList<>();
-        adapter = new SavedCitiesAdapter(getActivity(), savedCities, ((HostActivity) getActivity()).getIataCode());
+        adapter = new SavedCitiesAdapter(getActivity(), savedCities, ((UserDetailsProvider) getActivity()).getIataCode());
     }
 
     private void initViews(@NonNull View view) {
@@ -82,8 +80,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setSavedCitiesAdapter() {
-        HashSet<Integer> savedCityIds = ((HostActivity) getActivity()).getSavedCities();
-        if (savedCityIds != null) {
+        HashSet<Integer> savedCityIds = ((UserDetailsProvider) getActivity()).getSavedCities();
+        if (savedCityIds != null || !savedCityIds.isEmpty()) {
             AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext());
             adapter.addAll(savedCityIds
                     .stream()
