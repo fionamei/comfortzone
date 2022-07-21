@@ -7,6 +7,7 @@
     <dimen name="miniMargin">8dp</dimen>
     <dimen name="fahrenheitMargin">10dp</dimen>
     <dimen name="largeMargin">60dp</dimen>
+    <dimen name="loadingMargin">120dp</dimen>
 
     <!--    radius      -->
     <dimen name="inputCornerRadius">50dp</dimen>

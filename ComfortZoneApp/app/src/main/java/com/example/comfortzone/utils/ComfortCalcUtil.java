@@ -232,21 +232,29 @@ public class ComfortCalcUtil {
     private static void saveTempAverageAndRanges(ArrayList<LevelsTracker> trackerArrayList, int[] averages) {
         int minTemp = MIN_TEMP;
         for (int i = 0; i < TOTAL_LEVELS - 1; i++) {
-             LevelsTracker tracker = trackerArrayList.get(i);
-             int lowRange = averages[i];
-             int highRange = averages[i+1];
-             int highTemp = (highRange + lowRange) / 2;
-             tracker.setLowRange(minTemp);
-             tracker.setHighRange(highTemp);
-             tracker.setTempAverage(averages[i]);
-             minTemp = highTemp;
-
-             tracker.saveInBackground();
+            LevelsTracker tracker = trackerArrayList.get(i);
+            int lowRange = averages[i];
+            int highRange = averages[i+1];
+            int highTemp = (highRange + lowRange) / 2;
+            tracker.setLowRange(minTemp);
+            tracker.setHighRange(highTemp);
+            tracker.setTempAverage(averages[i]);
+            minTemp = highTemp;
+            saveTracker(tracker);
         }
         LevelsTracker lastTracker = trackerArrayList.get(TOTAL_LEVELS - 1);
         lastTracker.setLowRange(minTemp);
         lastTracker.setHighRange(MAX_TEMP);
         lastTracker.setTempAverage(averages[TOTAL_LEVELS - 1]);
         lastTracker.saveInBackground();
+    }
+
+    private static void saveTracker(LevelsTracker tracker) {
+        tracker.saveInBackground();
+        try {
+            Thread.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

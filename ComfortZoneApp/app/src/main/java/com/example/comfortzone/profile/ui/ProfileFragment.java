@@ -1,7 +1,5 @@
 package com.example.comfortzone.profile.ui;
 
-import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_SAVED_CITIES;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,19 +14,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.profile.callback.SwipeToDeleteCallback;
 import com.example.comfortzone.utils.ComfortCalcUtil;
-import com.example.comfortzone.utils.WeatherDbUtil;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import rx.Observable;
-import rx.Subscriber;
 
 public class ProfileFragment extends Fragment {
 
@@ -36,7 +32,6 @@ public class ProfileFragment extends Fragment {
     private ParseUser currentUser;
     private RecyclerView rvSavedCities;
     private SavedCitiesAdapter adapter;
-    private List<WeatherData> savedCities;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -63,8 +58,8 @@ public class ProfileFragment extends Fragment {
 
     private void setDataObjects() {
         currentUser = ParseUser.getCurrentUser();
-        savedCities = new ArrayList<>();
-        adapter = new SavedCitiesAdapter(getContext(), savedCities);
+        List<WeatherData> savedCities = new ArrayList<>();
+        adapter = new SavedCitiesAdapter(getActivity(), savedCities, ((UserDetailsProvider) getActivity()).getIataCode());
     }
 
     private void initViews(@NonNull View view) {
@@ -85,34 +80,13 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setSavedCitiesAdapter() {
-        Observable<Object> dataSetupObservable = WeatherDbUtil.maybeUpdateCitiesList(getActivity());
-        Subscriber dataSetupSubscriber = new Subscriber() {
-            @Override
-            public void onCompleted() {
-                if (getActivity() == null) {
-                    return;
-                }
-                requireActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ArrayList<Integer> savedCityIds = (ArrayList<Integer>) currentUser.get(KEY_SAVED_CITIES);
-                        AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext());
-                        adapter.addAll(savedCityIds
-                                .stream()
-                                .map(cityId -> db.weatherDao().getWeatherById(cityId))
-                                .collect(Collectors.toList()));
-                    }
-                });
-            }
-
-            @Override
-            public void onError(Throwable e) {
-            }
-
-            @Override
-            public void onNext(Object o) {
-            }
-        };
-        dataSetupObservable.subscribe(dataSetupSubscriber);
+        HashSet<Integer> savedCityIds = ((UserDetailsProvider) getActivity()).getSavedCities();
+        if (savedCityIds != null || !savedCityIds.isEmpty()) {
+            AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(getContext());
+            adapter.addAll(savedCityIds
+                    .stream()
+                    .map(cityId -> db.weatherDao().getWeatherById(cityId))
+                    .collect(Collectors.toList()));
+        }
     }
 }

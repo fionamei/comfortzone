@@ -24,6 +24,7 @@ public class CityDetailActivity extends AppCompatActivity {
 
     public static final String TAG = "CityDetailActivity";
     public static final String ARG_CITY_ID = "cityId";
+    public static final String ARG_IATA = "iataCode";
     public static final int IMAGE_RADIUS = 20;
 
     private WeatherData cityData;
@@ -34,6 +35,7 @@ public class CityDetailActivity extends AppCompatActivity {
     private String deepLink;
 
     private int cityId;
+    private String iata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class CityDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_city_detail);
 
         cityId = getIntent().getIntExtra(ARG_CITY_ID, 0);
+        iata = getIntent().getStringExtra(ARG_IATA);
         AllWeathersDatabase db = AllWeathersDatabase.getDbInstance(this.getApplicationContext());
         cityData = db.weatherDao().getWeatherById(cityId);
 
@@ -68,10 +71,12 @@ public class CityDetailActivity extends AppCompatActivity {
 
 
     private void getDeepLink() {
+
+        Observable deepLinkOb = FlightUtil.getDeepLink(cityData, iata, this);
         if (cityData == null) {
             return;
         }
-        Observable deepLinkOb = FlightUtil.getDeepLink(cityData, this);
+
         Subscriber deepLinkSub = new Subscriber() {
             @Override
             public void onCompleted() {

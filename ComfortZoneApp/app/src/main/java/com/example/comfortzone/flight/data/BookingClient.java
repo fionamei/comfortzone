@@ -58,7 +58,6 @@ public class BookingClient extends OkHttpClient {
                     String data = response.body().string();
                     Gson gson = new Gson();
                     Bookings bookings = gson.fromJson(data, Bookings.class);
-                    Log.i(TAG, "data " + data);
                     FlightBooking[] flightBooking = bookings.getBooking();
                     if (flightBooking == null || flightBooking.length == 0) {
                         activity.runOnUiThread(new Runnable() {
