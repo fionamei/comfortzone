@@ -50,7 +50,7 @@ public class FlightFragment extends Fragment {
     private EditText etSearchCity;
     private MaterialButtonToggleGroup tgCityDisplay;
     private FragmentManager fragmentManager;
-    private MapFragment mapFragment;
+    private CityMapViewFragment cityMapViewFragment;
     private CityListViewFragment cityListViewFragment;
 
     public FlightFragment() {
@@ -92,7 +92,7 @@ public class FlightFragment extends Fragment {
     }
 
     private void createFragments() {
-        mapFragment = new MapFragment();
+        cityMapViewFragment = new CityMapViewFragment();
         cityListViewFragment = new CityListViewFragment();
     }
 
@@ -203,7 +203,7 @@ public class FlightFragment extends Fragment {
                 if (checkedId == R.id.btnList && isChecked) {
                     goToDisplay(cityListViewFragment);
                 } else if (checkedId == R.id.btnMap && isChecked) {
-                    goToDisplay(mapFragment);
+                    goToDisplay(cityMapViewFragment);
                 }
             }
         });
@@ -213,8 +213,8 @@ public class FlightFragment extends Fragment {
         if (cityListViewFragment != null) {
             cityListViewFragment.onCityListUpdated(cityList);
         }
-        if (mapFragment != null) {
-            mapFragment.onCityListUpdated(cityList);
+        if (cityMapViewFragment != null) {
+            cityMapViewFragment.onCityListUpdated(cityList);
         }
     }
 

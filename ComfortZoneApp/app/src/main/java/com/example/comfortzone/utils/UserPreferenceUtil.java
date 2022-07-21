@@ -24,18 +24,15 @@ public class UserPreferenceUtil {
     public static void deleteSavedCity(ParseUser currentUser, int cityId, Activity activity) {
         Set<Integer> savedCityIds = ((UserDetailsProvider) activity).getSavedCities();
         savedCityIds.remove(cityId);
-        List<Integer> toRemove = new ArrayList<>();
-        toRemove.add(cityId);
-        currentUser.removeAll(KEY_SAVED_CITIES, toRemove);
+        List<Integer> cityIdToRemove = new ArrayList<>();
+        cityIdToRemove.add(cityId);
+        currentUser.removeAll(KEY_SAVED_CITIES, cityIdToRemove);
         currentUser.saveInBackground();
     }
 
     public static boolean isCityAlreadySaved (int cityId, Activity activity) {
         Set<Integer> savedCityIds = ((UserDetailsProvider) activity).getSavedCities();
-        if (savedCityIds != null && savedCityIds.contains(cityId)) {
-            return true;
-        }
-        return false;
+        return savedCityIds != null && savedCityIds.contains(cityId);
     }
 
 }

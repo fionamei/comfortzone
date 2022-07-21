@@ -16,7 +16,6 @@ import com.example.comfortzone.R;
 import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.flight.utils.FlightUtil;
 import com.example.comfortzone.models.WeatherData;
-import com.example.comfortzone.ui.HostActivity;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -62,6 +61,9 @@ public class CityDetailActivity extends AppCompatActivity {
     }
 
     private void populateViews() {
+        if (cityData == null) {
+            return;
+        }
         tvCityName.setText(String.format("%s, %s", cityData.getCity(), cityData.getState()));
         tvCityDescription.setText(cityData.getDescription());
         Glide.with(this).load(cityData.getImage()).transform(new RoundedCorners(IMAGE_RADIUS)).centerCrop().into(ivCityIcon);
@@ -69,7 +71,12 @@ public class CityDetailActivity extends AppCompatActivity {
 
 
     private void getDeepLink() {
-        Observable deepLinkOb = FlightUtil.getDeepLink(cityData, iata);
+
+        Observable deepLinkOb = FlightUtil.getDeepLink(cityData, iata, this);
+        if (cityData == null) {
+            return;
+        }
+
         Subscriber deepLinkSub = new Subscriber() {
             @Override
             public void onCompleted() {

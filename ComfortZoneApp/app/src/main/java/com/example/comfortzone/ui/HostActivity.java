@@ -42,21 +42,20 @@ import rx.Subscriber;
 
 public class HostActivity extends AppCompatActivity implements UserDetailsProvider {
 
-    private BottomNavigationView bottomNavigationView;
+    public static final String TAG = "Main Activity";
+    public static final int PERMISSION_ID = 44;
+
     private final FragmentManager fragmentManager = getSupportFragmentManager();
+    private BottomNavigationView bottomNavigationView;
     private FlightFragment flightFragment;
     private InputFragment inputFragment;
     private ProfileFragment profileFragment;
-    private Fragment fragment;
     private boolean isLoading;
     private Coordinates coordinates;
     private String iataCode;
     private HashSet<Integer> savedCities;
     private ParseUser currentUser;
-
-
-    public static final String TAG = "Main Activity";
-    public static final int PERMISSION_ID = 44;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +100,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
     }
 
     private void getObjects() {
-        savedCities = new HashSet<Integer>();
+        savedCities = new HashSet<>();
         ArrayList<Integer> savedIds = (ArrayList<Integer>) currentUser.get(KEY_SAVED_CITIES);
         if (savedIds != null) {
             savedCities.addAll(savedIds);
@@ -123,7 +122,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
             Pair<Integer, Integer> animations;
             if (isLoading) {
                 animations = new Pair<>(0,0);
-                fragment = new HostLoadingFragment();
+                currentFragment = new HostLoadingFragment();
             } else {
                 animations = bottomNavSelected(item);
             }
@@ -132,7 +131,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
                             animations.first,
                             animations.second
                     )
-                    .replace(R.id.flContainer, fragment)
+                    .replace(R.id.flContainer, currentFragment)
                     .commit();
             return true;
         });
@@ -144,16 +143,16 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
         Pair<Integer, Integer> animations;
         switch (item.getItemId()) {
             case R.id.action_flight:
-                fragment = flightFragment;
+                currentFragment = flightFragment;
                 animations = setAnimationLeftToRight();
                 break;
             case R.id.action_input:
-                animations = fragment == flightFragment ? setAnimationRightToLeft() : setAnimationLeftToRight();
-                fragment = inputFragment;
+                animations = currentFragment == flightFragment ? setAnimationRightToLeft() : setAnimationLeftToRight();
+                currentFragment = inputFragment;
                 break;
             case R.id.action_profile:
             default:
-                fragment = profileFragment;
+                currentFragment = profileFragment;
                 animations = setAnimationRightToLeft();
                 break;
         }
@@ -238,7 +237,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
             public void onCompleted() {
                 bottomNavSelected(bottomNavigationView.getMenu().findItem(bottomNavigationView.getSelectedItemId()));
                 fragmentManager.beginTransaction()
-                        .replace(R.id.flContainer, fragment)
+                        .replace(R.id.flContainer, currentFragment)
                         .commit();
                 isLoading = false;
             }

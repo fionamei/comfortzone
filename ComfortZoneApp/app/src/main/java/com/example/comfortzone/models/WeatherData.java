@@ -8,7 +8,6 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.checkerframework.checker.units.qual.C;
 import org.parceler.Parcel;
 
 import java.time.LocalDateTime;

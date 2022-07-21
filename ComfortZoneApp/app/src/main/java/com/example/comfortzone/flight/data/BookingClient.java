@@ -1,13 +1,15 @@
 package com.example.comfortzone.flight.data;
 
+import android.app.Activity;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.comfortzone.BuildConfig;
 import com.example.comfortzone.flight.callbacks.FlightBookingsCallback;
 import com.example.comfortzone.flight.models.Bookings;
-import com.example.comfortzone.flight.models.Bookings.FlightBookings;
+import com.example.comfortzone.flight.models.Bookings.FlightBooking;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -38,7 +40,7 @@ public class BookingClient extends OkHttpClient {
         return urlBuilder.build().toString();
     }
 
-    public void getBookingLinks(String flyFrom, String flyTo, FlightBookingsCallback callback) {
+    public void getBookingLinks(String flyFrom, String flyTo, Activity activity, FlightBookingsCallback callback) {
         String url = getBookingUrl(flyFrom, flyTo);
         final Request request = new Request.Builder()
                 .url(url)
@@ -56,8 +58,17 @@ public class BookingClient extends OkHttpClient {
                     String data = response.body().string();
                     Gson gson = new Gson();
                     Bookings bookings = gson.fromJson(data, Bookings.class);
-                    FlightBookings[] flightBookings = bookings.getBookings();
-                    callback.onGetFlightBooking(flightBookings[0]);
+                    FlightBooking[] flightBooking = bookings.getBooking();
+                    if (flightBooking == null || flightBooking.length == 0) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(activity, "There are no flights from your location.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        return;
+                    }
+                    callback.onGetFlightBooking(flightBooking[0]);
                 } catch (IOException e) {
                     Log.e(TAG, "could not get body" + e);
                 }
