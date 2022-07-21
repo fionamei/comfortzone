@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 public class Bookings {
 
     @SerializedName("data")
-    private FlightBookings[] bookings;
+    private FlightBooking[] booking;
 
-    public static class FlightBookings {
+    public static class FlightBooking {
         @SerializedName("deep_link")
         public String deepLink;
         public int price;
@@ -21,8 +21,8 @@ public class Bookings {
         }
     }
 
-    public FlightBookings[] getBookings() {
-        return bookings;
+    public FlightBooking[] getBooking() {
+        return booking;
     }
 
 }

@@ -65,7 +65,7 @@ public class CityDetailActivity extends AppCompatActivity {
 
 
     private void getDeepLink() {
-        Observable deepLinkOb = FlightUtil.getDeepLink(cityData);
+        Observable deepLinkOb = FlightUtil.getDeepLink(cityData, this);
         Subscriber deepLinkSub = new Subscriber() {
             @Override
             public void onCompleted() {
