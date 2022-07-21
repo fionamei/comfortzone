@@ -54,14 +54,14 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getDataObjects();
+        setDataObjects();
         initViews(view);
         populateViews();
         setUpRecyclerView();
         setSavedCitiesAdapter();
     }
 
-    private void getDataObjects() {
+    private void setDataObjects() {
         currentUser = ParseUser.getCurrentUser();
         savedCities = new ArrayList<>();
         adapter = new SavedCitiesAdapter(getContext(), savedCities);

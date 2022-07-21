@@ -17,9 +17,9 @@ import com.example.comfortzone.profile.ui.SavedCitiesAdapter;
 public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
 
     private final ColorDrawable background;
+    private final int backgroundCornerOffset = 50;
     private SavedCitiesAdapter savedCitiesAdapter;
     private Drawable icon;
-    private final int backgroundCornerOffset = 50;
 
     public SwipeToDeleteCallback(SavedCitiesAdapter savedCitiesAdapter, Context context) {
         super(0, ItemTouchHelper.LEFT);

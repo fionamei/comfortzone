@@ -58,6 +58,9 @@ public class CityDetailActivity extends AppCompatActivity {
     }
 
     private void populateViews() {
+        if (cityData == null) {
+            return;
+        }
         tvCityName.setText(String.format("%s, %s", cityData.getCity(), cityData.getState()));
         tvCityDescription.setText(cityData.getDescription());
         Glide.with(this).load(cityData.getImage()).transform(new RoundedCorners(IMAGE_RADIUS)).centerCrop().into(ivCityIcon);
@@ -65,7 +68,10 @@ public class CityDetailActivity extends AppCompatActivity {
 
 
     private void getDeepLink() {
-        Observable deepLinkOb = FlightUtil.getDeepLink(cityData);
+        if (cityData == null) {
+            return;
+        }
+        Observable deepLinkOb = FlightUtil.getDeepLink(cityData, this);
         Subscriber deepLinkSub = new Subscriber() {
             @Override
             public void onCompleted() {

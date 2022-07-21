@@ -1,7 +1,5 @@
 package com.example.comfortzone.models;
 
-import android.util.Log;
-
 import com.google.gson.annotations.SerializedName;
 
 public class WeatherGroupData {

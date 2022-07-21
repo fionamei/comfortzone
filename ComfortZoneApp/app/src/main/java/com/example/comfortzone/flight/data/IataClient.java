@@ -61,6 +61,9 @@ public class IataClient extends OkHttpClient {
                     String data = response.body().string();
                     Gson gson = new Gson();
                     Airport airport = gson.fromJson(data, Airport.class);
+                    if (airport == null || airport.getIataList().length == 0) {
+                        return;
+                    }
                     callback.onGetIata(airport.getIataList()[0].getIataCode());
                 } catch (IOException e) {
                     Log.e(TAG, "could not get body" + e);

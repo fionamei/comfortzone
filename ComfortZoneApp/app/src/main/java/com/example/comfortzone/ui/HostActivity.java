@@ -34,15 +34,15 @@ import java.util.ArrayList;
 
 public class HostActivity extends AppCompatActivity {
 
-    private BottomNavigationView bottomNavigationView;
+    public static final String TAG = "Main Activity";
+    public static final int PERMISSION_ID = 44;
+
     private final FragmentManager fragmentManager = getSupportFragmentManager();
+    private BottomNavigationView bottomNavigationView;
     private FlightFragment flightFragment;
     private InputFragment inputFragment;
     private ProfileFragment profileFragment;
-    private Fragment fragment;
-
-    public static final String TAG = "Main Activity";
-    public static final int PERMISSION_ID = 44;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,20 +98,20 @@ public class HostActivity extends AppCompatActivity {
             Pair<Integer, Integer> animations;
             switch (item.getItemId()) {
                 case R.id.action_flight:
-                    fragment = flightFragment;
+                    currentFragment = flightFragment;
                     animations = setAnimationLeftToRight();
                     break;
                 case R.id.action_input:
-                    if (fragment == flightFragment) {
+                    if (currentFragment == flightFragment) {
                         animations = setAnimationRightToLeft();
                     } else {
                         animations = setAnimationLeftToRight();
                     }
-                    fragment = inputFragment;
+                    currentFragment = inputFragment;
                     break;
                 case R.id.action_profile:
                 default:
-                    fragment = profileFragment;
+                    currentFragment = profileFragment;
                     animations = setAnimationRightToLeft();
                     break;
             }
@@ -120,7 +120,7 @@ public class HostActivity extends AppCompatActivity {
                             animations.first,
                             animations.second
                     )
-                    .replace(R.id.flContainer, fragment, "input")
+                    .replace(R.id.flContainer, currentFragment, "input")
                     .commit();
             return true;
         });

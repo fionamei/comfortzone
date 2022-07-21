@@ -1,7 +1,5 @@
 package com.example.comfortzone.utils;
 
-import com.example.comfortzone.models.ComfortLevelEntry;
-import com.example.comfortzone.models.WeatherData;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -18,18 +16,15 @@ public class UserPreferenceUtil {
     }
 
     public static void deleteSavedCity(ParseUser currentUser, int cityId) {
-        List<Integer> toRemove = new ArrayList<>();
-        toRemove.add(cityId);
-        currentUser.removeAll(KEY_SAVED_CITIES, toRemove);
+        List<Integer> cityIdToRemove = new ArrayList<>();
+        cityIdToRemove.add(cityId);
+        currentUser.removeAll(KEY_SAVED_CITIES, cityIdToRemove);
         currentUser.saveInBackground();
     }
 
     public static boolean isCityAlreadySaved (ParseUser currentUser, int cityId) {
         List<Integer> savedCityIds = (List<Integer>) currentUser.get(KEY_SAVED_CITIES);
-        if (savedCityIds.contains(cityId)) {
-            return true;
-        }
-        return false;
+        return savedCityIds.contains(cityId);
     }
 
 }
