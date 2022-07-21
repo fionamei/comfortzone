@@ -26,9 +26,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateCityListCallback {
+public class CityMapViewFragment extends Fragment implements OnMapReadyCallback, UpdateCityListCallback {
 
-    public static final String TAG= "MapFragment";
+    public static final String TAG = "CityMapViewFragment";
     public static final int MAX_CITIES = 20;
     /** this location represents the center of the united states **/
     private static final LatLng MAP_CENTER = new LatLng(39.8283, -98.5795);
@@ -37,7 +37,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
     private GoogleMap mGoogleMap;
     private List<WeatherData> cityList;
 
-    public MapFragment() {
+    public CityMapViewFragment() {
         // Required empty public constructor
     }
 
@@ -91,9 +91,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
 
     public void addMapMarkers(GoogleMap googleMap, List<WeatherData> weatherData) {
         for (WeatherData weather : weatherData) {
+            StringBuilder cityName = new StringBuilder();
+            cityName.append(weather.getCity()).append(", ").append(weather.getState());
             googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(weather.getCoord().getLat(), weather.getCoord().getLon()))
-                    .title(weather.getCity() + ", " + weather.getState()))
+                    .title(cityName.toString()))
                     .setTag(weather.getId());
         }
     }

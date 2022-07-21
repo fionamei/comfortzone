@@ -42,7 +42,7 @@ public class HostActivity extends AppCompatActivity {
     private FlightFragment flightFragment;
     private InputFragment inputFragment;
     private ProfileFragment profileFragment;
-    private Fragment fragment;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,20 +98,20 @@ public class HostActivity extends AppCompatActivity {
             Pair<Integer, Integer> animations;
             switch (item.getItemId()) {
                 case R.id.action_flight:
-                    fragment = flightFragment;
+                    currentFragment = flightFragment;
                     animations = setAnimationLeftToRight();
                     break;
                 case R.id.action_input:
-                    if (fragment == flightFragment) {
+                    if (currentFragment == flightFragment) {
                         animations = setAnimationRightToLeft();
                     } else {
                         animations = setAnimationLeftToRight();
                     }
-                    fragment = inputFragment;
+                    currentFragment = inputFragment;
                     break;
                 case R.id.action_profile:
                 default:
-                    fragment = profileFragment;
+                    currentFragment = profileFragment;
                     animations = setAnimationRightToLeft();
                     break;
             }
@@ -120,7 +120,7 @@ public class HostActivity extends AppCompatActivity {
                             animations.first,
                             animations.second
                     )
-                    .replace(R.id.flContainer, fragment, "input")
+                    .replace(R.id.flContainer, currentFragment, "input")
                     .commit();
             return true;
         });
