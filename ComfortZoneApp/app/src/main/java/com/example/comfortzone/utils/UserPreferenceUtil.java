@@ -13,6 +13,7 @@ public class UserPreferenceUtil {
 
     public static final String TAG = "UserPreferenceUtil";
     public static final String KEY_SAVED_CITIES = "savedCities";
+    public static final String KEY_IS_FAHRENHEIT = "isFahrenheit";
 
     public static void saveCity(ParseUser currentUser, int cityId, Activity activity) {
         Set<Integer> savedCityIds = ((UserDetailsProvider) activity).getSavedCities();

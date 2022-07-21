@@ -10,4 +10,6 @@ public interface UserDetailsProvider {
     String getIataCode();
 
     HashSet<Integer> getSavedCities();
+
+    Boolean[] getIsFahrenheit();
 }

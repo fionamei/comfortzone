@@ -1,5 +1,6 @@
 package com.example.comfortzone.ui;
 
+import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_IS_FAHRENHEIT;
 import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_SAVED_CITIES;
 
 import android.Manifest;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,6 +58,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
     private HashSet<Integer> savedCities;
     private ParseUser currentUser;
     private Fragment currentFragment;
+    private Boolean[] isFahrenheit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +104,12 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
 
     private void getObjects() {
         savedCities = new HashSet<>();
+        isFahrenheit = new Boolean[1];
         ArrayList<Integer> savedIds = (ArrayList<Integer>) currentUser.get(KEY_SAVED_CITIES);
         if (savedIds != null) {
             savedCities.addAll(savedIds);
         }
+        isFahrenheit[0] = (boolean) currentUser.get(KEY_IS_FAHRENHEIT);
     }
 
     private void initViews() {
@@ -226,6 +231,11 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
     @Override
     public HashSet<Integer> getSavedCities() {
         return savedCities;
+    }
+
+    @Override
+    public Boolean[] getIsFahrenheit() {
+        return isFahrenheit;
     }
 
     private void loadData() {
