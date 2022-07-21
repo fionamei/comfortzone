@@ -16,7 +16,6 @@ import com.example.comfortzone.flight.callbacks.IataCallback;
 import com.example.comfortzone.flight.data.IataClient;
 import com.example.comfortzone.input.callbacks.LocationCallback;
 import com.example.comfortzone.models.WeatherData;
-import com.example.comfortzone.ui.HostActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
