@@ -17,7 +17,6 @@ public class ComfortCalcUtil {
     public static final String TAG = "ComfortCalcUtil";
     public static final String KEY_LEVEL_TRACKERS = "levelTrackers";
     public static final String KEY_TEMP_AVERAGE = "tempAverage";
-
     public static final double[] WEIGHTS = new double[]{0.1, 0.2, 0.35, 0.5, 1.0, 2.0, 1.0, 0.5, 0.35, 0.2, 0.1};
     public static final int MIN_TEMP = -999;
     public static final int MAX_TEMP = 999;

@@ -30,7 +30,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, UpdateC
 
     public static final String TAG= "MapFragment";
     public static final int MAX_CITIES = 20;
-    private final LatLng MAP_CENTER = new LatLng(39.8283, -98.5795);
+    /** this location represents the center of the united states **/
+    private static final LatLng MAP_CENTER = new LatLng(39.8283, -98.5795);
 
     private MapView mvMap;
     private GoogleMap mGoogleMap;

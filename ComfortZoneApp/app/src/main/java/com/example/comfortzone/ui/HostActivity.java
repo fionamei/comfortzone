@@ -34,15 +34,15 @@ import java.util.ArrayList;
 
 public class HostActivity extends AppCompatActivity {
 
-    private BottomNavigationView bottomNavigationView;
+    public static final String TAG = "Main Activity";
+    public static final int PERMISSION_ID = 44;
+
     private final FragmentManager fragmentManager = getSupportFragmentManager();
+    private BottomNavigationView bottomNavigationView;
     private FlightFragment flightFragment;
     private InputFragment inputFragment;
     private ProfileFragment profileFragment;
     private Fragment fragment;
-
-    public static final String TAG = "Main Activity";
-    public static final int PERMISSION_ID = 44;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
