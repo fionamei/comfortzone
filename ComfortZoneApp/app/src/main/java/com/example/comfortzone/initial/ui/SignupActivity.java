@@ -1,4 +1,4 @@
-package com.example.comfortzone.initial;
+package com.example.comfortzone.initial.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.initial.ui.InitialComfortActivity;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;

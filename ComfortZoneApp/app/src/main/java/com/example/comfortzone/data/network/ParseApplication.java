@@ -5,9 +5,11 @@ import android.app.Application;
 import com.example.comfortzone.BuildConfig;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
+import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.facebook.ParseFacebookUtils;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -40,5 +42,7 @@ public class ParseApplication extends Application {
                 .build()
         );
         ParseUser.enableRevocableSessionInBackground();
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        ParseFacebookUtils.initialize(getApplicationContext());
     }
 }

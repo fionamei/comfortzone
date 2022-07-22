@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".initial.LoginActivity">
+    tools:context=".initial.ui.LoginActivity">
 
    <include
        layout="@layout/input_layout"
@@ -17,9 +17,20 @@
        android:id="@+id/btnSignin"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_margin="@dimen/generalMargin"
+       android:layout_marginHorizontal="@dimen/generalMargin"
+       android:layout_marginTop="@dimen/generalMargin"
        android:text="@string/sign_in"
        app:cornerRadius="@dimen/inputCornerRadius" />
+
+   <Button
+       android:id="@+id/login_button"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginHorizontal="@dimen/generalMargin"
+       android:layout_gravity="center_horizontal"
+       android:backgroundTint="@color/facebookBlue"
+       app:cornerRadius="@dimen/inputCornerRadius"
+       android:text="@string/continue_with_facebook"/>
 
    <LinearLayout
        android:layout_width="match_parent"

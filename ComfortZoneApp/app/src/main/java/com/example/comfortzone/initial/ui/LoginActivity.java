@@ -1,29 +1,45 @@
-package com.example.comfortzone.initial;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.comfortzone.initial.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.comfortzone.ui.HostActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.comfortzone.R;
+import com.example.comfortzone.initial.data.FacebookLoginAPI;
+import com.example.comfortzone.ui.HostActivity;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+import com.parse.facebook.ParseFacebookUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_EMAIL = "email";
+    public static final String KEY_FIELDS = "fields";
+    public static final String PUBLIC_PROF = "public_profile";
+    public static final List<String> mPermissions = new ArrayList<String>() {{
+        add(PUBLIC_PROF);
+        add(KEY_EMAIL);
+    }};
+
     private EditText etUsername;
     private EditText etPassword;
     private Button btnSignin;
     private TextView tvSignup;
+    private Button loginButton;
 
 
     @Override
@@ -35,12 +51,10 @@ public class LoginActivity extends AppCompatActivity {
             goHostActivity();
         }
 
-
         getSupportActionBar().hide();
 
         initViews();
         setupListeners();
-
     }
 
     private void goHostActivity() {
@@ -54,11 +68,13 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnSignin = findViewById(R.id.btnSignin);
         tvSignup = findViewById(R.id.tvSignup);
+        loginButton = findViewById(R.id.login_button);
     }
 
     private void setupListeners() {
         loginListener();
         signupListener();
+        facebookListener();
     }
 
     private void loginListener() {
@@ -77,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e != null) {
-                    Log.e(TAG, "issue with login", e);
                     Toast.makeText(LoginActivity.this, "Issue with login!", Toast.LENGTH_LONG).show();
                     return;
                 } else {
@@ -97,5 +112,40 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void facebookListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this, mPermissions, new LogInCallback() {
+                    @Override
+                    public void done(ParseUser user, ParseException e) {
+                        if (user == null) {
+                        } else if (user.isNew()) {
+                            Toast.makeText(LoginActivity.this, "Logging in, please wait", Toast.LENGTH_SHORT).show();
+                            FacebookLoginAPI.getUserDetailFromFB(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    goInitialSetup();
+                                }
+                            });
+                        } else {
+                            goHostActivity();
+                        }
+                    }
+                });
+            }
+        });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void goInitialSetup() {
+        Intent i = new Intent(this, InitialComfortActivity.class);
+        startActivity(i);
+        finish();
+    }
 }
