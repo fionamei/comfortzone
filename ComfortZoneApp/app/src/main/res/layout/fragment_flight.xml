@@ -68,29 +68,47 @@
         android:hint="@string/search_for_a_city"
         android:textSize="@dimen/miniTextSize" />
 
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/tgCityDisplay"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/generalMargin"
-        app:singleSelection="true"
-        app:selectionRequired="true"
-        android:layout_gravity="end">
-        <Button
-            android:id="@+id/btnList"
+        android:orientation="horizontal">
+
+        <include
+            layout="@layout/degrees_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/list_view"
-            style="?attr/materialButtonOutlinedStyle"
-            />
-        <Button
-            android:id="@+id/btnMap"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/titleMargin"
+            android:layout_marginTop="@dimen/fahrenheitMargin"
+            android:layout_marginBottom="@dimen/fahrenheitMargin" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/tgCityDisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/map_view"
-            style="?attr/materialButtonOutlinedStyle"
-            />
-    </com.google.android.material.button.MaterialButtonToggleGroup>
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/generalMargin"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <Button
+                android:id="@+id/btnList"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/list_view" />
+
+            <Button
+                android:id="@+id/btnMap"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/map_view" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    </RelativeLayout>
+
+
 
     <FrameLayout
         android:id="@+id/flViewsContainer"

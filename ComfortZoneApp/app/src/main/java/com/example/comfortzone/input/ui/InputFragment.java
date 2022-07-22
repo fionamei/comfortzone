@@ -1,5 +1,6 @@
 package com.example.comfortzone.input.ui;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.example.comfortzone.R;
 import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.data.network.WeatherClient;
 import com.example.comfortzone.input.callbacks.WeatherCallback;
+import com.example.comfortzone.listener.DegreeSwitchListener;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
@@ -50,6 +52,9 @@ public class InputFragment extends Fragment {
     private SwipeableRecyclerView rvInputs;
     private InputsAdapter adapter;
     private List<ComfortLevelEntry> entries;
+    private TextView tvFahrenheit;
+    private TextView tvCelsius;
+    private Boolean[] isFahrenheit;
 
     public InputFragment() {
         // Required empty public constructor
@@ -70,9 +75,15 @@ public class InputFragment extends Fragment {
         entries = new ArrayList<>();
         adapter = new InputsAdapter(getContext(), entries);
 
+        setDataObjects();
         initViews(view);
         getWeatherData();
         queryInputs();
+        setDegreesListener();
+    }
+
+    private void setDataObjects() {
+        isFahrenheit = ((UserDetailsProvider) getActivity()).getIsFahrenheit();
     }
 
     private void initViews(View view) {
@@ -86,6 +97,8 @@ public class InputFragment extends Fragment {
         rvInputs = view.findViewById(R.id.rvInputs);
         rvInputs.setAdapter(adapter);
         rvInputs.setLayoutManager(new LinearLayoutManager(getContext()));
+        tvFahrenheit = view.findViewById(R.id.tvFahrenheit);
+        tvCelsius = view.findViewById(R.id.tvCelsius);
     }
 
     private void populateViews() {
@@ -93,6 +106,11 @@ public class InputFragment extends Fragment {
         tvCurrentTemp.setText(String.valueOf((int) weatherData.getTempData().getTemp()));
         tvDate.setText(weatherData.getDate());
         tvTime.setText(weatherData.getTime());
+        if (isFahrenheit[0]) {
+            tvFahrenheit.setTypeface(Typeface.DEFAULT_BOLD);
+        } else {
+            tvCelsius.setTypeface(Typeface.DEFAULT_BOLD);
+        }
     }
 
     private void getWeatherData() {
@@ -178,5 +196,10 @@ public class InputFragment extends Fragment {
             }
 
         });
+    }
+
+    private void setDegreesListener() {
+        DegreeSwitchListener degreeSwitchListener = new DegreeSwitchListener(tvFahrenheit, tvCelsius, isFahrenheit);
+        degreeSwitchListener.degreeListeners();
     }
 }
