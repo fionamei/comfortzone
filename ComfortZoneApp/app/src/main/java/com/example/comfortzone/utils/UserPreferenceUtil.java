@@ -1,9 +1,13 @@
 package com.example.comfortzone.utils;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.widget.TextView;
 
+import com.example.comfortzone.R;
 import com.example.comfortzone.callback.UserDetailsProvider;
 import com.parse.ParseUser;
 
@@ -15,7 +19,6 @@ public class UserPreferenceUtil {
 
     public static final String TAG = "UserPreferenceUtil";
     public static final String KEY_SAVED_CITIES = "savedCities";
-    public static final String KEY_IS_FAHRENHEIT = "isFahrenheit";
 
     public static void saveCity(ParseUser currentUser, int cityId, Activity activity) {
         Set<Integer> savedCityIds = ((UserDetailsProvider) activity).getSavedCities();
@@ -60,4 +63,12 @@ public class UserPreferenceUtil {
             tvFahrenheit.setTypeface(Typeface.DEFAULT);
         }
     }
+
+    public static void updateIsFahrenheitLocally(Activity activity, boolean bool) {
+        SharedPreferences sharedPref = activity.getSharedPreferences(activity.getString(R.string.key_shared_pref_activity), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(activity.getString(R.string.key_is_fahrenheit), bool);
+        editor.apply();
+    }
+
 }

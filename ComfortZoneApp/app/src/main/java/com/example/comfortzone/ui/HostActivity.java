@@ -1,6 +1,5 @@
 package com.example.comfortzone.ui;
 
-import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_IS_FAHRENHEIT;
 import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_SAVED_CITIES;
 
 import android.Manifest;
@@ -9,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;

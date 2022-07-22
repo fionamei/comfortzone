@@ -1,6 +1,5 @@
 package com.example.comfortzone.profile.ui;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -110,6 +109,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDegreeSwitched() {
                 UserPreferenceUtil.degreeConversion(isFahrenheit, tvPerfectTemp, perfectTemp);
+                UserPreferenceUtil.updateIsFahrenheitLocally(getActivity(), isFahrenheit[0]);
             }
         });
     }

@@ -20,6 +20,7 @@ import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.ui.HostActivity;
 import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.example.comfortzone.utils.ComfortLevelUtil;
+import com.example.comfortzone.utils.UserPreferenceUtil;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -79,7 +80,7 @@ public class InitialComfortActivity extends AppCompatActivity {
                 int tempTen = Integer.parseInt(etTen.getText().toString());
                 if (tempZero < tempFive && tempFive < tempTen) {
                     save(tempZero, tempFive, tempTen);
-                    saveDegreeUnitOption();
+                    UserPreferenceUtil.updateIsFahrenheitLocally(InitialComfortActivity.this, rbtnFahrenheit.isChecked());
                     goHostActivity();
                 } else {
                     Toast.makeText(InitialComfortActivity.this, "Your temperature estimates must be in ascending order", Toast.LENGTH_LONG).show();
@@ -89,16 +90,6 @@ public class InitialComfortActivity extends AppCompatActivity {
         });
     }
 
-    private void saveDegreeUnitOption() {
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.key_shared_pref_activity), MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        if (rbtnFahrenheit.isChecked()) {
-            editor.putBoolean(getString(R.string.key_is_fahrenheit), true);
-        } else {
-            editor.putBoolean(getString(R.string.key_is_fahrenheit), false);
-        }
-        editor.apply();
-    }
 
     private void calculateComfort(ParseUser user) {
         int comfort = ComfortCalcUtil.calculateComfortTemp(user);

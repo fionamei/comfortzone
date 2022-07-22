@@ -19,6 +19,7 @@ import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.flight.callbacks.UpdateCityListCallback;
 import com.example.comfortzone.listener.DegreeSwitchListener;
 import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.utils.UserPreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +93,7 @@ public class CityListViewFragment extends Fragment implements UpdateCityListCall
         degreeSwitchListener.degreeListeners(new DegreeSwitchCallback() {
             @Override
             public void onDegreeSwitched() {
+                UserPreferenceUtil.updateIsFahrenheitLocally(getActivity(), isFahrenheit[0]);
                 flightsAdapter.notifyDataSetChanged();
             }
         });

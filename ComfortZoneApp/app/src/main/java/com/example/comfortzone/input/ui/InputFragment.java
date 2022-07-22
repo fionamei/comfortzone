@@ -1,6 +1,5 @@
 package com.example.comfortzone.input.ui;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,14 +105,8 @@ public class InputFragment extends Fragment {
         tvCity.setText(weatherData.getCity());
         tvDate.setText(weatherData.getDate());
         tvTime.setText(weatherData.getTime());
-        if (isFahrenheit[0]) {
-            tvFahrenheit.setTypeface(Typeface.DEFAULT_BOLD);
-            tvCurrentTemp.setText(String.valueOf((int) weatherData.getTempData().getTemp()));
-        } else {
-            tvCelsius.setTypeface(Typeface.DEFAULT_BOLD);
-            int celsius = UserPreferenceUtil.convertFahrenheitToCelsius(weatherData.getTempData().getTemp());
-            tvCurrentTemp.setText(String.valueOf(celsius));
-        }
+        UserPreferenceUtil.degreeConversion(isFahrenheit, tvCurrentTemp, (int) weatherData.getTempData().getTemp());
+        UserPreferenceUtil.switchBoldedDegree(isFahrenheit, tvCelsius, tvFahrenheit);
     }
 
     private void getWeatherData() {
@@ -205,6 +198,7 @@ public class InputFragment extends Fragment {
             @Override
             public void onDegreeSwitched() {
                 UserPreferenceUtil.degreeConversion(isFahrenheit, tvCurrentTemp, temp);
+                UserPreferenceUtil.updateIsFahrenheitLocally(getActivity(), isFahrenheit[0]);
                 adapter.notifyDataSetChanged();
             }
         });
