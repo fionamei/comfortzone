@@ -5,6 +5,7 @@ import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_SAVED_CITIES;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -109,7 +110,8 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
         if (savedIds != null) {
             savedCities.addAll(savedIds);
         }
-        isFahrenheit[0] = (boolean) currentUser.get(KEY_IS_FAHRENHEIT);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.key_shared_pref_activity), MODE_PRIVATE);
+        isFahrenheit[0] = sharedPref.getBoolean(getString(R.string.key_is_fahrenheit), true);
     }
 
     private void initViews() {

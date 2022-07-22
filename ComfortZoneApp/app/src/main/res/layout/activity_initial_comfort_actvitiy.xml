@@ -93,6 +93,24 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:checkedButton="@+id/rbtnFahrenheit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/generalMargin">
+        <RadioButton
+            android:id="@+id/rbtnFahrenheit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/radio_fahrenheit"/>
+        <RadioButton
+            android:id="@+id/rbtnCelsius"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/radio_celsius"/>
+    </RadioGroup>
+
     <Button
         android:id="@+id/btnConfirm"
         android:layout_width="match_parent"

@@ -3,19 +3,21 @@ package com.example.comfortzone.initial;
 import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.comfortzone.ui.HostActivity;
 import com.example.comfortzone.R;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
+import com.example.comfortzone.ui.HostActivity;
 import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.example.comfortzone.utils.ComfortLevelUtil;
 import com.parse.ParseException;
@@ -46,6 +48,7 @@ public class InitialComfortActivity extends AppCompatActivity {
     private ComfortLevelEntry entryFive;
     private ComfortLevelEntry entryTen;
     private List<LevelsTracker> trackerList;
+    private RadioButton rbtnFahrenheit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class InitialComfortActivity extends AppCompatActivity {
         etFive = findViewById(R.id.etFive);
         etTen = findViewById(R.id.etTen);
         btnConfirm = findViewById(R.id.btnConfirm);
+        rbtnFahrenheit = findViewById(R.id.rbtnFahrenheit);
     }
 
     private void confirmListener() {
@@ -75,6 +79,7 @@ public class InitialComfortActivity extends AppCompatActivity {
                 int tempTen = Integer.parseInt(etTen.getText().toString());
                 if (tempZero < tempFive && tempFive < tempTen) {
                     save(tempZero, tempFive, tempTen);
+                    saveDegreeUnitOption();
                     goHostActivity();
                 } else {
                     Toast.makeText(InitialComfortActivity.this, "Your temperature estimates must be in ascending order", Toast.LENGTH_LONG).show();
@@ -82,6 +87,17 @@ public class InitialComfortActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void saveDegreeUnitOption() {
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.key_shared_pref_activity), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        if (rbtnFahrenheit.isChecked()) {
+            editor.putBoolean(getString(R.string.key_is_fahrenheit), true);
+        } else {
+            editor.putBoolean(getString(R.string.key_is_fahrenheit), false);
+        }
+        editor.apply();
     }
 
     private void calculateComfort(ParseUser user) {
