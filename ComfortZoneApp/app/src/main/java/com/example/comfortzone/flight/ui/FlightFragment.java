@@ -1,11 +1,14 @@
 package com.example.comfortzone.flight.ui;
 
+
 import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
 
 import android.graphics.Typeface;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +33,6 @@ import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.slider.RangeSlider;
-import com.parse.ParseUser;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -122,17 +124,11 @@ public class FlightFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(@NonNull RangeSlider slider) {
-                etSearchCity.setText("");
-                List<Float> values = slider.getValues();
-                int lowComfort = values.get(0).intValue();
-                int highComfort = values.get(1).intValue();
-                ParseUser currentUser = ParseUser.getCurrentUser();
-                int lowRange = ((ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS))
-                        .get(lowComfort).getLowRange();
-                int highRange = ((ArrayList<LevelsTracker>) currentUser.get(KEY_LEVEL_TRACKERS))
-                        .get(highComfort).getHighRange();
-                cityList = db.weatherDao().getRange(lowRange, highRange);
+                Log.i(TAG, "city list before " + cityList);
+                FilteringUtils.comfortLevelFilter(rsComfortFilter, cityList, db);
+                Log.i(TAG, "city list after " + cityList);
                 sortBy(spSort.getSelectedItemPosition());
+                cityList = FilteringUtils.searchCity(etSearchCity.getText(), cityList);
                 updateViewsList(cityList);
             }
         });
@@ -142,7 +138,6 @@ public class FlightFragment extends Fragment {
         spSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                etSearchCity.setText("");
                 sortBy(position);
                 updateViewsList(cityList);
             }
@@ -191,12 +186,14 @@ public class FlightFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                FilteringUtils.comfortLevelFilter(rsComfortFilter, cityList, db);
                 if (!s.toString().isEmpty()) {
                     String city = Normalizer.normalize(s, Normalizer.Form.NFD);
                     city = city.replaceAll("[^\\p{ASCII}]", "");
-                    List<WeatherData> searchedCity = FilteringUtils.searchCity(city, cityList);
-                    updateViewsList(searchedCity);
+                    cityList = FilteringUtils.searchCity(city, cityList);
                 }
+                sortBy(spSort.getSelectedItemPosition());
+                updateViewsList(cityList);
             }
         });
     }

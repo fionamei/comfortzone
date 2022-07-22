@@ -83,7 +83,7 @@ public class CityListViewFragment extends Fragment implements UpdateCityListCall
 
     @Override
     public void onCityListUpdated(List<WeatherData> newCityList) {
-        if (newCityList != null) {
+        if (newCityList != null && flightsAdapter != null) {
             flightsAdapter.updateCities(newCityList);
         }
     }
