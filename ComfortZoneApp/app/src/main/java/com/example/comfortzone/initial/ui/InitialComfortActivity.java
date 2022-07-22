@@ -1,4 +1,4 @@
-package com.example.comfortzone.initial;
+package com.example.comfortzone.initial.ui;
 
 import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
 

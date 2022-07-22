@@ -22,13 +22,13 @@
             android:name=".flight.ui.CityDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".initial.InitialComfortActivity"
+            android:name=".initial.ui.InitialComfortActivity"
             android:exported="false" />
         <activity
-            android:name=".initial.SignupActivity"
+            android:name=".initial.ui.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".initial.LoginActivity"
+            android:name=".initial.ui.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

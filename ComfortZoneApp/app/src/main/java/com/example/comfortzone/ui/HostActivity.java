@@ -21,7 +21,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.comfortzone.R;
 import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.flight.ui.FlightFragment;
-import com.example.comfortzone.initial.LoginActivity;
+import com.example.comfortzone.initial.ui.LoginActivity;
 import com.example.comfortzone.input.ui.InputFragment;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.WeatherData.Coordinates;

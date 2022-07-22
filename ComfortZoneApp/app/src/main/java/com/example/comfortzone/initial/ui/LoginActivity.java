@@ -1,4 +1,4 @@
-package com.example.comfortzone.initial;
+package com.example.comfortzone.initial.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.comfortzone.R;
-import com.example.comfortzone.initial.data.FacebookLoginUtil;
+import com.example.comfortzone.initial.data.FacebookLoginAPI;
 import com.example.comfortzone.ui.HostActivity;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (user == null) {
                         } else if (user.isNew()) {
                             Toast.makeText(LoginActivity.this, "Logging in, please wait", Toast.LENGTH_SHORT).show();
-                            FacebookLoginUtil.getUserDetailFromFB(new SaveCallback() {
+                            FacebookLoginAPI.getUserDetailFromFB(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
                                     goInitialSetup();

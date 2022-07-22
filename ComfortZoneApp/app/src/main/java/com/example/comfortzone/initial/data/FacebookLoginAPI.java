@@ -1,20 +1,19 @@
 package com.example.comfortzone.initial.data;
 
-import static com.example.comfortzone.initial.LoginActivity.KEY_EMAIL;
-import static com.example.comfortzone.initial.LoginActivity.KEY_FIELDS;
-import static com.example.comfortzone.initial.LoginActivity.KEY_NAME;
+import static com.example.comfortzone.initial.ui.LoginActivity.KEY_EMAIL;
+import static com.example.comfortzone.initial.ui.LoginActivity.KEY_FIELDS;
+import static com.example.comfortzone.initial.ui.LoginActivity.KEY_NAME;
 
 import android.os.Bundle;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.json.JSONException;
 
-public class FacebookLoginUtil {
+public class FacebookLoginAPI {
 
     public static void getUserDetailFromFB(SaveCallback callback) {
         GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), (object, response) -> {
