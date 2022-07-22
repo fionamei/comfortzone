@@ -35,6 +35,7 @@
     <string name="map_view">Map View</string>
     <string name="saved_cities">Saved Cities:</string>
     <string name="book_a_flight">Book a Flight!</string>
+    <string name="continue_with_facebook">Continue with Facebook</string>
     <string-array name="filter_array">
         <item>Alphabet: A-Z</item>
         <item>Temperature: Low to High</item>

@@ -25,6 +25,9 @@ android {
         buildConfigField("String", "AMADEUS_API_KEY", apikeyProperties["AMADEUS_API_KEY"])
         buildConfigField("String", "AMADEUS_SECRET_KEY", apikeyProperties["AMADEUS_SECRET_KEY"])
         buildConfigField("String", "KIWI_API_KEY", apikeyProperties["KIWI_API_KEY"])
+        resValue("string", "FACEBOOK_APP_ID", apikeyProperties["FACEBOOK_APP_ID"])
+        resValue("string", "FB_LOGIN_PROTOCOL_SCHEME", apikeyProperties["FB_LOGIN_PROTOCOL_SCHEME"])
+        resValue("string", "FACEBOOK_CLIENT_TOKEN", apikeyProperties["FACEBOOK_CLIENT_TOKEN"])
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -77,4 +80,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
+    implementation 'com.facebook.android:facebook-android-sdk:14.1.0'
+    implementation 'com.github.parse-community.Parse-SDK-Android:facebook:2.1.0'
 }
