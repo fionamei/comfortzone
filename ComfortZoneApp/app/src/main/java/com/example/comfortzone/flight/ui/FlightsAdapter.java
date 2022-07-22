@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.comfortzone.R;
+import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.flight.listeners.CityListGestureListener;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.utils.UserPreferenceUtil;
@@ -29,6 +30,7 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
     private Activity activity;
     private List<WeatherData> cityList;
     private String iata;
+    private Boolean isFahrenheit;
 
     public FlightsAdapter(Activity activity, List<WeatherData> cityList, String iata) {
         this.activity = activity;
@@ -45,8 +47,9 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        isFahrenheit = ((UserDetailsProvider) activity).getIsFahrenheit();
         WeatherData city = cityList.get(position);
-        holder.bind(city);
+        holder.bind(city, isFahrenheit);
         holder.cvCityRoot.setId(city.getId());
     }
 
@@ -86,8 +89,12 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
             ivCityIcon = itemView.findViewById(R.id.ivCityIcon);
         }
 
-        public void bind(WeatherData city) {
-            tvTemperature.setText(String.valueOf(city.getTempData().getTemp()));
+        public void bind(WeatherData city, Boolean isFahrenheit) {
+            if (isFahrenheit) {
+                tvTemperature.setText(String.valueOf((int) city.getTempData().getTemp()));
+            } else {
+                tvTemperature.setText(String.valueOf(UserPreferenceUtil.convertFahrenheitToCelsius(city.getTempData().getTemp())));
+            }
             tvCityName.setText(city.getCity());
             Glide.with(activity).load(city.getImage()).circleCrop().into(ivCityIcon);
             if (UserPreferenceUtil.isCityAlreadySaved(city.getId(), activity)) {

@@ -14,11 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.callback.DegreeSwitchCallback;
 import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.data.local.AllWeathersDatabase;
+import com.example.comfortzone.listener.DegreeSwitchListener;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.profile.callback.SwipeToDeleteCallback;
 import com.example.comfortzone.utils.ComfortCalcUtil;
+import com.example.comfortzone.utils.UserPreferenceUtil;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -32,6 +35,10 @@ public class ProfileFragment extends Fragment {
     private ParseUser currentUser;
     private RecyclerView rvSavedCities;
     private SavedCitiesAdapter adapter;
+    private TextView tvFahrenheit;
+    private TextView tvCelsius;
+    private Boolean isFahrenheit;
+    private int perfectTemp;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -58,21 +65,27 @@ public class ProfileFragment extends Fragment {
         populateViews();
         setUpRecyclerView();
         setSavedCitiesAdapter();
+        setDegreesListener();
     }
 
     private void setDataObjects() {
         currentUser = ParseUser.getCurrentUser();
         List<WeatherData> savedCities = new ArrayList<>();
         adapter = new SavedCitiesAdapter(getActivity(), savedCities, ((UserDetailsProvider) getActivity()).getIataCode());
+        isFahrenheit = ((UserDetailsProvider) getActivity()).getIsFahrenheit();
+        perfectTemp = (int) currentUser.get(ComfortCalcUtil.KEY_PERFECT_COMFORT);
     }
 
     private void initViews(@NonNull View view) {
         tvPerfectTemp = view.findViewById(R.id.tvPerfectTemp);
         rvSavedCities = view.findViewById(R.id.rvSavedCities);
+        tvFahrenheit = view.findViewById(R.id.tvFahrenheit);
+        tvCelsius = view.findViewById(R.id.tvCelsius);
     }
 
     private void populateViews() {
-        tvPerfectTemp.setText(String.valueOf(currentUser.get(ComfortCalcUtil.KEY_PERFECT_COMFORT)));
+        UserPreferenceUtil.degreeConversion(getActivity(), tvPerfectTemp, perfectTemp);
+        UserPreferenceUtil.switchBoldedDegree(getActivity(), tvCelsius, tvFahrenheit);
     }
 
     private void setUpRecyclerView() {
@@ -92,5 +105,16 @@ public class ProfileFragment extends Fragment {
                     .map(cityId -> db.weatherDao().getWeatherById(cityId))
                     .collect(Collectors.toList()));
         }
+    }
+
+    private void setDegreesListener() {
+        DegreeSwitchListener degreeSwitchListener = new DegreeSwitchListener(tvFahrenheit, tvCelsius, getActivity());
+        degreeSwitchListener.setDegreeListeners(new DegreeSwitchCallback() {
+            @Override
+            public void onDegreeSwitched() {
+                UserPreferenceUtil.degreeConversion(getActivity(), tvPerfectTemp, perfectTemp);
+                UserPreferenceUtil.updateIsFahrenheitLocally(getActivity(), ((UserDetailsProvider) getActivity()).getIsFahrenheit());
+            }
+        });
     }
 }

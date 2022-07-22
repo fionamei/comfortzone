@@ -8,16 +8,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.comfortzone.ui.HostActivity;
 import com.example.comfortzone.R;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
+import com.example.comfortzone.ui.HostActivity;
 import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.example.comfortzone.utils.ComfortLevelUtil;
+import com.example.comfortzone.utils.UserPreferenceUtil;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -46,6 +48,7 @@ public class InitialComfortActivity extends AppCompatActivity {
     private ComfortLevelEntry entryFive;
     private ComfortLevelEntry entryTen;
     private List<LevelsTracker> trackerList;
+    private RadioButton rbtnFahrenheit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class InitialComfortActivity extends AppCompatActivity {
         etFive = findViewById(R.id.etFive);
         etTen = findViewById(R.id.etTen);
         btnConfirm = findViewById(R.id.btnConfirm);
+        rbtnFahrenheit = findViewById(R.id.rbtnFahrenheit);
     }
 
     private void confirmListener() {
@@ -74,7 +78,13 @@ public class InitialComfortActivity extends AppCompatActivity {
                 int tempFive = Integer.parseInt(etFive.getText().toString());
                 int tempTen = Integer.parseInt(etTen.getText().toString());
                 if (tempZero < tempFive && tempFive < tempTen) {
+                    if (!rbtnFahrenheit.isChecked()) {
+                        tempZero = UserPreferenceUtil.convertCelsiusToFahrenheit(tempZero);
+                        tempFive = UserPreferenceUtil.convertCelsiusToFahrenheit(tempFive);
+                        tempTen = UserPreferenceUtil.convertCelsiusToFahrenheit(tempTen);
+                    }
                     save(tempZero, tempFive, tempTen);
+                    UserPreferenceUtil.updateIsFahrenheitLocally(InitialComfortActivity.this, rbtnFahrenheit.isChecked());
                     goHostActivity();
                 } else {
                     Toast.makeText(InitialComfortActivity.this, "Your temperature estimates must be in ascending order", Toast.LENGTH_LONG).show();
@@ -83,6 +93,7 @@ public class InitialComfortActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void calculateComfort(ParseUser user) {
         int comfort = ComfortCalcUtil.calculateComfortTemp(user);

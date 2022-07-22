@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".flight.ui.CityListViewFragment">
+    tools:context=".flight.ui.CityListViewFragment"
+    android:orientation="vertical">
+
+    <include layout="@layout/degrees_layout"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="@dimen/generalMargin"
+        android:layout_gravity="end"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCities"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</FrameLayout>
+</LinearLayout>

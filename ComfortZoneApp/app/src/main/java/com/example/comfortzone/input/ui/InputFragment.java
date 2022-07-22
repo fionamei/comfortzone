@@ -13,13 +13,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.callback.DegreeSwitchCallback;
 import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.data.network.WeatherClient;
 import com.example.comfortzone.input.callbacks.WeatherCallback;
+import com.example.comfortzone.listener.DegreeSwitchListener;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.utils.ComfortLevelUtil;
+import com.example.comfortzone.utils.UserPreferenceUtil;
 import com.google.android.material.slider.Slider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -50,6 +53,9 @@ public class InputFragment extends Fragment {
     private SwipeableRecyclerView rvInputs;
     private InputsAdapter adapter;
     private List<ComfortLevelEntry> entries;
+    private TextView tvFahrenheit;
+    private TextView tvCelsius;
+    private Boolean isFahrenheit;
 
     public InputFragment() {
         // Required empty public constructor
@@ -68,11 +74,16 @@ public class InputFragment extends Fragment {
         client = new WeatherClient();
         currentUser = ParseUser.getCurrentUser();
         entries = new ArrayList<>();
-        adapter = new InputsAdapter(getContext(), entries);
+        adapter = new InputsAdapter(getActivity(), entries);
 
+        setDataObjects();
         initViews(view);
         getWeatherData();
         queryInputs();
+    }
+
+    private void setDataObjects() {
+        isFahrenheit = ((UserDetailsProvider) getActivity()).getIsFahrenheit();
     }
 
     private void initViews(View view) {
@@ -86,13 +97,16 @@ public class InputFragment extends Fragment {
         rvInputs = view.findViewById(R.id.rvInputs);
         rvInputs.setAdapter(adapter);
         rvInputs.setLayoutManager(new LinearLayoutManager(getContext()));
+        tvFahrenheit = view.findViewById(R.id.tvFahrenheit);
+        tvCelsius = view.findViewById(R.id.tvCelsius);
     }
 
     private void populateViews() {
         tvCity.setText(weatherData.getCity());
-        tvCurrentTemp.setText(String.valueOf((int) weatherData.getTempData().getTemp()));
         tvDate.setText(weatherData.getDate());
         tvTime.setText(weatherData.getTime());
+        UserPreferenceUtil.degreeConversion(getActivity(), tvCurrentTemp, (int) weatherData.getTempData().getTemp());
+        UserPreferenceUtil.switchBoldedDegree(getActivity(), tvCelsius, tvFahrenheit);
     }
 
     private void getWeatherData() {
@@ -111,14 +125,13 @@ public class InputFragment extends Fragment {
                         public void run() {
                             populateViews();
                             listenerSetup();
+                            setDegreesListener((int) weatherData.getTempData().getTemp());
                         }
                     });
                 }
             }
         });
     }
-
-
 
     private void queryInputs() {
         ArrayList<ComfortLevelEntry> comfortLevelEntryArrayList = (ArrayList<ComfortLevelEntry>) currentUser.get(ComfortLevelUtil.KEY_TODAY_ENTRIES);
@@ -170,13 +183,24 @@ public class InputFragment extends Fragment {
                 }
                 comfortEntry.deleteEntryFromTodayList(currentUser);
                 comfortEntry.deleteEntry();
-
             }
 
             @Override
             public void onSwipedRight(int position) {
             }
 
+        });
+    }
+
+    private void setDegreesListener(int temp) {
+        DegreeSwitchListener degreeSwitchListener = new DegreeSwitchListener(tvFahrenheit, tvCelsius, getActivity());
+        degreeSwitchListener.setDegreeListeners(new DegreeSwitchCallback() {
+            @Override
+            public void onDegreeSwitched() {
+                UserPreferenceUtil.degreeConversion(getActivity(), tvCurrentTemp, temp);
+                UserPreferenceUtil.updateIsFahrenheitLocally(getActivity(), ((UserDetailsProvider) getActivity()).getIsFahrenheit());
+                adapter.notifyDataSetChanged();
+            }
         });
     }
 }
