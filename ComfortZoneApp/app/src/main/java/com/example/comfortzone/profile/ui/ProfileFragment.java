@@ -15,12 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.callback.DegreeSwitchCallback;
 import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.listener.DegreeSwitchListener;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.profile.callback.SwipeToDeleteCallback;
 import com.example.comfortzone.utils.ComfortCalcUtil;
+import com.example.comfortzone.utils.UserPreferenceUtil;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class ProfileFragment extends Fragment {
     private TextView tvFahrenheit;
     private TextView tvCelsius;
     private Boolean[] isFahrenheit;
+    private int perfectTemp;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -67,6 +70,7 @@ public class ProfileFragment extends Fragment {
         List<WeatherData> savedCities = new ArrayList<>();
         adapter = new SavedCitiesAdapter(getActivity(), savedCities, ((UserDetailsProvider) getActivity()).getIataCode());
         isFahrenheit = ((UserDetailsProvider) getActivity()).getIsFahrenheit();
+        perfectTemp = (int) currentUser.get(ComfortCalcUtil.KEY_PERFECT_COMFORT);
     }
 
     private void initViews(@NonNull View view) {
@@ -77,11 +81,12 @@ public class ProfileFragment extends Fragment {
     }
 
     private void populateViews() {
-        tvPerfectTemp.setText(String.valueOf(currentUser.get(ComfortCalcUtil.KEY_PERFECT_COMFORT)));
         if (isFahrenheit[0]) {
             tvFahrenheit.setTypeface(Typeface.DEFAULT_BOLD);
+            tvPerfectTemp.setText(String.valueOf(perfectTemp));
         } else {
             tvCelsius.setTypeface(Typeface.DEFAULT_BOLD);
+            tvPerfectTemp.setText(String.valueOf(UserPreferenceUtil.convertFahrenheitToCelsius(perfectTemp)));
         }
     }
 
@@ -106,6 +111,11 @@ public class ProfileFragment extends Fragment {
 
     private void setDegreesListener() {
         DegreeSwitchListener degreeSwitchListener = new DegreeSwitchListener(tvFahrenheit, tvCelsius, isFahrenheit);
-        degreeSwitchListener.degreeListeners();
+        degreeSwitchListener.degreeListeners(new DegreeSwitchCallback() {
+            @Override
+            public void onDegreeSwitched() {
+                UserPreferenceUtil.changeDegrees(isFahrenheit, tvCelsius, tvFahrenheit, tvPerfectTemp, perfectTemp);
+            }
+        });
     }
 }

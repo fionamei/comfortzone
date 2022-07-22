@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.callback.DegreeSwitchCallback;
 import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.flight.utils.FilteringUtils;
@@ -56,9 +57,6 @@ public class FlightFragment extends Fragment {
     private FragmentManager fragmentManager;
     private CityMapViewFragment cityMapViewFragment;
     private CityListViewFragment cityListViewFragment;
-    private TextView tvFahrenheit;
-    private TextView tvCelsius;
-    private Boolean[] isFahrenheit;
 
     public FlightFragment() {
         // Required empty public constructor
@@ -80,7 +78,6 @@ public class FlightFragment extends Fragment {
         createFragments();
         listenerSetup();
         populateViews();
-        setDegreesListener();
     }
 
     private void initViews(@NonNull View view) {
@@ -88,8 +85,6 @@ public class FlightFragment extends Fragment {
         spSort = view.findViewById(R.id.spSort);
         etSearchCity = view.findViewById(R.id.etSearchCity);
         tgCityDisplay = view.findViewById(R.id.tgCityDisplay);
-        tvFahrenheit = view.findViewById(R.id.tvFahrenheit);
-        tvCelsius = view.findViewById(R.id.tvCelsius);
     }
 
     private void setObjects() {
@@ -99,7 +94,6 @@ public class FlightFragment extends Fragment {
                 .createFromResource(getContext(), R.array.filter_array, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fragmentManager = getActivity().getSupportFragmentManager();
-        isFahrenheit = ((UserDetailsProvider) getActivity()).getIsFahrenheit();
     }
 
     private void createFragments() {
@@ -111,11 +105,6 @@ public class FlightFragment extends Fragment {
         cityList.addAll(db.weatherDao().getAll());
         spSort.setAdapter(spinnerAdapter);
         tgCityDisplay.check(R.id.btnList);
-        if (isFahrenheit[0]) {
-            tvFahrenheit.setTypeface(Typeface.DEFAULT_BOLD);
-        } else {
-            tvCelsius.setTypeface(Typeface.DEFAULT_BOLD);
-        }
     }
 
     private void listenerSetup() {
@@ -239,11 +228,6 @@ public class FlightFragment extends Fragment {
                 .replace(R.id.flViewsContainer, fragment)
                 .addToBackStack(null)
                 .commit();
-    }
-
-    private void setDegreesListener() {
-        DegreeSwitchListener degreeSwitchListener = new DegreeSwitchListener(tvFahrenheit, tvCelsius, isFahrenheit);
-        degreeSwitchListener.degreeListeners();
     }
 
 }

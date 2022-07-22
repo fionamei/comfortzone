@@ -1,8 +1,9 @@
 package com.example.comfortzone.listener;
 
-import android.graphics.Typeface;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.comfortzone.callback.DegreeSwitchCallback;
 
 public class DegreeSwitchListener {
 
@@ -16,13 +17,12 @@ public class DegreeSwitchListener {
         this.isFahrenheit = isFahrenheit;
     }
 
-    public void degreeListeners() {
+    public void degreeListeners(DegreeSwitchCallback degreeSwitchCallback) {
         tvCelsius.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isFahrenheit[0]){
-                    tvCelsius.setTypeface(Typeface.DEFAULT_BOLD);
-                    tvFahrenheit.setTypeface(Typeface.DEFAULT);
+                    degreeSwitchCallback.onDegreeSwitched();
                     switchIsFahrenheit(false);
                 }
             }
@@ -31,8 +31,7 @@ public class DegreeSwitchListener {
             @Override
             public void onClick(View v) {
                 if (!isFahrenheit[0]){
-                    tvCelsius.setTypeface(Typeface.DEFAULT);
-                    tvFahrenheit.setTypeface(Typeface.DEFAULT_BOLD);
+                    degreeSwitchCallback.onDegreeSwitched();
                     switchIsFahrenheit(true);
                 }
             }

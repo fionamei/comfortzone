@@ -1,6 +1,8 @@
 package com.example.comfortzone.utils;
 
 import android.app.Activity;
+import android.graphics.Typeface;
+import android.widget.TextView;
 
 import com.example.comfortzone.callback.UserDetailsProvider;
 import com.parse.ParseUser;
@@ -36,4 +38,20 @@ public class UserPreferenceUtil {
         return savedCityIds != null && savedCityIds.contains(cityId);
     }
 
+    public static int convertFahrenheitToCelsius(double degreesFahrenheit) {
+        return (int) (((double) 5/9) * (degreesFahrenheit - 32));
+    }
+
+    public static void changeDegrees(Boolean[] isFahrenheit, TextView tvCelsius, TextView tvFahrenheit, TextView viewToChange, int temp) {
+        if (isFahrenheit[0]) {
+            tvCelsius.setTypeface(Typeface.DEFAULT_BOLD);
+            tvFahrenheit.setTypeface(Typeface.DEFAULT);
+            int celsius = UserPreferenceUtil.convertFahrenheitToCelsius(temp);
+            viewToChange.setText(String.valueOf(celsius));
+        } else {
+            tvFahrenheit.setTypeface(Typeface.DEFAULT_BOLD);
+            tvCelsius.setTypeface(Typeface.DEFAULT);
+            viewToChange.setText(String.valueOf(temp));
+        }
+    }
 }

@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.callback.DegreeSwitchCallback;
 import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.data.network.WeatherClient;
 import com.example.comfortzone.input.callbacks.WeatherCallback;
@@ -22,6 +23,7 @@ import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.utils.ComfortLevelUtil;
+import com.example.comfortzone.utils.UserPreferenceUtil;
 import com.google.android.material.slider.Slider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -73,13 +75,12 @@ public class InputFragment extends Fragment {
         client = new WeatherClient();
         currentUser = ParseUser.getCurrentUser();
         entries = new ArrayList<>();
-        adapter = new InputsAdapter(getContext(), entries);
+        adapter = new InputsAdapter(getActivity(), entries);
 
         setDataObjects();
         initViews(view);
         getWeatherData();
         queryInputs();
-        setDegreesListener();
     }
 
     private void setDataObjects() {
@@ -103,13 +104,15 @@ public class InputFragment extends Fragment {
 
     private void populateViews() {
         tvCity.setText(weatherData.getCity());
-        tvCurrentTemp.setText(String.valueOf((int) weatherData.getTempData().getTemp()));
         tvDate.setText(weatherData.getDate());
         tvTime.setText(weatherData.getTime());
         if (isFahrenheit[0]) {
             tvFahrenheit.setTypeface(Typeface.DEFAULT_BOLD);
+            tvCurrentTemp.setText(String.valueOf((int) weatherData.getTempData().getTemp()));
         } else {
             tvCelsius.setTypeface(Typeface.DEFAULT_BOLD);
+            int celsius = UserPreferenceUtil.convertFahrenheitToCelsius(weatherData.getTempData().getTemp());
+            tvCurrentTemp.setText(String.valueOf(celsius));
         }
     }
 
@@ -129,14 +132,13 @@ public class InputFragment extends Fragment {
                         public void run() {
                             populateViews();
                             listenerSetup();
+                            setDegreesListener((int) weatherData.getTempData().getTemp());
                         }
                     });
                 }
             }
         });
     }
-
-
 
     private void queryInputs() {
         ArrayList<ComfortLevelEntry> comfortLevelEntryArrayList = (ArrayList<ComfortLevelEntry>) currentUser.get(ComfortLevelUtil.KEY_TODAY_ENTRIES);
@@ -198,8 +200,14 @@ public class InputFragment extends Fragment {
         });
     }
 
-    private void setDegreesListener() {
+    private void setDegreesListener(int temp) {
         DegreeSwitchListener degreeSwitchListener = new DegreeSwitchListener(tvFahrenheit, tvCelsius, isFahrenheit);
-        degreeSwitchListener.degreeListeners();
+        degreeSwitchListener.degreeListeners(new DegreeSwitchCallback() {
+            @Override
+            public void onDegreeSwitched() {
+                UserPreferenceUtil.changeDegrees(isFahrenheit, tvCelsius, tvFahrenheit, tvCurrentTemp, temp);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 }
