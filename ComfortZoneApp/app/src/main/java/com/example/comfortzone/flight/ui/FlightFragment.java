@@ -1,5 +1,10 @@
 package com.example.comfortzone.flight.ui;
 
+
+import static com.example.comfortzone.utils.ComfortCalcUtil.KEY_LEVEL_TRACKERS;
+
+import android.graphics.Typeface;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,8 +24,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.callback.DegreeSwitchCallback;
+import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.data.local.AllWeathersDatabase;
 import com.example.comfortzone.flight.utils.FilteringUtils;
+import com.example.comfortzone.listener.DegreeSwitchListener;
+import com.example.comfortzone.models.LevelsTracker;
 import com.example.comfortzone.models.WeatherData;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.slider.RangeSlider;

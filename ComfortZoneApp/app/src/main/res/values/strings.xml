@@ -17,6 +17,8 @@
     <string name="confirm">Confirm</string>
     <string name="today_s_temperature">Today\'s temperature:</string>
     <string name="fahrenheit">°F</string>
+    <string name="celsius">°C</string>
+    <string name="divider">|</string>
     <string name="flight">Flight</string>
     <string name="input">Input</string>
     <string name="profile">Profile</string>
@@ -44,4 +46,8 @@
         <item>Population: Low to High</item>
         <item>Population: High to Low</item>
     </string-array>
+    <string name="key_shared_pref_activity">comfortZoneUserDegreePreference</string>
+    <string name="key_is_fahrenheit">isFahrenheit</string>
+    <string name="radio_fahrenheit">My estimates are in Fahrenheit!</string>
+    <string name="radio_celsius">They are in Celsius!</string>
 </resources>

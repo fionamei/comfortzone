@@ -1,9 +1,11 @@
 package com.example.comfortzone.flight.ui;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,9 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.callback.DegreeSwitchCallback;
 import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.flight.callbacks.UpdateCityListCallback;
+import com.example.comfortzone.listener.DegreeSwitchListener;
 import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.utils.UserPreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +31,9 @@ public class CityListViewFragment extends Fragment implements UpdateCityListCall
     private FlightsAdapter flightsAdapter;
     private RecyclerView rvCities;
     private List<WeatherData> cityList;
+    private TextView tvFahrenheit;
+    private TextView tvCelsius;
+    private Boolean isFahrenheit;
 
     public CityListViewFragment() {
         // Required empty public constructor
@@ -49,19 +57,28 @@ public class CityListViewFragment extends Fragment implements UpdateCityListCall
         initViews(view);
         setObjects();
         populateViews();
+        setDegreesListener();
     }
 
     private void initViews(@NonNull View view) {
         rvCities = view.findViewById(R.id.rvCities);
+        tvFahrenheit = view.findViewById(R.id.tvFahrenheit);
+        tvCelsius = view.findViewById(R.id.tvCelsius);
     }
 
     private void setObjects() {
         flightsAdapter = new FlightsAdapter(getActivity(), cityList, ((UserDetailsProvider) getActivity()).getIataCode());
+        isFahrenheit = ((UserDetailsProvider) getActivity()).getIsFahrenheit();
     }
 
     private void populateViews() {
         rvCities.setAdapter(flightsAdapter);
         rvCities.setLayoutManager(new LinearLayoutManager(getContext()));
+        if (isFahrenheit) {
+            tvFahrenheit.setTypeface(Typeface.DEFAULT_BOLD);
+        } else {
+            tvCelsius.setTypeface(Typeface.DEFAULT_BOLD);
+        }
     }
 
     @Override
@@ -69,5 +86,16 @@ public class CityListViewFragment extends Fragment implements UpdateCityListCall
         if (newCityList != null && flightsAdapter != null) {
             flightsAdapter.updateCities(newCityList);
         }
+    }
+
+    private void setDegreesListener() {
+        DegreeSwitchListener degreeSwitchListener = new DegreeSwitchListener(tvFahrenheit, tvCelsius, getActivity());
+        degreeSwitchListener.setDegreeListeners(new DegreeSwitchCallback() {
+            @Override
+            public void onDegreeSwitched() {
+                UserPreferenceUtil.updateIsFahrenheitLocally(getActivity(), ((UserDetailsProvider) getActivity()).getIsFahrenheit());
+                flightsAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

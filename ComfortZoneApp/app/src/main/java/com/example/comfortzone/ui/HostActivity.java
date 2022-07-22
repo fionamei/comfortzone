@@ -4,6 +4,7 @@ import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_SAVED_CITIES;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -56,6 +57,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
     private HashSet<Integer> savedCities;
     private ParseUser currentUser;
     private Fragment currentFragment;
+    private Boolean[] isFahrenheit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +103,13 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
 
     private void getObjects() {
         savedCities = new HashSet<>();
+        isFahrenheit = new Boolean[1];
         ArrayList<Integer> savedIds = (ArrayList<Integer>) currentUser.get(KEY_SAVED_CITIES);
         if (savedIds != null) {
             savedCities.addAll(savedIds);
         }
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.key_shared_pref_activity), MODE_PRIVATE);
+        setIsFahrenheit(sharedPref.getBoolean(getString(R.string.key_is_fahrenheit), true));
     }
 
     private void initViews() {
@@ -226,6 +231,16 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
     @Override
     public HashSet<Integer> getSavedCities() {
         return savedCities;
+    }
+
+    @Override
+    public Boolean getIsFahrenheit() {
+        return isFahrenheit[0];
+    }
+
+    @Override
+    public void setIsFahrenheit(boolean bool) {
+        isFahrenheit[0] = bool;
     }
 
     private void loadData() {
