@@ -92,7 +92,7 @@ public class CityListViewFragment extends Fragment implements UpdateCityListCall
         degreeSwitchListener.degreeListeners(new DegreeSwitchCallback() {
             @Override
             public void onDegreeSwitched() {
-
+                flightsAdapter.notifyDataSetChanged();
             }
         });
     }
