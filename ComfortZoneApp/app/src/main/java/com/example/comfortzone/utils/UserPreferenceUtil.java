@@ -45,6 +45,10 @@ public class UserPreferenceUtil {
         return (int) (((double) 5/9) * (degreesFahrenheit - 32));
     }
 
+    public static int convertCelsiusToFahrenheit(double degreesCelsius) {
+        return (int) ((degreesCelsius * ((double) 9/5)) + 32);
+    }
+
     public static void degreeConversion(Boolean[] isFahrenheit, TextView viewToChange, int temp) {
         if (isFahrenheit[0]) {
             viewToChange.setText(String.valueOf(temp));

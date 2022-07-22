@@ -79,6 +79,11 @@ public class InitialComfortActivity extends AppCompatActivity {
                 int tempFive = Integer.parseInt(etFive.getText().toString());
                 int tempTen = Integer.parseInt(etTen.getText().toString());
                 if (tempZero < tempFive && tempFive < tempTen) {
+                    if (!rbtnFahrenheit.isChecked()) {
+                        tempZero = UserPreferenceUtil.convertCelsiusToFahrenheit(tempZero);
+                        tempFive = UserPreferenceUtil.convertCelsiusToFahrenheit(tempFive);
+                        tempTen = UserPreferenceUtil.convertCelsiusToFahrenheit(tempTen);
+                    }
                     save(tempZero, tempFive, tempTen);
                     UserPreferenceUtil.updateIsFahrenheitLocally(InitialComfortActivity.this, rbtnFahrenheit.isChecked());
                     goHostActivity();
