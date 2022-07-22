@@ -11,5 +11,7 @@ public interface UserDetailsProvider {
 
     HashSet<Integer> getSavedCities();
 
-    Boolean[] getIsFahrenheit();
+    Boolean getIsFahrenheit();
+
+    void setIsFahrenheit(boolean bool);
 }

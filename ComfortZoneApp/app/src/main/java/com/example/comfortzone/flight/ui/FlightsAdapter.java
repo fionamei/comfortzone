@@ -30,7 +30,7 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
     private Activity activity;
     private List<WeatherData> cityList;
     private String iata;
-    private Boolean[] isFahrenheit;
+    private Boolean isFahrenheit;
 
     public FlightsAdapter(Activity activity, List<WeatherData> cityList, String iata) {
         this.activity = activity;
@@ -89,8 +89,8 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
             ivCityIcon = itemView.findViewById(R.id.ivCityIcon);
         }
 
-        public void bind(WeatherData city, Boolean[] isFahrenheit) {
-            if (isFahrenheit[0]) {
+        public void bind(WeatherData city, Boolean isFahrenheit) {
+            if (isFahrenheit) {
                 tvTemperature.setText(String.valueOf((int) city.getTempData().getTemp()));
             } else {
                 tvTemperature.setText(String.valueOf(UserPreferenceUtil.convertFahrenheitToCelsius(city.getTempData().getTemp())));

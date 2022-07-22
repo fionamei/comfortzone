@@ -109,7 +109,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
             savedCities.addAll(savedIds);
         }
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.key_shared_pref_activity), MODE_PRIVATE);
-        isFahrenheit[0] = sharedPref.getBoolean(getString(R.string.key_is_fahrenheit), true);
+        setIsFahrenheit(sharedPref.getBoolean(getString(R.string.key_is_fahrenheit), true));
     }
 
     private void initViews() {
@@ -234,8 +234,13 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
     }
 
     @Override
-    public Boolean[] getIsFahrenheit() {
-        return isFahrenheit;
+    public Boolean getIsFahrenheit() {
+        return isFahrenheit[0];
+    }
+
+    @Override
+    public void setIsFahrenheit(boolean bool) {
+        isFahrenheit[0] = bool;
     }
 
     private void loadData() {

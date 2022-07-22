@@ -49,17 +49,19 @@ public class UserPreferenceUtil {
         return (int) ((degreesCelsius * ((double) 9/5)) + 32);
     }
 
-    public static void degreeConversion(Boolean[] isFahrenheit, TextView viewToChange, int temp) {
-        if (isFahrenheit[0]) {
+    public static void degreeConversion(Activity activity, TextView viewToChange, int temp) {
+        boolean isFahrenheit = ((UserDetailsProvider) activity).getIsFahrenheit();
+        if (isFahrenheit) {
             viewToChange.setText(String.valueOf(temp));
         } else {
-            int celsius = UserPreferenceUtil.convertFahrenheitToCelsius(temp);
+            int celsius = convertFahrenheitToCelsius(temp);
             viewToChange.setText(String.valueOf(celsius));
         }
     }
 
-    public static void switchBoldedDegree(Boolean[] isFahrenheit, TextView tvCelsius, TextView tvFahrenheit) {
-        if (isFahrenheit[0]) {
+    public static void switchBoldedDegree(Activity activity, TextView tvCelsius, TextView tvFahrenheit) {
+        boolean isFahrenheit = ((UserDetailsProvider) activity).getIsFahrenheit();
+        if (isFahrenheit) {
             tvFahrenheit.setTypeface(Typeface.DEFAULT_BOLD);
             tvCelsius.setTypeface(Typeface.DEFAULT);
         } else {

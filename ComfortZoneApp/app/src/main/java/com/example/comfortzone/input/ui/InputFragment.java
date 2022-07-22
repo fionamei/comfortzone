@@ -55,7 +55,7 @@ public class InputFragment extends Fragment {
     private List<ComfortLevelEntry> entries;
     private TextView tvFahrenheit;
     private TextView tvCelsius;
-    private Boolean[] isFahrenheit;
+    private Boolean isFahrenheit;
 
     public InputFragment() {
         // Required empty public constructor
@@ -105,8 +105,8 @@ public class InputFragment extends Fragment {
         tvCity.setText(weatherData.getCity());
         tvDate.setText(weatherData.getDate());
         tvTime.setText(weatherData.getTime());
-        UserPreferenceUtil.degreeConversion(isFahrenheit, tvCurrentTemp, (int) weatherData.getTempData().getTemp());
-        UserPreferenceUtil.switchBoldedDegree(isFahrenheit, tvCelsius, tvFahrenheit);
+        UserPreferenceUtil.degreeConversion(getActivity(), tvCurrentTemp, (int) weatherData.getTempData().getTemp());
+        UserPreferenceUtil.switchBoldedDegree(getActivity(), tvCelsius, tvFahrenheit);
     }
 
     private void getWeatherData() {
@@ -193,12 +193,12 @@ public class InputFragment extends Fragment {
     }
 
     private void setDegreesListener(int temp) {
-        DegreeSwitchListener degreeSwitchListener = new DegreeSwitchListener(tvFahrenheit, tvCelsius, isFahrenheit);
-        degreeSwitchListener.degreeListeners(new DegreeSwitchCallback() {
+        DegreeSwitchListener degreeSwitchListener = new DegreeSwitchListener(tvFahrenheit, tvCelsius, getActivity());
+        degreeSwitchListener.setDegreeListeners(new DegreeSwitchCallback() {
             @Override
             public void onDegreeSwitched() {
-                UserPreferenceUtil.degreeConversion(isFahrenheit, tvCurrentTemp, temp);
-                UserPreferenceUtil.updateIsFahrenheitLocally(getActivity(), isFahrenheit[0]);
+                UserPreferenceUtil.degreeConversion(getActivity(), tvCurrentTemp, temp);
+                UserPreferenceUtil.updateIsFahrenheitLocally(getActivity(), ((UserDetailsProvider) getActivity()).getIsFahrenheit());
                 adapter.notifyDataSetChanged();
             }
         });

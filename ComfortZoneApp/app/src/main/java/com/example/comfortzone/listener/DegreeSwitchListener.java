@@ -1,47 +1,49 @@
 package com.example.comfortzone.listener;
 
+import android.app.Activity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.comfortzone.callback.DegreeSwitchCallback;
+import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.utils.UserPreferenceUtil;
 
 public class DegreeSwitchListener {
 
     private TextView tvFahrenheit;
     private TextView tvCelsius;
-    private Boolean[] isFahrenheit;
+    private Activity activity;
 
-    public DegreeSwitchListener(TextView tvFahrenheit, TextView tvCelsius, Boolean[] isFahrenheit) {
+    public DegreeSwitchListener(TextView tvFahrenheit, TextView tvCelsius, Activity activity) {
         this.tvFahrenheit = tvFahrenheit;
         this.tvCelsius = tvCelsius;
-        this.isFahrenheit = isFahrenheit;
+        this.activity = activity;
     }
 
-    public void degreeListeners(DegreeSwitchCallback degreeSwitchCallback) {
+    public void setDegreeListeners(DegreeSwitchCallback degreeSwitchCallback) {
         tvCelsius.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isFahrenheit[0]){
+                if (((UserDetailsProvider) activity).getIsFahrenheit()){
                     switchIsFahrenheit(false);
                     degreeSwitchCallback.onDegreeSwitched();
-                    UserPreferenceUtil.switchBoldedDegree(isFahrenheit, tvCelsius, tvFahrenheit);
+                    UserPreferenceUtil.switchBoldedDegree(activity, tvCelsius, tvFahrenheit);
                 }
             }
         });
         tvFahrenheit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isFahrenheit[0]){
+                if (!((UserDetailsProvider) activity).getIsFahrenheit()){
                     switchIsFahrenheit(true);
                     degreeSwitchCallback.onDegreeSwitched();
-                    UserPreferenceUtil.switchBoldedDegree(isFahrenheit, tvCelsius, tvFahrenheit);
+                    UserPreferenceUtil.switchBoldedDegree(activity, tvCelsius, tvFahrenheit);
                 }
             }
         });
     }
 
     private void switchIsFahrenheit(boolean bool) {
-        isFahrenheit[0] = bool;
+        ((UserDetailsProvider) activity).setIsFahrenheit(bool);
     }
 }

@@ -33,7 +33,7 @@ public class CityListViewFragment extends Fragment implements UpdateCityListCall
     private List<WeatherData> cityList;
     private TextView tvFahrenheit;
     private TextView tvCelsius;
-    private Boolean[] isFahrenheit;
+    private Boolean isFahrenheit;
 
     public CityListViewFragment() {
         // Required empty public constructor
@@ -74,7 +74,7 @@ public class CityListViewFragment extends Fragment implements UpdateCityListCall
     private void populateViews() {
         rvCities.setAdapter(flightsAdapter);
         rvCities.setLayoutManager(new LinearLayoutManager(getContext()));
-        if (isFahrenheit[0]) {
+        if (isFahrenheit) {
             tvFahrenheit.setTypeface(Typeface.DEFAULT_BOLD);
         } else {
             tvCelsius.setTypeface(Typeface.DEFAULT_BOLD);
@@ -89,11 +89,11 @@ public class CityListViewFragment extends Fragment implements UpdateCityListCall
     }
 
     private void setDegreesListener() {
-        DegreeSwitchListener degreeSwitchListener = new DegreeSwitchListener(tvFahrenheit, tvCelsius, isFahrenheit);
-        degreeSwitchListener.degreeListeners(new DegreeSwitchCallback() {
+        DegreeSwitchListener degreeSwitchListener = new DegreeSwitchListener(tvFahrenheit, tvCelsius, getActivity());
+        degreeSwitchListener.setDegreeListeners(new DegreeSwitchCallback() {
             @Override
             public void onDegreeSwitched() {
-                UserPreferenceUtil.updateIsFahrenheitLocally(getActivity(), isFahrenheit[0]);
+                UserPreferenceUtil.updateIsFahrenheitLocally(getActivity(), ((UserDetailsProvider) getActivity()).getIsFahrenheit());
                 flightsAdapter.notifyDataSetChanged();
             }
         });

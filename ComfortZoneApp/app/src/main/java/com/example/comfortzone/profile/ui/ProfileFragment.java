@@ -37,7 +37,7 @@ public class ProfileFragment extends Fragment {
     private SavedCitiesAdapter adapter;
     private TextView tvFahrenheit;
     private TextView tvCelsius;
-    private Boolean[] isFahrenheit;
+    private Boolean isFahrenheit;
     private int perfectTemp;
 
     public ProfileFragment() {
@@ -80,8 +80,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void populateViews() {
-        UserPreferenceUtil.degreeConversion(isFahrenheit, tvPerfectTemp, perfectTemp);
-        UserPreferenceUtil.switchBoldedDegree(isFahrenheit, tvCelsius, tvFahrenheit);
+        UserPreferenceUtil.degreeConversion(getActivity(), tvPerfectTemp, perfectTemp);
+        UserPreferenceUtil.switchBoldedDegree(getActivity(), tvCelsius, tvFahrenheit);
     }
 
     private void setUpRecyclerView() {
@@ -104,12 +104,12 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setDegreesListener() {
-        DegreeSwitchListener degreeSwitchListener = new DegreeSwitchListener(tvFahrenheit, tvCelsius, isFahrenheit);
-        degreeSwitchListener.degreeListeners(new DegreeSwitchCallback() {
+        DegreeSwitchListener degreeSwitchListener = new DegreeSwitchListener(tvFahrenheit, tvCelsius, getActivity());
+        degreeSwitchListener.setDegreeListeners(new DegreeSwitchCallback() {
             @Override
             public void onDegreeSwitched() {
-                UserPreferenceUtil.degreeConversion(isFahrenheit, tvPerfectTemp, perfectTemp);
-                UserPreferenceUtil.updateIsFahrenheitLocally(getActivity(), isFahrenheit[0]);
+                UserPreferenceUtil.degreeConversion(getActivity(), tvPerfectTemp, perfectTemp);
+                UserPreferenceUtil.updateIsFahrenheitLocally(getActivity(), ((UserDetailsProvider) getActivity()).getIsFahrenheit());
             }
         });
     }

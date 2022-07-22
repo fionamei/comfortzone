@@ -23,7 +23,7 @@ public class InputsAdapter extends RecyclerView.Adapter<InputsAdapter.ViewHolder
 
     private Activity activity;
     private List<ComfortLevelEntry> entries;
-    private Boolean[] isFahrenheit;
+    private Boolean isFahrenheit;
 
     public InputsAdapter(Activity activity, List<ComfortLevelEntry> entries) {
         this.activity = activity;
@@ -81,8 +81,8 @@ public class InputsAdapter extends RecyclerView.Adapter<InputsAdapter.ViewHolder
             tvTime = itemView.findViewById(R.id.tvTime);
         }
 
-        public void bind(ComfortLevelEntry entry, Boolean[] isFahrenheit) throws ParseException {
-            if (isFahrenheit[0]) {
+        public void bind(ComfortLevelEntry entry, Boolean isFahrenheit) throws ParseException {
+            if (isFahrenheit) {
                 tvTemp.setText(String.valueOf(entry.getTemp()));
             } else {
                 tvTemp.setText(String.valueOf(UserPreferenceUtil.convertFahrenheitToCelsius(entry.getTemp())));
