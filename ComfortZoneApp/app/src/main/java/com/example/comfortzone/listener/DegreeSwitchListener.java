@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.comfortzone.callback.DegreeSwitchCallback;
+import com.example.comfortzone.utils.UserPreferenceUtil;
 
 public class DegreeSwitchListener {
 
@@ -22,8 +23,9 @@ public class DegreeSwitchListener {
             @Override
             public void onClick(View v) {
                 if (isFahrenheit[0]){
-                    degreeSwitchCallback.onDegreeSwitched();
                     switchIsFahrenheit(false);
+                    degreeSwitchCallback.onDegreeSwitched();
+                    UserPreferenceUtil.switchBoldedDegree(isFahrenheit, tvCelsius, tvFahrenheit);
                 }
             }
         });
@@ -31,8 +33,9 @@ public class DegreeSwitchListener {
             @Override
             public void onClick(View v) {
                 if (!isFahrenheit[0]){
-                    degreeSwitchCallback.onDegreeSwitched();
                     switchIsFahrenheit(true);
+                    degreeSwitchCallback.onDegreeSwitched();
+                    UserPreferenceUtil.switchBoldedDegree(isFahrenheit, tvCelsius, tvFahrenheit);
                 }
             }
         });

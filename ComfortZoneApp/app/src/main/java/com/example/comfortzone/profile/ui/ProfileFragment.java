@@ -81,13 +81,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void populateViews() {
-        if (isFahrenheit[0]) {
-            tvFahrenheit.setTypeface(Typeface.DEFAULT_BOLD);
-            tvPerfectTemp.setText(String.valueOf(perfectTemp));
-        } else {
-            tvCelsius.setTypeface(Typeface.DEFAULT_BOLD);
-            tvPerfectTemp.setText(String.valueOf(UserPreferenceUtil.convertFahrenheitToCelsius(perfectTemp)));
-        }
+        UserPreferenceUtil.degreeConversion(isFahrenheit, tvPerfectTemp, perfectTemp);
+        UserPreferenceUtil.switchBoldedDegree(isFahrenheit, tvCelsius, tvFahrenheit);
     }
 
     private void setUpRecyclerView() {
@@ -114,7 +109,7 @@ public class ProfileFragment extends Fragment {
         degreeSwitchListener.degreeListeners(new DegreeSwitchCallback() {
             @Override
             public void onDegreeSwitched() {
-                UserPreferenceUtil.changeDegrees(isFahrenheit, tvCelsius, tvFahrenheit, tvPerfectTemp, perfectTemp);
+                UserPreferenceUtil.degreeConversion(isFahrenheit, tvPerfectTemp, perfectTemp);
             }
         });
     }

@@ -190,7 +190,6 @@ public class InputFragment extends Fragment {
                 }
                 comfortEntry.deleteEntryFromTodayList(currentUser);
                 comfortEntry.deleteEntry();
-
             }
 
             @Override
@@ -205,7 +204,7 @@ public class InputFragment extends Fragment {
         degreeSwitchListener.degreeListeners(new DegreeSwitchCallback() {
             @Override
             public void onDegreeSwitched() {
-                UserPreferenceUtil.changeDegrees(isFahrenheit, tvCelsius, tvFahrenheit, tvCurrentTemp, temp);
+                UserPreferenceUtil.degreeConversion(isFahrenheit, tvCurrentTemp, temp);
                 adapter.notifyDataSetChanged();
             }
         });

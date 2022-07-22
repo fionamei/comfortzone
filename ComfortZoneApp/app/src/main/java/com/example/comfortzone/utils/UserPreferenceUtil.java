@@ -42,16 +42,22 @@ public class UserPreferenceUtil {
         return (int) (((double) 5/9) * (degreesFahrenheit - 32));
     }
 
-    public static void changeDegrees(Boolean[] isFahrenheit, TextView tvCelsius, TextView tvFahrenheit, TextView viewToChange, int temp) {
+    public static void degreeConversion(Boolean[] isFahrenheit, TextView viewToChange, int temp) {
         if (isFahrenheit[0]) {
-            tvCelsius.setTypeface(Typeface.DEFAULT_BOLD);
-            tvFahrenheit.setTypeface(Typeface.DEFAULT);
+            viewToChange.setText(String.valueOf(temp));
+        } else {
             int celsius = UserPreferenceUtil.convertFahrenheitToCelsius(temp);
             viewToChange.setText(String.valueOf(celsius));
-        } else {
+        }
+    }
+
+    public static void switchBoldedDegree(Boolean[] isFahrenheit, TextView tvCelsius, TextView tvFahrenheit) {
+        if (isFahrenheit[0]) {
             tvFahrenheit.setTypeface(Typeface.DEFAULT_BOLD);
             tvCelsius.setTypeface(Typeface.DEFAULT);
-            viewToChange.setText(String.valueOf(temp));
+        } else {
+            tvCelsius.setTypeface(Typeface.DEFAULT_BOLD);
+            tvFahrenheit.setTypeface(Typeface.DEFAULT);
         }
     }
 }
