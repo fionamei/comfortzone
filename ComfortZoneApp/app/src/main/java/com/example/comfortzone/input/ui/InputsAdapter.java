@@ -1,6 +1,6 @@
 package com.example.comfortzone.input.ui;
 
-import android.content.Context;
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.comfortzone.R;
+import com.example.comfortzone.callback.UserDetailsProvider;
 import com.example.comfortzone.models.ComfortLevelEntry;
+import com.example.comfortzone.utils.UserPreferenceUtil;
 import com.parse.ParseException;
 
 import java.text.DateFormat;
@@ -19,26 +21,28 @@ import java.util.List;
 
 public class InputsAdapter extends RecyclerView.Adapter<InputsAdapter.ViewHolder> {
 
-    private Context context;
+    private Activity activity;
     private List<ComfortLevelEntry> entries;
+    private Boolean isFahrenheit;
 
-    public InputsAdapter(Context context, List<ComfortLevelEntry> entries) {
-        this.context = context;
+    public InputsAdapter(Activity activity, List<ComfortLevelEntry> entries) {
+        this.activity = activity;
         this.entries = entries;
     }
 
     @NonNull
     @Override
     public InputsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_input, parent, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.item_input, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull InputsAdapter.ViewHolder holder, int position) {
+        isFahrenheit = ((UserDetailsProvider) activity).getIsFahrenheit();
         ComfortLevelEntry entry = entries.get(position);
         try {
-            holder.bind(entry);
+            holder.bind(entry, isFahrenheit);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -77,8 +81,12 @@ public class InputsAdapter extends RecyclerView.Adapter<InputsAdapter.ViewHolder
             tvTime = itemView.findViewById(R.id.tvTime);
         }
 
-        public void bind(ComfortLevelEntry entry) throws ParseException {
-            tvTemp.setText(String.valueOf(entry.getTemp()));
+        public void bind(ComfortLevelEntry entry, Boolean isFahrenheit) throws ParseException {
+            if (isFahrenheit) {
+                tvTemp.setText(String.valueOf(entry.getTemp()));
+            } else {
+                tvTemp.setText(String.valueOf(UserPreferenceUtil.convertFahrenheitToCelsius(entry.getTemp())));
+            }
             tvComfortLevel.setText(String.valueOf(entry.getComfortLevel()));
             String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(entry.getCreatedAt());
             tvTime.setText(time);

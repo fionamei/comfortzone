@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlDegrees"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvFahrenheit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="@string/fahrenheit"
+        android:textColor="@color/black"
+        android:textSize="@dimen/generalTextSize"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/tvDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/fahrenheitMargin"
+        android:layout_toEndOf="@+id/tvFahrenheit"
+        android:text="@string/divider"
+        android:textColor="@color/black"
+        android:textSize="@dimen/generalTextSize"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvCelsius"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/miniMargin"
+        android:layout_toEndOf="@+id/tvDivider"
+        android:clickable="true"
+        android:text="@string/celsius"
+        android:textColor="@color/black"
+        android:textSize="@dimen/generalTextSize"
+        android:textStyle="normal" />
+
+</RelativeLayout>

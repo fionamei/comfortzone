@@ -42,24 +42,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/generalMargin"
                 android:gravity="center"
-                android:layout_centerHorizontal="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/tempTextSize"
-                tools:text="82 - 85" />
+                tools:text="85" />
 
-            <TextView
-                android:id="@+id/tvFahrenheit"
+            <include
+                layout="@layout/degrees_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/tvPerfectTemp"
                 android:layout_marginStart="@dimen/fahrenheitMargin"
-                android:layout_toEndOf="@+id/tvPerfectTemp"
-                android:text="@string/fahrenheit"
-                android:textColor="@color/black"
-                android:textSize="@dimen/generalTextSize"
-                android:textStyle="bold" />
+                android:layout_marginTop="@dimen/fahrenheitMargin"
+                android:layout_marginBottom="@dimen/fahrenheitMargin"
+                android:layout_toEndOf="@+id/tvPerfectTemp" />
 
             <ImageView
                 android:id="@+id/ivBackground"
