@@ -17,6 +17,9 @@ ComfortZone is a comfort level tracker where users will input how cold/warm the 
 - **Habit: Users should use this app at least once a day**
 - **Scope: Start with being able to record how warm it is each day, and then have an algorthm that analyzes the trend to predict how you'll feel for future**
 
+### Progression + Demos
+[Weekly Progress](https://www.internalfb.com/intern/px/project/590975805500309)
+
 ## Product Spec
 
 ### 1. User Stories (Required and Optional)
@@ -91,9 +94,6 @@ ComfortZone is a comfort level tracker where users will input how cold/warm the 
 ### [BONUS] Digital Wireframes & Mockups
 [Figma Wireframe Link](https://www.figma.com/file/ZEIW18TantALBm7mWBTjZM/ComfortZone-Wireframes?node-id=0%3A1)
 ![](https://i.imgur.com/H6ouBfE.png)
-
-## Progression
-[Weekly Progress](https://www.internalfb.com/intern/px/project/590975805500309)
 
 ## Schema 
 ### Models
