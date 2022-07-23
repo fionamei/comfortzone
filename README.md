@@ -4,7 +4,6 @@
 1. [Overview](#Overview)
 1. [Product Spec](#Product-Spec)
 1. [Wireframes](#Wireframes)
-2. [Progression] (#-Progression)
 2. [Schema](#Schema)
 
 ## Overview
@@ -88,8 +87,6 @@ ComfortZone is a comfort level tracker where users will input how cold/warm the 
 ## Wireframes
 ![](https://i.imgur.com/q7SNtv9.jpg)
 ![](https://i.imgur.com/hUCN7S0.jpg)
-
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 [Figma Wireframe Link](https://www.figma.com/file/ZEIW18TantALBm7mWBTjZM/ComfortZone-Wireframes?node-id=0%3A1)
