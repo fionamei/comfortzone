@@ -92,7 +92,7 @@ ComfortZone is a comfort level tracker where users will input how cold/warm the 
 
 ### [BONUS] Digital Wireframes & Mockups
 [Figma Wireframe Link](https://www.figma.com/file/ZEIW18TantALBm7mWBTjZM/ComfortZone-Wireframes?node-id=0%3A1)
-![](https://i.imgur.com/hStXsmT.png)
+![](https://i.imgur.com/H6ouBfE.png)
 
 ## Schema 
 ### Models
