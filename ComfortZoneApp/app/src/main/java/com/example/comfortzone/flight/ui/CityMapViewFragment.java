@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,13 +34,15 @@ import java.util.List;
 public class CityMapViewFragment extends Fragment implements OnMapReadyCallback, UpdateCityListCallback {
 
     public static final String TAG = "CityMapViewFragment";
-    public static final int MAX_CITIES = 20;
+    public static final int TOTAL_CITIES = 198;
     /** this location represents the center of the united states **/
     private static final LatLng MAP_CENTER = new LatLng(39.8283, -98.5795);
 
     private MapView mvMap;
     private GoogleMap mGoogleMap;
     private List<WeatherData> cityList;
+    private Spinner spPinNum;
+    private int maxCities = 20;
 
     public CityMapViewFragment() {
         // Required empty public constructor
@@ -58,11 +63,40 @@ public class CityMapViewFragment extends Fragment implements OnMapReadyCallback,
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
+        setupSpinnerAdapter();
+        setSpinnerListener();
         createMap();
     }
 
     private void initViews(@NonNull View view) {
         mvMap = view.findViewById(R.id.mvMap);
+        spPinNum = view.findViewById(R.id.spPinNum);
+    }
+
+    public void setupSpinnerAdapter() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.num_of_pins_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spPinNum.setAdapter(adapter);
+    }
+
+    public void setSpinnerListener() {
+        spPinNum.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getItemAtPosition(position).equals("All")) {
+                    maxCities = TOTAL_CITIES;
+                } else {
+                    maxCities = Integer.parseInt((String) parent.getItemAtPosition(position));
+                }
+                refreshMap();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void createMap() {
@@ -84,8 +118,8 @@ public class CityMapViewFragment extends Fragment implements OnMapReadyCallback,
     }
 
     private List<WeatherData> getReducedCityList() {
-        if (cityList.size() > MAX_CITIES) {
-            return cityList.subList(0, MAX_CITIES);
+        if (cityList.size() > maxCities) {
+            return cityList.subList(0, maxCities);
         } else {
             return cityList;
         }
@@ -106,9 +140,13 @@ public class CityMapViewFragment extends Fragment implements OnMapReadyCallback,
     public void onCityListUpdated(List<WeatherData> newCityList) {
         cityList = newCityList;
         if (mGoogleMap!= null) {
-            mGoogleMap.clear();
-            addMapMarkers(mGoogleMap, getReducedCityList());
+            refreshMap();
         }
+    }
+
+    private void refreshMap() {
+        mGoogleMap.clear();
+        addMapMarkers(mGoogleMap, getReducedCityList());
     }
 
     private void markerClickListener() {
