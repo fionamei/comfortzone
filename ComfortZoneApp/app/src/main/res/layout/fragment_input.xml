@@ -55,7 +55,7 @@
                         android:id="@+id/llLocation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tvTime"
+                        android:layout_below="@+id/lastUpdated"
                         android:layout_marginTop="@dimen/generalMargin"
                         android:gravity="center"
                         android:orientation="horizontal">
@@ -97,16 +97,31 @@
                         android:adjustViewBounds="true"
                         android:src="@drawable/ic_cloud_bottom" />
 
-                    <TextView
-                        android:id="@+id/tvTime"
+                    <LinearLayout
+                        android:id="@+id/lastUpdated"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvDate"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/miniMargin"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/miniTextSize"
-                        tools:text="5:34 PM" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/last_updated"
+                            android:textColor="@color/black"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/tvTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/miniTextSize"
+                            android:textStyle="italic"
+                            tools:text="5:34 PM" />
+                    </LinearLayout>
 
                     <include
                         layout="@layout/degrees_layout"
@@ -121,9 +136,9 @@
                         android:id="@+id/ibRefresh"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/tvTime"
+                        android:layout_alignTop="@+id/lastUpdated"
                         android:layout_marginStart="@dimen/miniMargin"
-                        android:layout_toEndOf="@+id/tvTime"
+                        android:layout_toEndOf="@+id/lastUpdated"
                         android:background="@android:color/transparent"
                         app:srcCompat="@drawable/ic_baseline_refresh_24" />
 
