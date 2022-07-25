@@ -15,6 +15,7 @@ import com.example.comfortzone.utils.ComfortLevelUtil;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.parse.SignUpCallback;
 import com.parse.boltsinternal.Continuation;
 import com.parse.boltsinternal.Task;
 
@@ -26,6 +27,13 @@ import java.util.List;
 public class InitialDataUtil {
 
     public static final String TAG = "InitialDataUtil";
+
+    public static void signUp(String username, String password, SignUpCallback callback) {
+        ParseUser user = new ParseUser();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.signUpInBackground(callback);
+    }
 
     public static void saveInitialLevels(ParseUser user, int tempZero, int tempFive, int tempTen) {
         ComfortLevelEntry entryZero = new ComfortLevelEntry(user, tempZero, COLD_COMFORT_LEVEL);;
