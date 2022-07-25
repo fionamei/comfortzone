@@ -37,6 +37,7 @@ public class CityMapViewFragment extends Fragment implements OnMapReadyCallback,
     public static final int TOTAL_CITIES = 198;
     /** this location represents the center of the united states **/
     private static final LatLng MAP_CENTER = new LatLng(39.8283, -98.5795);
+    private static final int INITIAL_POSITION = 2;
 
     private MapView mvMap;
     private GoogleMap mGoogleMap;
@@ -78,6 +79,7 @@ public class CityMapViewFragment extends Fragment implements OnMapReadyCallback,
                 R.array.num_of_pins_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spPinNum.setAdapter(adapter);
+        spPinNum.setSelection(INITIAL_POSITION);
     }
 
     public void setSpinnerListener() {
