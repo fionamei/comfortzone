@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -257,7 +256,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
     @Override
     public Observable<Object> fetchNewWeatherData() {
         WeatherClient client = new WeatherClient();
-        return client.getWeatherData(String.valueOf(coordinates.getLat()), String.valueOf(coordinates.getLon()), new WeatherCallback() {
+        return client.getWeatherDataObservable(String.valueOf(coordinates.getLat()), String.valueOf(coordinates.getLon()), new WeatherCallback() {
             @Override
             public void onGetWeatherData(WeatherData weatherData) {
                 currentWeather = weatherData;
@@ -285,10 +284,14 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
             }
 
             @Override
-            public void onNext(Object coordIataPair) {
-                Pair<Coordinates, String> pair = (Pair<Coordinates, String>) coordIataPair;
-                coordinates = pair.first;
-                iataCode = pair.second;
+            public void onNext(Object userDataInfo) {
+                if (userDataInfo instanceof Coordinates) {
+                    coordinates = (Coordinates) userDataInfo;
+                } else if ( userDataInfo instanceof String) {
+                    iataCode = (String) userDataInfo;
+                } else if (userDataInfo instanceof WeatherData) {
+                    currentWeather = (WeatherData) userDataInfo;
+                }
             }
         };
         mergedObservable.subscribe(dataSetupSubscriber);

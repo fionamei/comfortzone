@@ -7,11 +7,11 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.provider.Settings;
-import android.util.Pair;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.comfortzone.data.network.WeatherClient;
 import com.example.comfortzone.flight.callbacks.IataCallback;
 import com.example.comfortzone.flight.data.IataClient;
 import com.example.comfortzone.input.callbacks.LocationCallback;
@@ -22,6 +22,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
@@ -87,7 +89,8 @@ public class LocationUtil {
                 LocationUtil.getLastLocation(activity, new LocationCallback() {
                     @Override
                     public void onLocationUpdated(String lat, String lon) {
-                        getIataObservable(lat, lon).subscribe(subscriber);
+                        subscriber.onNext(new Coordinates(lat, lon));
+                        mergedWeatherAndIataObservable(lat, lon).subscribe(subscriber);
                     }
                 });
             }
@@ -102,12 +105,18 @@ public class LocationUtil {
                 iataClient.getIataResponse(lat, lon, new IataCallback() {
                     @Override
                     public void onGetIata(String iata) {
-                        Pair<Coordinates, String> mergedInfo = new Pair<>(new Coordinates(lat, lon), iata);
-                        subscriber.onNext(mergedInfo);
+                        subscriber.onNext(iata);
                         subscriber.onCompleted();
                     }
                 });
             }
         });
+    }
+
+    private static Observable<Object> mergedWeatherAndIataObservable(String lat, String lon) {
+        WeatherClient client = new WeatherClient();
+        Observable<Object> iataObs = getIataObservable(lat, lon);
+        Observable<Object> weatherObs = client.getWeatherDataObservable(lat, lon, weatherData -> {});
+        return Observable.merge(new ArrayList<>(Arrays.asList(iataObs, weatherObs)));
     }
 }

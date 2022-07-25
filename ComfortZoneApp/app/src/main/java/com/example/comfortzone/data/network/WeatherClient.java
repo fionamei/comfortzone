@@ -58,7 +58,7 @@ public class WeatherClient extends OkHttpClient {
         return urlBuilder.build().toString();
     }
 
-    public Observable<Object> getWeatherData(String lat, String lon, WeatherCallback weatherCallback) {
+    public Observable<Object> getWeatherDataObservable(String lat, String lon, WeatherCallback weatherCallback) {
         String url = getWeatherURL(lat, lon);
         final Request request = new Request.Builder()
                 .url(url)
@@ -82,6 +82,7 @@ public class WeatherClient extends OkHttpClient {
                             currentWeather.setDate();
                             currentWeather.setTime();
                             weatherCallback.onGetWeatherData(currentWeather);
+                            subscriber.onNext(currentWeather);
                             subscriber.onCompleted();
                         } catch (IOException e) {
                             Log.e(TAG, "could not get body" + e);
