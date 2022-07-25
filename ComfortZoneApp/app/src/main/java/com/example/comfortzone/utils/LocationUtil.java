@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import com.example.comfortzone.flight.callbacks.IataCallback;
 import com.example.comfortzone.flight.data.IataClient;
 import com.example.comfortzone.input.callbacks.LocationCallback;
-import com.example.comfortzone.models.WeatherData;
+import com.example.comfortzone.models.WeatherData.Coordinates;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -102,7 +102,7 @@ public class LocationUtil {
                 iataClient.getIataResponse(lat, lon, new IataCallback() {
                     @Override
                     public void onGetIata(String iata) {
-                        Pair<WeatherData.Coordinates, String> mergedInfo = new Pair<>(new WeatherData.Coordinates(lat, lon), iata);
+                        Pair<Coordinates, String> mergedInfo = new Pair<>(new Coordinates(lat, lon), iata);
                         subscriber.onNext(mergedInfo);
                         subscriber.onCompleted();
                     }

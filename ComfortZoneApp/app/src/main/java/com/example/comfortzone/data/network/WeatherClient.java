@@ -15,6 +15,7 @@ import com.example.comfortzone.models.WeatherGroupData;
 import com.example.comfortzone.utils.WeatherDbUtil;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
@@ -57,27 +58,39 @@ public class WeatherClient extends OkHttpClient {
         return urlBuilder.build().toString();
     }
 
-    public void getWeatherData(String lat, String lon, WeatherCallback weatherCallback) {
+    public Observable<Object> getWeatherData(String lat, String lon, WeatherCallback weatherCallback) {
         String url = getWeatherURL(lat, lon);
         final Request request = new Request.Builder()
                 .url(url)
                 .build();
-        newCall(request).enqueue(new Callback() {
+        return Observable.create(new Observable.OnSubscribe<Object>() {
             @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Log.e(TAG, "failed making api request " + e);
-            }
+            public void call(Subscriber<? super Object> subscriber) {
+                newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        Log.e(TAG, "failed making api request " + e);
+                    }
 
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                try {
-                    String data = response.body().string();
-                    weatherCallback.onGetWeatherData(data);
-                } catch (IOException e) {
-                    Log.e(TAG, "could not get body" + e);
-                }
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                        try {
+                            String data = response.body().string();
+                            Gson gson = new GsonBuilder().create();
+                            WeatherData currentWeather;
+                            currentWeather = gson.fromJson(data, WeatherData.class);
+                            currentWeather.setDate();
+                            currentWeather.setTime();
+                            weatherCallback.onGetWeatherData(currentWeather);
+                            subscriber.onCompleted();
+                        } catch (IOException e) {
+                            Log.e(TAG, "could not get body" + e);
+                        }
+                    }
+                });
             }
-        });}
+        });
+    }
 
     public Observable<Object> getGroupWeatherData(String url, Coordinates coordinates) {
         Request request = new Request.Builder().url(url).build();

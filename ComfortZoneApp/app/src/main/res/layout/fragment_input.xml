@@ -117,6 +117,16 @@
                         android:layout_marginTop="@dimen/fahrenheitMargin"
                         android:layout_toEndOf="@+id/tvCurrentTemp" />
 
+                    <ImageButton
+                        android:id="@+id/ibRefresh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/tvTime"
+                        android:layout_marginStart="@dimen/miniMargin"
+                        android:layout_toEndOf="@+id/tvTime"
+                        android:background="@android:color/transparent"
+                        app:srcCompat="@drawable/ic_baseline_refresh_24" />
+
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
