@@ -26,6 +26,7 @@ import com.example.comfortzone.initial.ui.LoginActivity;
 import com.example.comfortzone.input.ui.InputFragment;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.WeatherData.Coordinates;
+import com.example.comfortzone.notification.NotificationUtil;
 import com.example.comfortzone.profile.ui.ProfileFragment;
 import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.example.comfortzone.utils.ComfortLevelUtil;
@@ -45,6 +46,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
 
     public static final String TAG = "Main Activity";
     public static final int PERMISSION_ID = 44;
+    public static final int REQUEST_CODE = 20;
 
     private final FragmentManager fragmentManager = getSupportFragmentManager();
     private BottomNavigationView bottomNavigationView;
@@ -72,6 +74,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
         initViews();
         createFragments();
         listenerSetup();
+        NotificationUtil.notificationSetup(this);
     }
 
     private void maybeRequestPermissions() {

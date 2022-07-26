@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
 
     <application
         android:name=".data.network.ParseApplication"
@@ -79,6 +80,9 @@
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider746614246660898"
             android:exported="true" />
+
+        <receiver
+            android:name=".notification.NotificationReceiver"/>
     </application>
 
 </manifest>
