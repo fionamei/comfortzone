@@ -34,7 +34,7 @@ public class NotificationHelper {
                 PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
-        notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        notificationBuilder.setSmallIcon(R.drawable.blue_launcher);
         notificationBuilder.setContentTitle(context.getResources().getString(R.string.app_name))
                 .setContentText(CONTENT)
                 .setContentIntent(resultPendingIntent);
