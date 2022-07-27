@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.comfortzone.R;
 import com.example.comfortzone.initial.ui.InitialComfortActivity;
+import com.example.comfortzone.initial.util.InitialDataUtil;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -61,10 +62,7 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        ParseUser user = new ParseUser();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.signUpInBackground(new SignUpCallback() {
+        InitialDataUtil.signUp(username, password, new SignUpCallback() {
             @Override
             public void done(ParseException e) {
                 goInitialSetup();
@@ -72,6 +70,8 @@ public class SignupActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     private void goInitialSetup() {
         Intent i = new Intent(this, InitialComfortActivity.class);
