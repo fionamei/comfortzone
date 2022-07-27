@@ -26,33 +26,37 @@ ComfortZone is a comfort level tracker where users will input how cold/warm the 
 
 **Required Must-have Stories**
 
-* Users can login to access previously inputted data and signup
-    * Users will also be prompted to type their estimated comfort levels upon signup
-* Users can see the weather for that exact time + location
-* Users can input how cold/warm they feel for each corresponding day/time (0 for cold, 10 for warm, 5 for perfect!)
-    * Users can also see their inputs for the day
-* Users can see their calculated perfect temperature comfort zone
-* Users can see a list of travel places to go to, and their current temperatures
+- [x] Users can login to access previously inputted data and signup
+    - [x] Users will also be prompted to type their estimated comfort levels upon signup
+- [x] Users can see the weather for that exact time + location
+- [x] Users can input how cold/warm they feel for each corresponding day/time (0 for cold, 10 for warm, 5 for perfect!)
+    - [x] Users can also see their inputs for the day
+- [x] Users can see their calculated perfect temperature comfort zone
+- [x] Users can see a list of travel places to go to, and their current temperatures
 
 **Optional Nice-to-have Stories**
 
-* Map view of the cities to go to (displays the same data as list view, but im map form)
-* Displays a description and picture for each city
-* Users can be directed to another browser to book a flight to their chosen city
-* Users are able to filter through comfort level ranges, sort by different filters, and search for specific cities
-    * Bonus if it can work with map view!
-* Double tap on list view to save (and unsave) a city 
-    * Saved cities will show up on profile
-    * Saved cities will have an outline around them in list view
-* Improve efficiency by loading data only once, and getting them from one place
-    * Implement a loading screen for when data is loading to help better user experience
-* Allow users to choose if they want to see the temperatures in Fahrenheit or Celsius 
-    * Saves to preferences so it remains when users log out and log in
-* Facebook login
-* Changing number of cities that are displayed in map view
-* Dark mode support
-* Get weather data only once
-    * Refresh button for weather data if they wish to query again
+- [x] Map view of the cities to go to (displays the same data as list view, but im map form)
+- [x] Displays a description and picture for each city
+- [x] Users can be directed to another browser to book a flight to their chosen city
+- [x] Users are able to filter through comfort level ranges, sort by different filters, and search for specific cities
+    - [x] Bonus if it can work with map view!
+- [x] Double tap on list view to save (and unsave) a city 
+    - [x] Saved cities will show up on profile
+    - [x] Saved cities will have an outline around them in list view
+- [x] Improve efficiency by loading data only once, and getting them from one place
+    - [x] Implement a loading screen for when data is loading to help better user experience
+- [x] Allow users to choose if they want to see the temperatures in Fahrenheit or Celsius 
+    - [x] Saves to preferences so it remains when users log out and log in
+- [x] Facebook login
+- [x] Changing number of cities that are displayed in map view
+- [x] Get weather data only once
+    - [x] Refresh button for weather data if they wish to query again
+- [x] Notifications
+    - [x] Users can turn on/off
+    - [x] Users can choose time 
+    - [] Users can choose notification frequency
+- [] Global cities
 
 ### 2. Screen Archetypes
 
