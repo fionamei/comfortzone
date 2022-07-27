@@ -85,6 +85,7 @@ public class CityListViewFragment extends Fragment implements UpdateCityListCall
     public void onCityListUpdated(List<WeatherData> newCityList) {
         if (newCityList != null && flightsAdapter != null) {
             flightsAdapter.updateCities(newCityList);
+            rvCities.smoothScrollToPosition(0);
         }
     }
 
