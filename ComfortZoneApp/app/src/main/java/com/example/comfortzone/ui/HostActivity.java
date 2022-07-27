@@ -1,5 +1,6 @@
 package com.example.comfortzone.ui;
 
+import static com.example.comfortzone.notification.NotificationHelper.ARG_IS_FROM_NOTIF;
 import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_SAVED_CITIES;
 
 import android.Manifest;
@@ -143,7 +144,11 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
                     .commit();
             return true;
         });
-        bottomNavigationView.setSelectedItemId(R.id.action_profile);
+        if (getIntent().getBooleanExtra(ARG_IS_FROM_NOTIF, false)) {
+            bottomNavigationView.setSelectedItemId(R.id.action_input);
+        } else {
+            bottomNavigationView.setSelectedItemId(R.id.action_profile);
+        }
     }
 
     @NonNull

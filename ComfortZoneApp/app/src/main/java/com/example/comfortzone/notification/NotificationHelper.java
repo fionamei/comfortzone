@@ -16,6 +16,7 @@ import com.example.comfortzone.ui.HostActivity;
 public class NotificationHelper {
 
     private Context context;
+    public static final String ARG_IS_FROM_NOTIF = "FRAGMENT";
     private static final String NOTIFICATION_CHANNEL_ID = "10001";
     public static final String TITLE = "ComfortZone";
     public static final String CONTENT = "How's the weather right now?";
@@ -28,15 +29,17 @@ public class NotificationHelper {
 
         Intent intent = new Intent(context, HostActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(ARG_IS_FROM_NOTIF, true);
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context,
                 REQUEST_CODE, intent,
-                PendingIntent.FLAG_IMMUTABLE);
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
-        notificationBuilder.setSmallIcon(R.drawable.blue_launcher);
+        notificationBuilder.setSmallIcon(R.drawable.logo);
         notificationBuilder.setContentTitle(context.getResources().getString(R.string.app_name))
                 .setContentText(CONTENT)
+                .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent);
 
         NotificationManager notificationManager = (NotificationManager) context
