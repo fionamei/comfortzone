@@ -2,7 +2,6 @@ package com.example.comfortzone.notification;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -14,15 +13,12 @@ public class NotificationActivity extends AppCompatActivity {
 
     private TextView tvNotificationTime;
     private SwitchMaterial swNotification;
-    private SharedPreferences sharedPref;
     public static final String KEY_IS_NOTIFICATION = "isNotification";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-
-        sharedPref = getSharedPreferences(getString(R.string.key_shared_pref_activity), MODE_PRIVATE);
 
         initViews();
         populateViews();
@@ -35,8 +31,7 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     private void populateViews() {
-        boolean isNotification = sharedPref.getBoolean(KEY_IS_NOTIFICATION, true);
-        swNotification.setChecked(isNotification);
+        swNotification.setChecked(NotificationUtil.isNotificationEnabled(this));
     }
 
     private void setUpListeners() {
@@ -48,10 +43,12 @@ public class NotificationActivity extends AppCompatActivity {
         swNotification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SharedPreferences sharedPref = getSharedPreferences(getString(R.string.key_shared_pref_activity), MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putBoolean(KEY_IS_NOTIFICATION, isChecked);
-                editor.apply();
+                NotificationUtil.updateNotificationLocally(NotificationActivity.this, isChecked);
+                if (isChecked) {
+                    NotificationUtil.createNotification(NotificationActivity.this);
+                } else {
+                    NotificationUtil.cancelNotification(NotificationActivity.this);
+                }
             }
         });
     }
