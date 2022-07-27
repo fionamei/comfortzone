@@ -1,5 +1,7 @@
 package com.example.comfortzone.input.callbacks;
 
+import com.example.comfortzone.models.WeatherData;
+
 public interface WeatherCallback {
-    void onGetWeatherData(String data);
+    void onGetWeatherData(WeatherData weatherData);
 }

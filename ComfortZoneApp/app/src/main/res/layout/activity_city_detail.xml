@@ -1,45 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".flight.ui.CityDetailActivity"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-
-    <TextView
-        android:id="@+id/tvCityName"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/titleMargin"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:textSize="@dimen/titleTextSize"
-        android:textStyle="bold"
-        tools:text="New York City" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".flight.ui.CityDetailActivity">
 
-    <ImageView
-        android:id="@+id/ivCityIcon"
-        android:layout_width="@dimen/cityDetailImageSize"
-        android:layout_height="@dimen/cityDetailImageSize"
-        android:layout_gravity="center"
-        android:transitionName="@string/cityIcon"
-        tools:srcCompat="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/tvCityDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/generalMargin"
-        android:textSize="@dimen/generalTextSize"
-        tools:text="new york city is so great!!!" />
+        <TextView
+            android:id="@+id/tvCityName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/titleMargin"
+            android:layout_marginTop="@dimen/titleMargin"
+            android:layout_marginBottom="@dimen/generalMargin"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/titleTextSize"
+            android:textStyle="bold"
+            tools:text="New York City" />
 
-    <Button
-        android:id="@+id/btnBookFlight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/generalMargin"
-        android:text="@string/book_a_flight" />
-</LinearLayout>
+        <ImageView
+            android:id="@+id/ivCityIcon"
+            android:layout_width="@dimen/cityDetailImageSize"
+            android:layout_height="@dimen/cityDetailImageSize"
+            android:layout_gravity="center"
+            android:transitionName="@string/cityIcon"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tvCityDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/generalMargin"
+            android:textSize="@dimen/generalTextSize"
+            android:textColor="@color/black"
+            android:gravity="center"
+            tools:text="new york city is so great!!!" />
+
+        <Button
+            android:id="@+id/btnBookFlight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/generalMargin"
+            android:text="@string/book_a_flight" />
+    </LinearLayout>
+</ScrollView>
