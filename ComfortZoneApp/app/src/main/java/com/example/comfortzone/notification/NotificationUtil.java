@@ -26,7 +26,6 @@ import java.util.Date;
 
 public class NotificationUtil {
 
-    public static final int NOTIF_TIME = 10;
     public static final String ARG_AUTO_OPEN_SCREEN = "FRAGMENT";
     public static final String AUTO_OPEN_PROFILE = "profile";
     public static final String AUTO_OPEN_INPUT = "input";
@@ -41,28 +40,41 @@ public class NotificationUtil {
     public static final int DEFAULT_HOUR = 10;
     public static final int DEFAULT_MIN = 0;
 
-    public static void notificationSetup(Context context) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, NOTIF_TIME);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
+    private static AlarmManager getAlarmManager(Context context) {
+        return (AlarmManager) context.getSystemService(ALARM_SERVICE);
+    }
 
-        if (calendar.getTime().compareTo(new Date()) < 0)
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-
+    private static PendingIntent getBroadcastPendingIntent(Context context) {
         Intent intent = new Intent(context.getApplicationContext(), NotificationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), REQUEST_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+        return PendingIntent.getBroadcast(context.getApplicationContext(), REQUEST_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
+    }
+
+    public static void startNotification(Context context) {
+        Calendar calendar = getAlarmTime(context);
+        PendingIntent pendingIntent = getBroadcastPendingIntent(context);
+        AlarmManager alarmManager = getAlarmManager(context);
 
         if (alarmManager != null) {
             alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
     }
 
+    @NonNull
+    private static Calendar getAlarmTime(Context context) {
+        Pair<Integer, Integer> savedTime = NotificationUtil.getNotificationTime(context);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, savedTime.first);
+        calendar.set(Calendar.MINUTE, savedTime.second);
+        calendar.set(Calendar.SECOND, 0);
+
+        if (calendar.getTime().compareTo(new Date()) < 0)
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        return calendar;
+    }
+
     public static void cancelNotification(Context context) {
-        Intent intent = new Intent(context, NotificationReceiver.class);
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, REQUEST_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent pendingIntent = getBroadcastPendingIntent(context);
+        AlarmManager alarmManager = getAlarmManager(context);
         alarmManager.cancel(pendingIntent);
     }
 

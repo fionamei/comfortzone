@@ -29,7 +29,6 @@ public class NotificationActivity extends AppCompatActivity {
 
         savedTime = NotificationUtil.getNotificationTime(NotificationActivity.this);
 
-
         initViews();
         populateViews();
         setUpListeners();
@@ -83,6 +82,7 @@ public class NotificationActivity extends AppCompatActivity {
                         NotificationUtil.saveNotificationTime(NotificationActivity.this, pickedHour, pickedMinute);
                         StringBuilder timePicked = NotificationUtil.formatPickedTime(pickedHour, pickedMinute);
                         btnNotificationTime.setText(timePicked);
+                        NotificationUtil.startNotification(NotificationActivity.this);
                     }
                 });
             }

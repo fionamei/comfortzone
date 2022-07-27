@@ -196,7 +196,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
 
     private void maybeSetupNotification() {
         if (isNotification) {
-            NotificationUtil.notificationSetup(this);
+            NotificationUtil.startNotification(this);
         }
     }
 
