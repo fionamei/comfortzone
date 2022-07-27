@@ -104,11 +104,16 @@ public class InputFragment extends Fragment {
     }
 
     private void getWeatherData() {
+        if (getActivity() == null) {
+            return;
+        }
         weatherData = ((UserDetailsProvider) getActivity()).getCurrentWeatherData();
         if (weatherData != null && weatherData.getTempData() != null) {
             populateViews();
             listenerSetup();
             setDegreesListener((int) weatherData.getTempData().getTemp());
+        } else {
+            refresh();
         }
     }
 
@@ -116,33 +121,36 @@ public class InputFragment extends Fragment {
         ibRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Observable<Object> weatherObservable = ((UserDetailsProvider) getActivity()).fetchNewWeatherData();
-                Subscriber<Object> weatherSubscriber = new Subscriber<Object>() {
-                    @Override
-                    public void onCompleted() {
-                        WeatherData newWeatherData = ((UserDetailsProvider) getActivity()).getCurrentWeatherData();
-                        weatherData.copyWeatherData(newWeatherData);
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                populateViews();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Object o) {
-
-                    }
-                };
-                weatherObservable.subscribe(weatherSubscriber);
+                refresh();
             }
         });
+    }
+
+    private void refresh() {
+        Observable<Object> weatherObservable = ((UserDetailsProvider) getActivity()).fetchNewWeatherData();
+        Subscriber<Object> weatherSubscriber = new Subscriber<Object>() {
+            @Override
+            public void onCompleted() {
+                weatherData = ((UserDetailsProvider) getActivity()).getCurrentWeatherData();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        populateViews();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+
+            }
+        };
+        weatherObservable.subscribe(weatherSubscriber);
     }
 
     private void queryInputs() {

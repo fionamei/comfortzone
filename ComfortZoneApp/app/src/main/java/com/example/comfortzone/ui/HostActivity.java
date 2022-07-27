@@ -55,7 +55,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
     private InputFragment inputFragment;
     private ProfileFragment profileFragment;
     private boolean isLoading;
-    private Coordinates coordinates;
+    private Coordinates currLocation;
     private String iataCode;
     private HashSet<Integer> savedCities;
     private ParseUser currentUser;
@@ -225,7 +225,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
 
     @Override
     public Coordinates getLocation() {
-        return coordinates;
+        return currLocation;
     }
 
     @Override
@@ -256,7 +256,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
     @Override
     public Observable<Object> fetchNewWeatherData() {
         WeatherClient client = new WeatherClient();
-        return client.getWeatherDataObservable(String.valueOf(coordinates.getLat()), String.valueOf(coordinates.getLon()), new WeatherCallback() {
+        return client.getWeatherDataObservable(String.valueOf(currLocation.getLat()), String.valueOf(currLocation.getLon()), new WeatherCallback() {
             @Override
             public void onGetWeatherData(WeatherData weatherData) {
                 currentWeather = weatherData;
@@ -286,7 +286,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
             @Override
             public void onNext(Object userDataInfo) {
                 if (userDataInfo instanceof Coordinates) {
-                    coordinates = (Coordinates) userDataInfo;
+                    currLocation = (Coordinates) userDataInfo;
                 } else if ( userDataInfo instanceof String) {
                     iataCode = (String) userDataInfo;
                 } else if (userDataInfo instanceof WeatherData) {

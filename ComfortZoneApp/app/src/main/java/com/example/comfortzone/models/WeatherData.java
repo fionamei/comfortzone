@@ -230,11 +230,4 @@ public class WeatherData {
         return this.id;
     }
 
-    public void copyWeatherData(WeatherData newData) {
-        setCity(newData.getCity());
-        setTime();
-        setDate();
-        setTempData(new TempData(newData.getTempData().getTemp()));
-    }
-
 }
