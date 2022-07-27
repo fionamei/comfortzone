@@ -21,10 +21,11 @@ import java.util.Date;
 public class NotificationUtil {
 
     public static final int NOTIF_TIME = 10;
-    public static final String ARG_IS_FROM_NOTIF = "FRAGMENT";
+    public static final String ARG_AUTO_OPEN_SCREEN = "FRAGMENT";
+    public static final String AUTO_OPEN_PROFILE = "profile";
+    public static final String AUTO_OPEN_INPUT = "input";
+    public static final String AUTO_OPEN_FLIGHT = "flight";
     private static final String NOTIFICATION_CHANNEL_ID = "10001";
-    public static final String TITLE = "ComfortZone";
-    public static final String CONTENT = "How's the weather right now?";
 
     public static void notificationSetup(Context context) {
         Calendar calendar = Calendar.getInstance();
@@ -48,7 +49,7 @@ public class NotificationUtil {
 
         Intent intent = new Intent(context, HostActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(ARG_IS_FROM_NOTIF, true);
+        intent.putExtra(ARG_AUTO_OPEN_SCREEN, AUTO_OPEN_INPUT);
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context,
                 REQUEST_CODE, intent,
@@ -57,7 +58,7 @@ public class NotificationUtil {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
         notificationBuilder.setSmallIcon(R.drawable.logo);
         notificationBuilder.setContentTitle(context.getResources().getString(R.string.app_name))
-                .setContentText(CONTENT)
+                .setContentText(context.getResources().getString(R.string.notification_content))
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent);
 
@@ -65,12 +66,12 @@ public class NotificationUtil {
                 .getSystemService(Context.NOTIFICATION_SERVICE);
 
         NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
-                TITLE, NotificationManager.IMPORTANCE_DEFAULT);
-        assert notificationManager != null;
-        notificationBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
-        notificationManager.createNotificationChannel(notificationChannel);
-
-        notificationManager.notify(REQUEST_CODE, notificationBuilder.build());
+                context.getResources().getString(R.string.app_name), NotificationManager.IMPORTANCE_DEFAULT);
+        if (notificationManager != null) {
+            notificationBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+            notificationManager.createNotificationChannel(notificationChannel);
+            notificationManager.notify(REQUEST_CODE, notificationBuilder.build());
+        }
     }
 
 }

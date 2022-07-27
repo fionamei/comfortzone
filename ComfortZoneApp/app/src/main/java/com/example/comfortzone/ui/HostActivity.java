@@ -1,6 +1,8 @@
 package com.example.comfortzone.ui;
 
-import static com.example.comfortzone.notification.NotificationUtil.ARG_IS_FROM_NOTIF;
+import static com.example.comfortzone.notification.NotificationUtil.ARG_AUTO_OPEN_SCREEN;
+import static com.example.comfortzone.notification.NotificationUtil.AUTO_OPEN_FLIGHT;
+import static com.example.comfortzone.notification.NotificationUtil.AUTO_OPEN_INPUT;
 import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_SAVED_CITIES;
 
 import android.Manifest;
@@ -39,6 +41,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -144,8 +147,10 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
                     .commit();
             return true;
         });
-        if (getIntent().getBooleanExtra(ARG_IS_FROM_NOTIF, false)) {
+        if (Objects.equals(getIntent().getStringExtra(ARG_AUTO_OPEN_SCREEN), AUTO_OPEN_INPUT)) {
             bottomNavigationView.setSelectedItemId(R.id.action_input);
+        } else if (Objects.equals(getIntent().getStringExtra(ARG_AUTO_OPEN_SCREEN), AUTO_OPEN_FLIGHT)) {
+            bottomNavigationView.setSelectedItemId(R.id.action_flight);
         } else {
             bottomNavigationView.setSelectedItemId(R.id.action_profile);
         }
