@@ -34,7 +34,6 @@ import java.util.List;
 public class CityMapViewFragment extends Fragment implements OnMapReadyCallback, UpdateCityListCallback {
 
     public static final String TAG = "CityMapViewFragment";
-    public static final int TOTAL_CITIES = 198;
     /** this location represents the center of the united states **/
     private static final LatLng MAP_CENTER = new LatLng(39.8283, -98.5795);
     private static final int INITIAL_POSITION = 2;
@@ -87,7 +86,7 @@ public class CityMapViewFragment extends Fragment implements OnMapReadyCallback,
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position).equals("All")) {
-                    maxCities = TOTAL_CITIES;
+                    maxCities = -1;
                 } else {
                     maxCities = Integer.parseInt((String) parent.getItemAtPosition(position));
                 }
@@ -120,7 +119,7 @@ public class CityMapViewFragment extends Fragment implements OnMapReadyCallback,
     }
 
     private List<WeatherData> getReducedCityList() {
-        if (cityList.size() > maxCities) {
+        if (maxCities > 0 && cityList.size() > maxCities) {
             return cityList.subList(0, maxCities);
         } else {
             return cityList;
