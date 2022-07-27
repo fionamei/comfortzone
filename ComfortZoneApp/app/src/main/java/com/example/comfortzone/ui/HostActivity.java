@@ -1,5 +1,8 @@
 package com.example.comfortzone.ui;
 
+import static com.example.comfortzone.notification.NotificationUtil.ARG_AUTO_OPEN_SCREEN;
+import static com.example.comfortzone.notification.NotificationUtil.AUTO_OPEN_FLIGHT;
+import static com.example.comfortzone.notification.NotificationUtil.AUTO_OPEN_INPUT;
 import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_SAVED_CITIES;
 
 import android.Manifest;
@@ -29,6 +32,7 @@ import com.example.comfortzone.input.ui.InputFragment;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.models.WeatherData.Coordinates;
+import com.example.comfortzone.notification.NotificationUtil;
 import com.example.comfortzone.profile.ui.ProfileFragment;
 import com.example.comfortzone.utils.ComfortCalcUtil;
 import com.example.comfortzone.utils.ComfortLevelUtil;
@@ -40,6 +44,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -48,6 +53,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
 
     public static final String TAG = "Main Activity";
     public static final int PERMISSION_ID = 44;
+    public static final int REQUEST_CODE = 20;
 
     private final FragmentManager fragmentManager = getSupportFragmentManager();
     private BottomNavigationView bottomNavigationView;
@@ -76,6 +82,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
         initViews();
         createFragments();
         listenerSetup();
+        NotificationUtil.notificationSetup(this);
     }
 
     private void maybeRequestPermissions() {
@@ -145,7 +152,13 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
                     .commit();
             return true;
         });
-        bottomNavigationView.setSelectedItemId(R.id.action_profile);
+        if (Objects.equals(getIntent().getStringExtra(ARG_AUTO_OPEN_SCREEN), AUTO_OPEN_INPUT)) {
+            bottomNavigationView.setSelectedItemId(R.id.action_input);
+        } else if (Objects.equals(getIntent().getStringExtra(ARG_AUTO_OPEN_SCREEN), AUTO_OPEN_FLIGHT)) {
+            bottomNavigationView.setSelectedItemId(R.id.action_flight);
+        } else {
+            bottomNavigationView.setSelectedItemId(R.id.action_profile);
+        }
     }
 
     @NonNull
