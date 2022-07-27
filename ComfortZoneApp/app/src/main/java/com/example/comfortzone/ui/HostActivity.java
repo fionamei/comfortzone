@@ -1,5 +1,6 @@
 package com.example.comfortzone.ui;
 
+import static com.example.comfortzone.notification.NotificationActivity.KEY_IS_NOTIFICATION;
 import static com.example.comfortzone.notification.NotificationUtil.ARG_AUTO_OPEN_SCREEN;
 import static com.example.comfortzone.notification.NotificationUtil.AUTO_OPEN_FLIGHT;
 import static com.example.comfortzone.notification.NotificationUtil.AUTO_OPEN_INPUT;
@@ -69,6 +70,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
     private Fragment currentFragment;
     private Boolean[] isFahrenheit;
     private WeatherData currentWeather;
+    private boolean isNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +85,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
         initViews();
         createFragments();
         listenerSetup();
-        NotificationUtil.notificationSetup(this);
+        maybeSetupNotification();
     }
 
     private void maybeRequestPermissions() {
@@ -123,6 +125,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
         }
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.key_shared_pref_activity), MODE_PRIVATE);
         setIsFahrenheit(sharedPref.getBoolean(getString(R.string.key_is_fahrenheit), true));
+        isNotification = sharedPref.getBoolean(KEY_IS_NOTIFICATION, true);
     }
 
     private void initViews() {
@@ -189,6 +192,12 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
 
     private Pair<Integer, Integer> setAnimationLeftToRight() {
         return new Pair<>(R.anim.enter_from_left, R.anim.exit_to_right);
+    }
+
+    private void maybeSetupNotification() {
+        if (isNotification) {
+            NotificationUtil.notificationSetup(this);
+        }
     }
 
     @Override
