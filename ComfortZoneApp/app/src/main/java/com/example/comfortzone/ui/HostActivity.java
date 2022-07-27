@@ -1,6 +1,6 @@
 package com.example.comfortzone.ui;
 
-import static com.example.comfortzone.notification.NotificationHelper.ARG_IS_FROM_NOTIF;
+import static com.example.comfortzone.notification.NotificationUtil.ARG_IS_FROM_NOTIF;
 import static com.example.comfortzone.utils.UserPreferenceUtil.KEY_SAVED_CITIES;
 
 import android.Manifest;
