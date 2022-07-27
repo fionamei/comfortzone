@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
     <application
         android:name=".data.network.ParseApplication"
@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ComfortZone"
         tools:targetApi="31">
+        <activity
+            android:name=".notification.NotificationActivity"
+            android:exported="false" />
         <activity
             android:name=".flight.ui.CityDetailActivity"
             android:exported="false" />
@@ -68,7 +71,6 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/FACEBOOK_APP_ID" />
@@ -81,8 +83,7 @@
             android:authorities="com.facebook.app.FacebookContentProvider746614246660898"
             android:exported="true" />
 
-        <receiver
-            android:name=".notification.NotificationReceiver"/>
+        <receiver android:name=".notification.NotificationReceiver" />
     </application>
 
 </manifest>

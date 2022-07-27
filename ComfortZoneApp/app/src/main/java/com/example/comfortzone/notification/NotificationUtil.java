@@ -20,7 +20,7 @@ import java.util.Date;
 
 public class NotificationUtil {
 
-    public static final int NOTIF_TIME = 10;
+    public static final int NOTIF_TIME = 11;
     public static final String ARG_AUTO_OPEN_SCREEN = "FRAGMENT";
     public static final String AUTO_OPEN_PROFILE = "profile";
     public static final String AUTO_OPEN_INPUT = "input";
@@ -30,7 +30,7 @@ public class NotificationUtil {
     public static void notificationSetup(Context context) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, NOTIF_TIME);
-        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.MINUTE, 36);
         calendar.set(Calendar.SECOND, 0);
 
         if (calendar.getTime().compareTo(new Date()) < 0)

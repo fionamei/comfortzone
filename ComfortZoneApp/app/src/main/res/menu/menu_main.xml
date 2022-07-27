@@ -4,7 +4,10 @@
 
     <item
         android:id='@+id/logout'
-        android:title="logout"
-        app:showAsAction="always"
-        />
+        android:title="@string/logout"
+        app:showAsAction="always" />
+
+    <item
+        android:id='@+id/notification'
+        android:title="@string/notifications" />
 </menu>

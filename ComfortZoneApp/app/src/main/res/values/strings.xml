@@ -54,6 +54,9 @@
     <string name="notification_content">How\'s the weather right now?</string>
     <string name="last_updated">Last Updated:&#160;</string>
     <string name="number_of_cities">Number of Cities:</string>
+    <string name="logout">logout</string>
+    <string name="notifications">Notifications</string>
+    <string name="time_of_day">Time of day:</string>
     <string-array name="num_of_pins_array">
         <item>5</item>
         <item>10</item>

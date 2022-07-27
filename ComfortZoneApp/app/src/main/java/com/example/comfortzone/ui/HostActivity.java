@@ -32,6 +32,7 @@ import com.example.comfortzone.input.ui.InputFragment;
 import com.example.comfortzone.models.ComfortLevelEntry;
 import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.models.WeatherData.Coordinates;
+import com.example.comfortzone.notification.NotificationActivity;
 import com.example.comfortzone.notification.NotificationUtil;
 import com.example.comfortzone.profile.ui.ProfileFragment;
 import com.example.comfortzone.utils.ComfortCalcUtil;
@@ -200,6 +201,8 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.logout) {
             onLogoutButton();
+        } else if (item.getItemId() == R.id.notification) {
+            onNotificationButton();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -209,6 +212,11 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
         Toast.makeText(this, "Logged out!", Toast.LENGTH_SHORT).show();
         goLoginActivity();
 
+    }
+
+    private void onNotificationButton() {
+        Intent i = new Intent(this, NotificationActivity.class);
+        startActivity(i);
     }
 
     private void goLoginActivity() {
