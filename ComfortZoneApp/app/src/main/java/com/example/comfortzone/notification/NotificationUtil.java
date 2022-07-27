@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.example.comfortzone.R;
@@ -30,6 +31,10 @@ public class NotificationUtil {
     public static final String AUTO_OPEN_INPUT = "input";
     public static final String AUTO_OPEN_FLIGHT = "flight";
     private static final String NOTIFICATION_CHANNEL_ID = "10001";
+    public static final String AM = " AM";
+    public static final String PM = " PM";
+    public static final int MID_DAY = 12;
+    public static final int DOUBLE_DIGITS = 10;
 
     public static void notificationSetup(Context context) {
         Calendar calendar = Calendar.getInstance();
@@ -51,9 +56,9 @@ public class NotificationUtil {
 
     public static void cancelNotification(Context context) {
         Intent intent = new Intent(context, NotificationReceiver.class);
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, REQUEST_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
-        am.cancel(pendingIntent);
+        alarmManager.cancel(pendingIntent);
     }
 
     public static void createNotification(Context context) {
@@ -97,4 +102,28 @@ public class NotificationUtil {
         return sharedPref.getBoolean(KEY_IS_NOTIFICATION, true);
     }
 
+    @NonNull
+    public static StringBuilder formatPickedTime(int pickedHour, int pickedMinute) {
+        StringBuilder timePicked = new StringBuilder();
+        if (pickedHour > MID_DAY) {
+            if (pickedMinute < DOUBLE_DIGITS) {
+                timePicked.append(pickedHour - MID_DAY).append(":0").append(pickedMinute).append(PM);
+            } else {
+                timePicked.append(pickedHour - MID_DAY).append(":").append(pickedMinute).append(PM);
+            }
+        } else if (pickedHour == MID_DAY) {
+            if (pickedMinute < DOUBLE_DIGITS) {
+                timePicked.append(pickedHour).append(":0").append(pickedMinute).append(PM);
+            } else {
+                timePicked.append(pickedHour).append(":").append(pickedMinute).append(PM);
+            }
+        } else {
+            if (pickedMinute < DOUBLE_DIGITS) {
+                timePicked.append(pickedHour).append(":0").append(pickedMinute).append(AM);
+            } else {
+                timePicked.append(pickedHour).append(":").append(pickedMinute).append(AM);
+            }
+        }
+        return timePicked;
+    }
 }

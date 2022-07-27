@@ -57,6 +57,7 @@
     <string name="logout">logout</string>
     <string name="notifications">Notifications</string>
     <string name="time_of_day">Time of day:</string>
+    <string name="pick_notification">Pick a notification time!</string>
     <string-array name="num_of_pins_array">
         <item>5</item>
         <item>10</item>
