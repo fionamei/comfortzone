@@ -21,10 +21,13 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.comfortzone.R;
 import com.example.comfortzone.callback.UserDetailsProvider;
+import com.example.comfortzone.data.network.WeatherClient;
 import com.example.comfortzone.flight.ui.FlightFragment;
 import com.example.comfortzone.initial.ui.LoginActivity;
+import com.example.comfortzone.input.callbacks.WeatherCallback;
 import com.example.comfortzone.input.ui.InputFragment;
 import com.example.comfortzone.models.ComfortLevelEntry;
+import com.example.comfortzone.models.WeatherData;
 import com.example.comfortzone.models.WeatherData.Coordinates;
 import com.example.comfortzone.profile.ui.ProfileFragment;
 import com.example.comfortzone.utils.ComfortCalcUtil;
@@ -52,12 +55,13 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
     private InputFragment inputFragment;
     private ProfileFragment profileFragment;
     private boolean isLoading;
-    private Coordinates coordinates;
+    private Coordinates currLocation;
     private String iataCode;
     private HashSet<Integer> savedCities;
     private ParseUser currentUser;
     private Fragment currentFragment;
     private Boolean[] isFahrenheit;
+    private WeatherData currentWeather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +108,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
     private void getObjects() {
         savedCities = new HashSet<>();
         isFahrenheit = new Boolean[1];
+        currentWeather = new WeatherData();
         ArrayList<Integer> savedIds = (ArrayList<Integer>) currentUser.get(KEY_SAVED_CITIES);
         if (savedIds != null) {
             savedCities.addAll(savedIds);
@@ -220,7 +225,7 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
 
     @Override
     public Coordinates getLocation() {
-        return coordinates;
+        return currLocation;
     }
 
     @Override
@@ -243,6 +248,22 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
         isFahrenheit[0] = bool;
     }
 
+    @Override
+    public WeatherData getCurrentWeatherData() {
+        return currentWeather;
+    }
+
+    @Override
+    public Observable<Object> fetchNewWeatherData() {
+        WeatherClient client = new WeatherClient();
+        return client.getWeatherDataObservable(String.valueOf(currLocation.getLat()), String.valueOf(currLocation.getLon()), new WeatherCallback() {
+            @Override
+            public void onGetWeatherData(WeatherData weatherData) {
+                currentWeather = weatherData;
+            }
+        });
+    }
+
     private void loadData() {
         Observable<Object> citiesSetupObservable = WeatherDbUtil.maybeUpdateCitiesList(this);
         Observable<Object> locationSetupObservable = LocationUtil.getLocationObservable(this);
@@ -263,10 +284,14 @@ public class HostActivity extends AppCompatActivity implements UserDetailsProvid
             }
 
             @Override
-            public void onNext(Object coordIataPair) {
-                Pair<Coordinates, String> pair = (Pair<Coordinates, String>) coordIataPair;
-                coordinates = pair.first;
-                iataCode = pair.second;
+            public void onNext(Object userDataInfo) {
+                if (userDataInfo instanceof Coordinates) {
+                    currLocation = (Coordinates) userDataInfo;
+                } else if ( userDataInfo instanceof String) {
+                    iataCode = (String) userDataInfo;
+                } else if (userDataInfo instanceof WeatherData) {
+                    currentWeather = (WeatherData) userDataInfo;
+                }
             }
         };
         mergedObservable.subscribe(dataSetupSubscriber);
