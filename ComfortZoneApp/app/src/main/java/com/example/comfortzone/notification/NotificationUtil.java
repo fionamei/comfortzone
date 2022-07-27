@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.core.util.Pair;
 
 import com.example.comfortzone.R;
 import com.example.comfortzone.ui.HostActivity;
@@ -33,8 +34,12 @@ public class NotificationUtil {
     private static final String NOTIFICATION_CHANNEL_ID = "10001";
     public static final String AM = " AM";
     public static final String PM = " PM";
+    public static final String KEY_NOTIF_HOUR = "notificationHour";
+    public static final String KEY_NOTIF_MIN = "notificationMinute";
     public static final int MID_DAY = 12;
     public static final int DOUBLE_DIGITS = 10;
+    public static final int DEFAULT_HOUR = 10;
+    public static final int DEFAULT_MIN = 0;
 
     public static void notificationSetup(Context context) {
         Calendar calendar = Calendar.getInstance();
@@ -125,5 +130,20 @@ public class NotificationUtil {
             }
         }
         return timePicked;
+    }
+
+    public static void saveNotificationTime(Activity activity, int hour, int minute) {
+        SharedPreferences sharedPref = activity.getSharedPreferences(activity.getString(R.string.key_shared_pref_activity), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(KEY_NOTIF_HOUR, hour);
+        editor.putInt(KEY_NOTIF_MIN, minute);
+        editor.apply();
+    }
+
+    public static Pair<Integer, Integer> getNotificationTime(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.key_shared_pref_activity), MODE_PRIVATE);
+        int hour = sharedPref.getInt(KEY_NOTIF_HOUR, DEFAULT_HOUR);
+        int min = sharedPref.getInt(KEY_NOTIF_MIN, DEFAULT_MIN);
+        return new Pair<>(hour, min);
     }
 }

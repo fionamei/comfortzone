@@ -18,22 +18,31 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingHorizontal="@dimen/titleMargin">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/time_of_day"
-            android:layout_weight="1"/>
+            android:textColor="@color/black"
+            android:textSize="@dimen/generalTextSize"
+            android:layout_gravity="center"/>
 
-        <TextView
-            android:id="@+id/tvNotificationTime"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNotificationTime"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            tools:text="4:00 PM" />
+            tools:text="4:00 PM"
+            android:textColor="@color/mainButtonBlue"
+            android:textSize="@dimen/miniTextSize"
+            app:backgroundTint="@android:color/transparent"
+            app:rippleColor="@color/fillColorBlue"
+            app:strokeColor="@color/mainButtonBlue"
+            app:strokeWidth="@dimen/buttonStroke" />
 
     </LinearLayout>
 
