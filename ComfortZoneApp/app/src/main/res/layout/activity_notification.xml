@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".notification.NotificationActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".notification.NotificationActivity">
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/swNotification"
@@ -23,33 +23,55 @@
         android:paddingHorizontal="@dimen/titleMargin">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:text="@string/time_of_day"
             android:textColor="@color/black"
-            android:textSize="@dimen/generalTextSize"
-            android:layout_gravity="center"/>
+            android:textSize="@dimen/generalTextSize" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNotificationTime"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="4:00 PM"
+            android:textColor="@color/mainButtonBlue"
+            android:textSize="@dimen/miniTextSize"
+            app:backgroundTint="@android:color/transparent"
+            app:rippleColor="@color/fillColorBlue"
+            app:strokeColor="@color/mainButtonBlue"
+            app:strokeWidth="@dimen/buttonStroke"
+            tools:text="4:00 PM" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/titleMargin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/how_frequent"
+            android:textColor="@color/black"
+            android:textSize="@dimen/generalTextSize" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFrequency"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/set_frequency"
             android:textColor="@color/mainButtonBlue"
             android:textSize="@dimen/miniTextSize"
             app:backgroundTint="@android:color/transparent"
             app:rippleColor="@color/fillColorBlue"
             app:strokeColor="@color/mainButtonBlue"
             app:strokeWidth="@dimen/buttonStroke" />
-
     </LinearLayout>
-
-
-
-
-
-
 
 </LinearLayout>

@@ -2,6 +2,9 @@ package com.example.comfortzone.notification;
 
 import static android.content.Context.ALARM_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
+import static com.example.comfortzone.notification.FrequencyPickerFragment.DAY_LONG;
+import static com.example.comfortzone.notification.FrequencyPickerFragment.HOUR_LONG;
+import static com.example.comfortzone.notification.FrequencyPickerFragment.MINUTE_LONG;
 import static com.example.comfortzone.notification.NotificationActivity.KEY_IS_NOTIFICATION;
 import static com.example.comfortzone.ui.HostActivity.REQUEST_CODE;
 
@@ -35,6 +38,7 @@ public class NotificationUtil {
     public static final String PM = " PM";
     public static final String KEY_NOTIF_HOUR = "notificationHour";
     public static final String KEY_NOTIF_MIN = "notificationMinute";
+    public static final String KEY_FREQUENCY = "notificationFrequency";
     public static final int MID_DAY = 12;
     public static final int DOUBLE_DIGITS = 10;
     public static final int DEFAULT_HOUR = 10;
@@ -55,7 +59,7 @@ public class NotificationUtil {
         AlarmManager alarmManager = getAlarmManager(context);
 
         if (alarmManager != null) {
-            alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), getSavedFrequency(context), pendingIntent);
         }
     }
 
@@ -157,5 +161,28 @@ public class NotificationUtil {
         int hour = sharedPref.getInt(KEY_NOTIF_HOUR, DEFAULT_HOUR);
         int min = sharedPref.getInt(KEY_NOTIF_MIN, DEFAULT_MIN);
         return new Pair<>(hour, min);
+    }
+
+    public static void saveFrequency(Activity activity, long frequency) {
+        SharedPreferences sharedPref = activity.getSharedPreferences(activity.getString(R.string.key_shared_pref_activity), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putLong(KEY_FREQUENCY, frequency);
+        editor.apply();
+    }
+
+    public static long getSavedFrequency(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.key_shared_pref_activity), MODE_PRIVATE);
+        return sharedPref.getLong(KEY_FREQUENCY, DAY_LONG);
+    }
+
+    public static String getSavedFrequencyTime(Context context) {
+        long time = getSavedFrequency(context);
+        if (time / DAY_LONG > 0) {
+            return String.format("%s Days", time / DAY_LONG);
+        } else if (time / HOUR_LONG > 0) {
+            return String.format("%s Hours", time / HOUR_LONG);
+        } else {
+            return String.format("%s Minutes", time / MINUTE_LONG);
+        }
     }
 }

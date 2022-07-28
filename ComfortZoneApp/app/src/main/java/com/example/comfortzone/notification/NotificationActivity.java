@@ -6,6 +6,7 @@ import android.widget.CompoundButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.comfortzone.R;
@@ -21,6 +22,7 @@ public class NotificationActivity extends AppCompatActivity {
     private MaterialButton btnNotificationTime;
     private SwitchMaterial swNotification;
     private Pair<Integer, Integer> savedTime;
+    private MaterialButton btnFrequency;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +39,19 @@ public class NotificationActivity extends AppCompatActivity {
     private void initViews() {
         btnNotificationTime = findViewById(R.id.btnNotificationTime);
         swNotification = findViewById(R.id.swNotification);
+        btnFrequency = findViewById(R.id.btnFrequency);
     }
 
     private void populateViews() {
         swNotification.setChecked(NotificationUtil.isNotificationEnabled(this));
         btnNotificationTime.setText(NotificationUtil.formatPickedTime(savedTime.first, savedTime.second));
+        btnFrequency.setText(NotificationUtil.getSavedFrequencyTime(this));
     }
 
     private void setUpListeners() {
         setNotificationListener();
         setTimeListener();
+        setFrequencyListener();
     }
 
     private void setNotificationListener() {
@@ -85,6 +90,16 @@ public class NotificationActivity extends AppCompatActivity {
                         NotificationUtil.startNotification(NotificationActivity.this);
                     }
                 });
+            }
+        });
+    }
+
+    private void setFrequencyListener() {
+        btnFrequency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new FrequencyPickerFragment();
+                newFragment.show(getSupportFragmentManager(), "timePicker");
             }
         });
     }
