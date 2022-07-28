@@ -167,7 +167,7 @@ LevelTrackers Data
     - (Update/POST) new comfort level
     - (Delete) comfort entry
 
-## Weekly Progression [Features Completed]
+## Weekly Progression
 ### Week 4
 - Goals: 
     - Setup Parse database
