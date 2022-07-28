@@ -64,7 +64,11 @@ public class CityDetailActivity extends AppCompatActivity {
         if (cityData == null) {
             return;
         }
-        tvCityName.setText(String.format("%s, %s", cityData.getCity(), cityData.getState()));
+        if (!cityData.getState().isEmpty()) {
+            tvCityName.setText(String.format("%s, %s", cityData.getCity(), cityData.getState()));
+        } else {
+            tvCityName.setText(cityData.getCity());
+        }
         tvCityDescription.setText(cityData.getDescription());
         Glide.with(this).load(cityData.getImage()).transform(new RoundedCorners(IMAGE_RADIUS)).centerCrop().into(ivCityIcon);
     }

@@ -95,7 +95,7 @@ public class FlightsAdapter extends RecyclerView.Adapter<FlightsAdapter.ViewHold
             } else {
                 tvTemperature.setText(String.valueOf(UserPreferenceUtil.convertFahrenheitToCelsius(city.getTempData().getTemp())));
             }
-            tvCityName.setText(city.getCity());
+            tvCityName.setText( city.getCity().split(",")[0]);
             Glide.with(activity).load(city.getImage()).circleCrop().into(ivCityIcon);
             if (UserPreferenceUtil.isCityAlreadySaved(city.getId(), activity)) {
                 cvCityRoot.setStrokeWidth(BORDER_WIDTH);

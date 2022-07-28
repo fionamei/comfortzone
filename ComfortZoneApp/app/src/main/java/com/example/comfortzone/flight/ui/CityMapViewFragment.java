@@ -129,7 +129,11 @@ public class CityMapViewFragment extends Fragment implements OnMapReadyCallback,
     public void addMapMarkers(GoogleMap googleMap, List<WeatherData> weatherData) {
         for (WeatherData weather : weatherData) {
             StringBuilder cityName = new StringBuilder();
-            cityName.append(weather.getCity()).append(", ").append(weather.getState());
+            if (weather.getState().isEmpty()) {
+                cityName.append(weather.getCity());
+            } else {
+                cityName.append(weather.getCity()).append(", ").append(weather.getState());
+            }
             googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(weather.getCoord().getLat(), weather.getCoord().getLon()))
                     .title(cityName.toString()))
