@@ -55,8 +55,8 @@ ComfortZone is a comfort level tracker where users will input how cold/warm the 
 - [x] Notifications
     - [x] Users can turn on/off
     - [x] Users can choose time 
-    - [ ] Users can choose notification frequency
-- [ ] Global cities
+    - [x] Users can choose notification frequency
+- [x] Global cities
 
 ### 2. Screen Archetypes
 
