@@ -47,13 +47,27 @@
         <item>Popularity: Low to High</item>
         <item>Popularity: High to Low</item>
     </string-array>
-    <string name="key_shared_pref_activity">comfortZoneUserDegreePreference</string>
+    <string name="key_shared_pref_activity">comfortZoneUserPreferences</string>
     <string name="key_is_fahrenheit">isFahrenheit</string>
     <string name="radio_fahrenheit">My estimates are in Fahrenheit!</string>
     <string name="radio_celsius">They are in Celsius!</string>
     <string name="notification_content">How\'s the weather right now?</string>
     <string name="last_updated">Last Updated:&#160;</string>
     <string name="number_of_cities">Number of Cities:</string>
+    <string name="logout">logout</string>
+    <string name="notifications">Notifications</string>
+    <string name="time_of_day">Time of day:</string>
+    <string name="pick_notification">Pick a notification time!</string>
+    <string name="how_frequent">How frequent:</string>
+    <string name="every_15_minutes">Every 15 Minutes</string>
+    <string name="every_half_hour">Every Half Hour</string>
+    <string name="every_hour">Every Hour</string>
+    <string name="every_half_day">Every Half Day</string>
+    <string name="daily">Daily</string>
+    <string name="set_frequency">Set Frequency</string>
+    <string name="frequency_description">Choose how frequently you want your notifications!</string>
+    <string name="OK">OK</string>
+    <string name="cancel">Cancel</string>
     <string-array name="num_of_pins_array">
         <item>5</item>
         <item>10</item>
@@ -61,5 +75,10 @@
         <item>50</item>
         <item>100</item>
         <item>All</item>
+    </string-array>
+    <string-array name="frequencyUnits">
+        <item>Minutes</item>
+        <item>Hours</item>
+        <item>Days</item>
     </string-array>
 </resources>
