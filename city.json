@@ -139,7 +139,7 @@
    "iata": "JAX",
    "rank": 13,
    "id": 4160021,
-   "image url": "https://www.coj.net/App_Themes/coj3/images/welcome/Jacksonville_Front_Img.jpg",
+   "image url": "https://dreamfinderhomes-16877.kxcdn.com/wp-content/uploads/2021/08/Blog1-1.jpeg",
    "description": "Jacksonville is a city located on the Atlantic coast of Florida, the most populous city in the state, and is the largest city by area in the contiguous United States as of 2020. It is the seat of Duval County, with which the city government consolidated in 1968."
  },
  {
@@ -2572,5 +2572,341 @@
    "id": 5879400,
    "image url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/14/10/2d/b6/anchorage.jpg?w=700&h=-1&s=1",
    "description": "Anchorage, Alaska’s largest city, is in the south-central part of the state on the Cook Inlet. It's known for its cultural sites, including the Alaska Native Heritage Center, which displays traditional crafts, stages dances, and presents replicas of dwellings from the area’s indigenous groups. The city is also a gateway to nearby wilderness areas and mountains including the Chugach, Kenai and Talkeetna."
- }
+ }, 
+ {
+      "name":"Paris, France",
+      "state":"",
+      "country":"FR",
+      "coord":{
+         "lat":48.853401,
+         "lon":2.3486
+      },
+      "iata":"ORY",
+      "rank":0,
+      "id":2968815,
+      "image url":"https://www.planetware.com/wpimages/2020/03/world-most-visited-cities-paris-france.jpg",
+      "description":"Paris, France remains one of the most loved cities to visit in the world because it is an iconic destination for grand life events, like milestone vacations, engagements, celebrations, and honeymoons. It is also an easy place to visit for quick getaways, with regular flight schedules and tours available."
+   },
+   {
+      "name":"London, England",
+      "state":"",
+      "country":"GB",
+      "coord":{
+         "lat":51.50853,
+         "lon":-0.12574
+      },
+      "iata":"LCY",
+      "rank":0,
+      "id":2643743,
+      "image url":"https://www.planetware.com/wpimages/2020/03/world-most-visited-cities-london-england.jpg",
+      "description":"There is never a lack of intrigue or interest in London as a destination which is makes it one of the most touristic cities in the world. The Royal intrigue is one of its main draws, as thousands of tourists descend on Buckingham Palace to get a brush with the British monarchy."
+   },
+   {
+      "name":"Bangkok, Thailand",
+      "state":"",
+      "country":"TH",
+      "coord":{
+         "lat":13.87719,
+         "lon":100.71991
+      },
+      "iata":"DMK",
+      "rank":0,
+      "id":1609348,
+      "image url":"https://www.planetware.com/wpimages/2020/03/world-most-visited-cities-bangkok-thailand.jpg",
+      "description":"The bustling city of Bangkok, Thailand is one of the top tourist cities in the world, with nearly 24.1 million visitors a year. The city is usually the first stopping point for anyone touring through Thailand. Bangkok has an exciting mix of packed subways, huge skyscrapers, temples, historic architecture, lavish gardens, palaces, and almost nightly sporting events, like kickboxing, that draw thousands of fans."
+   },
+   {
+      "name":"Hong Kong, China",
+      "state":"",
+      "country":"HK",
+      "coord":{
+         "lat":22.285521,
+         "lon":114.157692
+      },
+      "iata":"HKG",
+      "rank":0,
+      "id":1819729,
+      "image url":"https://www.planetware.com/wpimages/2020/03/world-most-visited-cities-hong-kong.jpg",
+      "description":"Hong Kong is one of the most famous cities in the world. It has remained so for more than a decade and continues to attract travelers. With an estimated 29.2 million visitors a year, the city has a stronghold over other cities in the world when it comes to attracting travelers. Hong Kong is a convenient holiday destination, and its shopping, especially for bargains, is unmatched."
+   },
+   {
+      "name":"Dubai, United Arab Emirates",
+      "state":"",
+      "country":"AE",
+      "coord":{
+         "lat":25.258169,
+         "lon":55.304722
+      },
+      "iata":"DXB",
+      "rank":0,
+      "id":292223,
+      "image url":"https://www.planetware.com/wpimages/2020/03/world-most-visited-cities-dubai-united-arab-emirates.jpg",
+      "description":"Dubai in the United Arab Emirates is synonymous with luxury lifestyles. While Dubai is a large global business center, people enjoy vacationing among the rich and the attractions that cater to them. Dubai is home to the world's tallest building, the Burj Khalifa, and it's where tourists find some other attractions that are among the largest in the world, like the shopping malls and aquarium."
+   },
+   {
+      "name":"Singapore",
+      "state":"",
+      "country":"SG",
+      "coord":{
+         "lat":1.28967,
+         "lon":103.850067
+      },
+      "iata":"SIN",
+      "rank":0,
+      "id":1880252,
+      "image url":"https://www.planetware.com/wpimages/2020/03/world-most-visited-cities-singapore.jpg",
+      "description":"The small Asian country of Singapore attracts travelers year-round, and its popularity is growing. The island of Singapore has a stunning blend of historic culture with old buildings nestled in among large skyscrapers. There is a charm between the old and the new in the way that small neighborhood shopping districts exist between the mega luxury shopping malls that Singapore is known for."
+   },
+   {
+      "name":"Rome, Italy",
+      "state":"",
+      "country":"IT",
+      "coord":{
+         "lat":41.894741,
+         "lon":12.4839
+      },
+      "iata":"CIA",
+      "rank":0,
+      "id":3169070,
+      "image url":"https://www.planetware.com/wpimages/2020/03/world-most-visited-cities-rome-italy.jpg",
+      "description":"Rome is one of those destinations that sits on many travelers' must-see someday lists. The culture of Rome and its historic architecture are its main draws. The Colosseum, Pantheon, Trevi fountain, and the Vatican usually top the list of things vacationers want to check off their list."
+   },
+   {
+      "name":"Macau, China",
+      "state":"",
+      "country":"MO",
+      "coord":{
+         "lat":22.20056,
+         "lon":113.546112
+      },
+      "iata":"HKG",
+      "rank":0,
+      "id":1821274,
+      "image url":"https://www.planetware.com/wpimages/2020/03/world-most-visited-cities-macau-china.jpg",
+      "description":"Macau in southern China has become one of the most visited cities in the world, especially among the rich. There are several reasons for this: First, because Macau has become a thriving investment metropolis, the people traveling for business are also spending time in the city, connecting with the locals and enjoying the more pleasure-filled side of things like shopping, sightseeing, and sports car racing."
+   },
+   {
+      "name":"Istanbul, Turkey",
+      "state":"",
+      "country":"TR",
+      "coord":{
+         "lat":41.01384,
+         "lon":28.949659
+      },
+      "iata":"IST",
+      "rank":0,
+      "id":745044,
+      "image url":"https://www.planetware.com/wpimages/2020/03/world-most-visited-cities-istanbul-turkey.jpg",
+      "description":"One of the most famous cities in the world is Istanbul, Turkey, so it makes sense that people want to visit. The city is filled with historic mosques and palaces surrounded by cafés, shops, and chic hotels. The relaxed vibe in Istanbul attracts a crowd that enjoys afternoons hanging out and sipping tea or uncovering a vintage find at a local thrift store."
+   },
+   {
+      "name":"Kuala Lumpur, Malaysia",
+      "state":"",
+      "country":"MY",
+      "coord":{
+         "lat":3.14309,
+         "lon":101.686531
+      },
+      "iata":"SZB",
+      "rank":0,
+      "id":1733046,
+      "image url":"https://www.planetware.com/wpimages/2020/03/world-most-visited-cities-kuala-lumpur-malaysia.jpg",
+      "description":"The capital city of Malaysia, Kuala Lumpur welcomes about 13 million visitors a year. It is a city with museums and ties to its culture in places like the Old Market Square, yet it is balanced by the edgy architecture of the Petronas Twin Towers and mega shopping malls. The city is always \"on,\" so you can find a nightlife scene anytime of the day as you take in meeting the locals, dining, and watching sporting events."
+   },
+   {
+      "name":"Delhi, India",
+      "state":"",
+      "country":"IN",
+      "coord":{
+         "lat":28.666668,
+         "lon":77.216667
+      },
+      "iata":"DEL",
+      "rank":0,
+      "id":1273294,
+      "image url":"https://www.planetware.com/wpimages/2020/03/world-most-visited-cities-delhi-india.jpg",
+      "description":"India is such a big country and is so popular with tourists that several of its main cities are among the most visited cities in the world, including Delhi. One of the reasons Delhi is popular is because it is close to a number of other top experiences in India, so it is a convenient base."
+   },
+   {
+      "name":"Tokyo, Japan",
+      "state":"",
+      "country":"JP",
+      "coord":{
+         "lat":35.689499,
+         "lon":139.691711
+      },
+      "iata":"HND",
+      "rank":0,
+      "id":1850147,
+      "image url":"https://www.planetware.com/wpimages/2020/03/world-most-visited-cities-tokyo-japan.jpg",
+      "description":"The metropolis of Tokyo in Japan is one of the most exciting cities in the world, which is why millions of tourists go there every year. What makes Japan so popular is the whirlwind of eye-popping attractions, from ancient temples and Anime to the Tokyo Skytree broadcast tower."
+   },
+   {
+      "name":"Antalya, Turkey",
+      "state":"",
+      "country":"TR",
+      "coord":{
+         "lat":36.77409,
+         "lon":30.71777
+      },
+      "iata":"AYT",
+      "rank":0,
+      "id":323776,
+      "image url":"https://www.planetware.com/wpimages/2020/03/world-most-visited-cities-antalya-turkey.jpg",
+      "description":"The Mediterranean Sea sitting against the backdrop of beautiful Antalya, Turkey makes it a desired vacation spot for travelers. From the beautiful sand beaches and warm weather to the waterfalls, cliffs, and sunsets, it is a perfect vacation."
+   },
+   {
+      "name":"Mexico City, Mexico",
+      "state":"",
+      "country":"MX",
+      "coord":{
+         "lat":19.428471,
+         "lon":-99.127663
+      },
+      "iata":"MEX",
+      "rank":0,
+      "id":3530597,
+      "image url":"https://www.planetware.com/wpimages/2022/02/top-cities-world-to-visit-mexico-city.jpg",
+      "description":"Mexico City has risen in the ranks over the years to be recognized as one of the greatest cosmopolitan capitals in the world. If you want culture, cuisine, the arts, architecture, history, and glamorous hotels, Mexico City checks every single box."
+   },
+   {
+      "name":"Moscow, Russia",
+      "state":"",
+      "country":"RU",
+      "coord":{
+         "lat":55.761665,
+         "lon":37.606667
+      },
+      "iata":"VKO",
+      "rank":0,
+      "id":524894,
+      "image url":"https://www.planetware.com/wpimages/2022/02/top-cities-world-to-visit-moscow-russia-kremlin-st-basils-cathedral.jpg",
+      "description":"Moscow, Russia is a juxtaposition of grand, ornate imperial culture, set against frenetic, modern urban energy. This is where the heart of Russia beats, from the Kremlin and Red Square to the bubble-topped domes of St. Basil's Cathedral, the Art Muzeon, and the glamorous Bolshoi Theatre."
+   },
+   {
+      "name":"Porto, Portugal",
+      "state":"",
+      "country":"PT",
+      "coord":{
+         "lat":41.149609,
+         "lon":-8.61099
+      },
+      "iata":"OPO",
+      "rank":0,
+      "id":2735943,
+      "image url":"https://www.planetware.com/wpimages/2022/02/top-cities-world-to-visit-porto-portugal.jpg",
+      "description":"Sliced by the winding Douro River, Porto, Portugal is one of the most beautiful European cities. Colorful buildings and red-tiled roofs rise up over the hills from the river's edge. Porto is as charming as it is historic, seeming to spring from the pages of a fairy tale."
+   },
+   {
+      "name":"Beijing, China",
+      "state":"",
+      "country":"CN",
+      "coord":{
+         "lat":39.907501,
+         "lon":116.397232
+      },
+      "iata":"PEK",
+      "rank":0,
+      "id":1816670,
+      "image url":"https://www.planetware.com/wpimages/2022/02/top-cities-world-to-visit-beijing-china-forbidden-palace.jpg",
+      "description":"For nearly 1,000 years, Beijing has been the capital city of China and has seen the rise and fall of three of China's dynasties. It is a city that is packed with centuries of history, yet is still one of the most fast-paced and modern cities in the entire world."
+   },
+   {
+      "name":"Barcelona, Spain",
+      "state":"",
+      "country":"ES",
+      "coord":{
+         "lat":41.38879,
+         "lon":2.15899
+      },
+      "iata":"BCN",
+      "rank":0,
+      "id":3128760,
+      "image url":"https://www.planetware.com/wpimages/2022/02/top-cities-world-to-visit-barcelona-spain.jpg",
+      "description":"Beaches, buildings, and boats. That's what Barcelona is all about. From the stunning Mediterranean beaches to the architectural marvels of Antoni Gaudi, to the yacht culture, Barcelona lives and breathes by the sea. Add to that fantastic gastronomy, art, history, and hotels and it's easy to see why Barcelona is one of the best cities in the world to visit."
+   },
+   {
+      "name":"Abu Dhabi, United Arab Emirates",
+      "state":"",
+      "country":"AE",
+      "coord":{
+         "lat":24.466669,
+         "lon":54.366669
+      },
+      "iata":"AZI",
+      "rank":0,
+      "id":292968,
+      "image url":"https://www.planetware.com/wpimages/2022/02/top-cities-world-to-visit-abu-dhabi-united-arab-emirates.jpg",
+      "description":"Abu Dhabi is the counterpart to the towering skyscrapers and glitzy lifestyle of Dubai. Sure, it has its own Louvre, but the focus in Abu Dhabi is to embrace the local lifestyle and culture and put a spotlight on the unique heritage of the United Arab Emirates."
+   },
+   {
+      "name":"Amsterdam, Netherlands",
+      "state":"",
+      "country":"NL",
+      "coord":{
+         "lat":52.374031,
+         "lon":4.88969
+      },
+      "iata":"AMS",
+      "rank":0,
+      "id":2759794,
+      "image url":"https://www.planetware.com/wpimages/2022/02/top-cities-world-to-visit-amsterdam-netherlands.jpg",
+      "description":"Amsterdam is one of the most easily accessible cities in the world, with flights from most of the major gateways in North America and Europe. But far beyond easy access, it is what Amsterdam has to offer travelers that makes it one of the best cities in the world to visit."
+   },
+   {
+      "name":"Madrid, Spain",
+      "state":"",
+      "country":"ES",
+      "coord":{
+         "lat":40.4165,
+         "lon":-3.70256
+      },
+      "iata":"MAD",
+      "rank":0,
+      "id":3117735,
+      "image url":"https://www.planetware.com/wpimages/2022/02/top-cities-world-to-visit-madrid-spain.jpg",
+      "description":"Spain has so many fantastic cities to explore, but none is quite as compelling as the capital, Madrid. A combination of history and culture, art and design, cuisine and entertainment, Madrid is the embodiment of everything people love about a fantastic European city."
+   },
+   {
+      "name":"Sydney, Australia",
+      "state":"",
+      "country":"AU",
+      "coord":{
+         "lat":-33.867851,
+         "lon":151.207321
+      },
+      "iata":"SYD",
+      "rank":0,
+      "id":2147714,
+      "image url":"https://www.planetware.com/wpimages/2022/02/top-cities-world-to-visit-sydney-australia.jpg",
+      "description":"With its spectacular harborside perch, stunning beaches, and cosmopolitan (yet decidedly laid-back) flair, Sydney is truly one of the greatest cities in the world. Residents and visitors alike take pleasure as much in a fine meal as they do in a beachfront hike."
+   },
+   {
+      "name":"San Miguel de Allende, Mexico",
+      "state":"",
+      "country":"MX",
+      "coord":{
+         "lat":20.91667,
+         "lon":-100.75
+      },
+      "iata":"QRO",
+      "rank":0,
+      "id":3985344,
+      "image url":"https://www.planetware.com/wpimages/2022/02/top-cities-world-to-visit-san-miguel-allende-mexico.jpg",
+      "description":"There's a reason that San Miguel de Allende is voted the best city in the world by top international travel magazines. It is a veritable outdoor museum, splashed with bright colors and veined with cobblestone streets. Add to that some of the best boutique hotels in Mexico, fabulous restaurants, museums, outdoor entertainment, and so many things to see and do in the surrounding region, that it will be difficult to deny San Miguel de Allende's inherent beauty and charm."
+   },
+   {
+      "name":"Lisbon, Portugal",
+      "state":"",
+      "country":"PT",
+      "coord":{
+         "lat":38.726349,
+         "lon":-9.14843
+      },
+      "iata":"LIS",
+      "rank":0,
+      "id":6458923,
+      "image url":"https://www.planetware.com/wpimages/2022/02/top-cities-world-to-visit-lisbon-portugal.jpg",
+      "description":"Lisbon is truly a masterpiece – and a hidden one, at that. One of the most under-the-radar Western European capitals, Lisbon is laid out like a painting, complete with red-tiled roofs, brightly colored waterfront buildings, cable cars, and medieval architecture."
+   }
 ]
