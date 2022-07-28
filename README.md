@@ -114,6 +114,7 @@ ComfortZone is a comfort level tracker where users will input how cold/warm the 
    | levelTrackers | Array of levelTrackers | points to a list of 11 level trackers, 1 for each level of comfort |
    | todayEntries | Array of ComfortLevelEntries | points to a list of comfort level entries made today |
    
+  <img width="1424" alt="parse_user" src="https://user-images.githubusercontent.com/82325190/181398647-a396fd65-37df-4c03-9dba-246f8e78ad19.png">
    
 LevelTrackers Data
 
@@ -130,6 +131,7 @@ LevelTrackers Data
    | highRange | int | high range for comfort level|
    | lowRange | int | low range for comfort level |
    
+   <img width="1425" alt="parse_level_tracker" src="https://user-images.githubusercontent.com/82325190/181398520-adeb0618-4b11-4f5d-a81d-be451a408189.png">
    
    ComfortLevelEntry Data
 
@@ -141,6 +143,8 @@ LevelTrackers Data
    | temp | int | temperature of entry |
    | comfortLevel | int | comfort level for that temperature |
    | LevelTracker | pointer | points to the level tracker that this entry belongs to |
+   
+   <img width="1429" alt="parse_comfort_leevl_entry" src="https://user-images.githubusercontent.com/82325190/181398530-1a5ad9ca-185e-4e38-a057-fb952047ecb8.png">
    
 ### Networking
 - Login Screen
