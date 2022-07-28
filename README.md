@@ -5,6 +5,7 @@
 1. [Product Spec](#Product-Spec)
 1. [Wireframes](#Wireframes)
 2. [Schema](#Schema)
+3. [Weekly Progression](#Weekly-Progression)
 
 ## Overview
 ### Description
@@ -165,3 +166,72 @@ LevelTrackers Data
     - (Create/POST) comfort level for the day
     - (Update/POST) new comfort level
     - (Delete) comfort entry
+
+## Weekly Progression [Features Completed]
+### Week 4
+- Goals: 
+    - Setup Parse database
+    - Login / signup page + initial questionaire
+    - Set up bottom navigation with fragments
+    - Set up weather data with OpenWeatherMap and get user's location
+- Optional Goals: 
+    - Design layouts for fragments with Figma
+    - Implement fragment layout screens
+
+### Week 5
+- Goals: 
+    - Input page displays weather data and asks for comfort level
+        - Daily inputted comfort level is displayed and swipe to delete
+    - Profile page displays perfect comfort temperature
+    - Profile calculates and updates comfort temperature for the most recent day's entries 
+    - Flights page shows a list of top cities in the US
+        - Weather data for all cities are queried with OpenWeatherMap, stored in local database, and displayed 
+    
+### Week 6
+- Goals: 
+    - Flight detail screen displays city information
+        - Shows animation from list view to city information
+    - Algorithm to calculate which level a certain temperature falls under
+    - Filtering for states with temps within your comfort zone
+    - Sorting by distance (nearest/furthest)
+    - Searching by cities 
+
+- Optional Goals:
+    - Sorting by temperature, popularity, and alphabetically
+
+### Week 7
+- Goals: 
+    - Map View (Google maps) shows pins of places
+        - Can switch between map view and city list view, keeping the filters, and sorting, and searches
+    - Refactoring
+    - Going to a flight booking link on another browser
+    - Udpate city.json with the IATA codes, descriptions, and pictures for each city
+
+- Optional Goals:
+    - Animation when switching between fragments on bottom nav
+
+### Week 8
+- Goals: 
+    - Double tap city to save and unsave
+        - Saved cities are displayed on profile, and you can swipe to unsave them there
+    - Loading screen where all async functions needed for app loads (for getting location, IATA, and saved cities list)
+        - Goes to whichever fragment the user clicks on after loading (default is profile fragment)
+        - Pre-loads data for ease of getting in other fragments (decrease wait-time)
+    - Fix sorting so all filters and searches are working completely together
+
+- Optional Goals:
+    - Switch between Fahrenheit and Celsius on app (and saves)
+    - FB login and signup
+### Week 9
+- Goals: 
+    - Ui Polish
+        - Drew a logo :D 
+        - Fix cities' names that are long and will cut off
+        - Make views scrollable
+        - Let user know for cases where there are no flights
+- Optional Goals:
+    - Fetch weather data in loading screen, and allow user to refresh weather data
+    - Change amount of pins shown in map view
+    - Push Notifications remind user to input weather data, and brings to input fragment
+        - Settings for turning on/off, for time of day for notification, and for how frequent user wants the notification to be
+    - Include cities outside of the USA
