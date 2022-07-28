@@ -73,6 +73,12 @@ public class FrequencyPickerFragment extends DialogFragment implements NumberPic
                         NotificationUtil.startNotification(getActivity());
                     }
                 })
+                .setNegativeButton(getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        
+                    }
+                })
                 .setView(view);
         return builder.create();
     }
