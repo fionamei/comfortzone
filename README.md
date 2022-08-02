@@ -20,6 +20,7 @@ ComfortZone is a comfort level tracker where users will input how cold/warm the 
 
 ### Progression + Demos
 [Weekly Progress](https://www.internalfb.com/intern/px/project/590975805500309)
+<img src='./comfortZone.gif' title='Video Walkthrough' width='300' alt='Video Walkthrough' />
 
 ## Product Spec
 
