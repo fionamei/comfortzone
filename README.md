@@ -19,8 +19,9 @@ ComfortZone is a comfort level tracker where users will input how cold/warm the 
 - **Scope: Start with being able to record how warm it is each day, and then have an algorthm that analyzes the trend to predict how you'll feel for future**
 
 ### Progression + Demos
-[Weekly Progress](https://www.internalfb.com/intern/px/project/590975805500309)
 <img src='./comfortZone.gif' title='Video Walkthrough' width='300' alt='Video Walkthrough' />
+
+[Weekly Progress with Meta Internal Access](https://www.internalfb.com/intern/px/project/590975805500309)
 
 ## Product Spec
 
